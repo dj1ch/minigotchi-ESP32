@@ -1,23 +1,23 @@
-# minigotchi
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/Pwnagotchi-Unofficial/minigotchi"></img>
-<img alt="GitHub license" src="https://img.shields.io/github/license/Pwnagotchi-Unofficial/minigotchi"></img>
-<a href="https://github.com/Pwnagotchi-Unofficial/minigotchi/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Pwnagotchi-Unofficial/minigotchi"></a>
-<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Pwnagotchi-Unofficial/minigotchi"></img>
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Pwnagotchi-Unofficial/minigotchi"></img>
+# minigotchi-ESP32
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
+<img alt="GitHub license" src="https://img.shields.io/github/license/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
+<a href="https://github.com/Pwnagotchi-Unofficial/minigotchi-ESP32/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Pwnagotchi-Unofficial/minigotchi-ESP32"></a>
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
 
 ###
-### An even smaller Pwnagotchi.
+### The [Minigotchi](https://github.com/Pwnagotchi-Unofficial/minigotchi) ported to the ESP32
 ###
 
 <img src="images/Desktop Screenshot 2024.04.07 - 15.29.59.03.png"></img>
 
 ### Intro
 
-This is a project meant to showcase the use of low-level Wi-Fi frame manipulation in a *Pwnagotchi-like* matter with an ESP8266/ESP32. It can detect *Pwnagotchis*, and send "advertisements" for another *Pwnagotchi* to detect, along with deauthenticating devices connected to an AP. Originally meant to just befriend a local Pwnagotchi, I plan to improve it and extend its purpose, merely with an ESP8266 with 4 MB of memory. 
+Due to a surge in people asking for ESP32 support, I have created this fork. Fundamentally the ESP8266 and ESP32 can perform similar functions, although the ESP32 has more features, memory, computing power, etc. 
 
 ### Install guide
 
-See the [install guide](INSTALL.md).
+See the [install guide](INSTALL.md). (Not ready yet!)
 
 ### Languages
 The code is written in these languages.
@@ -31,7 +31,7 @@ Note that the *C++* in Arduino is slightly modified from what I have heard. See 
 
 - Arduino IDE
 - A good understanding of coding/programming
-- D1 Mini ESP8266 V4(or any other supported hardware in the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Hardware))
+- An ESP32-based MCU(for this fork)
 - A reliable and appropriate power source and supply for the hardware
 - Patience (a lot of it)
 
