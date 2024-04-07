@@ -2,6 +2,8 @@
 
 Here you can find out how to install minigotchi on the ESP8266. Installing on the Pico is not possible as the code is meant for the ESP8266. 
 
+**For building on an ESP32, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi-ESP32/blob/development/INSTALL.md). Don't use this repository for the ESP32.**
+
 ## Building using Arduino IDE
 
 ### Step 1: Configuration

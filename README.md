@@ -9,7 +9,7 @@
 ### The [Minigotchi](https://github.com/Pwnagotchi-Unofficial/minigotchi) ported to the ESP32
 ###
 
-<img src="images/Desktop Screenshot 2024.03.14 - 13.22.26.36.png"></img>
+<img src="images/Desktop Screenshot 2024.04.07 - 15.29.59.03.png"></img>
 
 ### Intro
 
@@ -31,7 +31,7 @@ Note that the *C++* in Arduino is slightly modified from what I have heard. See 
 
 - Arduino IDE
 - A good understanding of coding/programming
-- An ESP32-based MCU
+- An ESP32-based MCU(for this fork)
 - A reliable and appropriate power source and supply for the hardware
 - Patience (a lot of it)
 
