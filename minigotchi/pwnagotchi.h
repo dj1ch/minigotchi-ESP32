@@ -7,7 +7,8 @@
 
 #include "frame.h"
 #include <ArduinoJson.h>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
+#include <esp_wifi.h>
 #include <Arduino.h>
 #include <stdint.h>
 #include <string>
