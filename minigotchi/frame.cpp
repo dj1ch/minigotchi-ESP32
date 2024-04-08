@@ -228,7 +228,7 @@ void Frame::send() {
 
     // send full frame
     // we dont use raw80211 since it sends a header(which we don't need), although we do use it for monitoring, etc.
-    wifi_send_pkt_freedom(beaconFrame.data(), frameSize, 0);
+    WiFi.rawPacket(beaconFrame.data(), frameSize);
 }
 
 
