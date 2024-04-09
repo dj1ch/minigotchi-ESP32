@@ -11,7 +11,8 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
+#include <esp_wifi.h>
 
 class Deauth {
 public:

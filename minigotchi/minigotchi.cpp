@@ -82,11 +82,11 @@ void Minigotchi::cpu() {
 */
 
 void Minigotchi::monStart() {
-    wifi_promiscuous_enable(1);
+    esp_wifi_set_promiscuous(true);
 }
 
 void Minigotchi::monStop() {
-    wifi_promiscuous_enable(0);
+    esp_wifi_set_promiscuous(false);
 }
 
 /** developer note:

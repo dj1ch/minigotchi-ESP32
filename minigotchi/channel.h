@@ -7,7 +7,8 @@
 
 #include "minigotchi.h"
 #include "config.h"
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
+#include <esp_wifi.h>
 
 class Channel {
 public:

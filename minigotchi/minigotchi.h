@@ -11,7 +11,8 @@
 #include "channel.h"
 #include "config.h"
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
+#include <esp_wifi.h>
 
 class Minigotchi {
 public: 

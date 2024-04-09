@@ -26,7 +26,7 @@ void Channel::init(int initChannel) {
     
     // switch channel
     Minigotchi::monStop();
-    wifi_set_channel(initChannel);
+    esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
     Minigotchi::monStart();
 
     if (initChannel == getChannel()) {
@@ -61,7 +61,7 @@ void Channel::switchC(int newChannel) {
 
     // monitor this one channel
     Minigotchi::monStop();
-    wifi_set_channel(newChannel);
+    esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);   
     Minigotchi::monStart();
 
     // switched channel
@@ -72,7 +72,13 @@ void Channel::switchC(int newChannel) {
 }
 
 int Channel::getChannel() {
-    return wifi_get_channel();
+    wifi_country_t country;
+    memset(&country, 0, sizeof(country));
+    esp_wifi_get_country(&country);
+
+    wifi_promiscuous_channel_info_t info;
+    esp_wifi_get_channel(&info);
+    return info.primary;
 }
 
 int Channel::list() {
