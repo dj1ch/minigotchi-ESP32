@@ -48,18 +48,9 @@ void Pwnagotchi::detect() {
     delay(5000);
 
     // set mode and callback
-    wifi_set_opmode(STATION_MODE);
-    wifi_promiscuous_enable(true);
-    wifi_set_promiscuous_rx_cb(&pwnagotchiCallback);
-
-    if (pwnagotchiDetected) {
-        // send the advertisement if it is found
-        Serial.println(" ");
-        Serial.println("(^-^) Starting advertisement...");
-        Serial.println(" ");
-        delay(5000);
-        Frame::start();
-    }
+    esp_wifi_set_opmode(STATION_MODE);
+    esp_wifi_promiscuous_enable(true);
+    esp_wifi_set_promiscuous_rx_cb(&pwnagotchiCallback);
 
     // check if the pwnagotchiCallback wasn't triggered during scanning
     if (!pwnagotchiDetected) {
@@ -72,6 +63,8 @@ void Pwnagotchi::detect() {
 
 void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type) {
     wifi_promiscuous_pkt_t* snifferPacket = (wifi_promiscuous_pkt_t*)buf;
+    wifi_pkt_mgmt_t* mgmtPacket = (wifi_pkt_mgmt_t*)buf;
+    int len = mgmtPacket->len;
 
     // check if it is a beacon frame
     if (snifferPacket->payload[0] == 0x80) {
@@ -80,27 +73,50 @@ void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type)
         getMAC(addr, snifferPacket->payload, 10);
         String src = addr;
 
-        // Check if the source MAC matches the target
+        // check if the source MAC matches the target
         if (src == "de:ad:be:ef:de:ad") {
             pwnagotchiDetected = true;
-            Serial.println(" ");
             Serial.println("(^-^) Pwnagotchi detected!");
             Serial.println(" ");
 
             // extract the ESSID from the beacon frame
-            String essid(reinterpret_cast<const char*>(&snifferPacket->payload[36]));
+            String essid;
+            int essidLength = len - 38;
 
-            Serial.print("ESSID: ");
+            // make sure essidLength does not exceed the maximum ESSID length
+            if (essidLength > 255) {
+                essidLength = 255;
+            }
+
+            // "borrowed" from ESP32 Marauder
+            for (int i = 0; i < len - 37 && essidLength < 255; i++) {
+                if (isAscii(snifferPacket->payload[i + 38])) {
+                    essid.concat((char)snifferPacket->payload[i + 38]);
+                    essidLength++;
+                } else {
+                    essid.concat("?");
+                }
+            }
+
+            // network related info
+            Serial.print("(^-^) RSSI: ");
+            Serial.println(snifferPacket->rx_ctrl.rssi);
+            Serial.print("(^-^) Channel: ");
+            Serial.println(snifferPacket->rx_ctrl.channel);
+            Serial.print("(^-^) BSSID: ");
+            Serial.println(addr);
+            Serial.print("(^-^) ESSID: ");
             Serial.println(essid);
             Serial.println(" ");
 
-            // load json from the ESSID
+            // parse the ESSID as JSON
             DynamicJsonDocument jsonBuffer(1024);
             DeserializationError error = deserializeJson(jsonBuffer, essid);
 
             // check if json parsing is successful
             if (error) {
                 Serial.println(F("(X-X) Could not parse Pwnagotchi json: "));
+                Serial.print("(X-X) ");
                 Serial.println(error.c_str());
                 Serial.println(" ");
             } else {
@@ -117,7 +133,12 @@ void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type)
                 Serial.print("(^-^) Pwned Networks: ");
                 Serial.println(pwndTot);
                 Serial.print(" ");
+
+                Serial.println("(^-^) Starting advertisement...");
+                Serial.println(" ");
+                delay(5000);
+                Frame::start();
             }
         }
-    } 
+    }
 }

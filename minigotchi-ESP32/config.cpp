@@ -29,7 +29,7 @@ std::vector<std::string> Config::whitelist = {"fo:od:ba:be:fo:od", "fo:od:ba:be:
 // json config
 int Config::epoch = 1;
 std::string Config::face = "(^-^)";
-std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
+uint8_t Config::identity = 0x00;
 std::string Config::name = "minigotchi";
 bool Config::associate = true;
 int Config::bored_num_epochs = Config::random(5, 30);
@@ -54,7 +54,7 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.0.0-beta";
+std::string Config::version = "3.0.2-beta";
 
 /** developer note:
  * 
