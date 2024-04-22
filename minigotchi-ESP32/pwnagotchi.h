@@ -14,7 +14,6 @@
 #include <string>
 
 extern "C" {
-    #include <user_interface.h>
     #include "structs.h"
 }
 

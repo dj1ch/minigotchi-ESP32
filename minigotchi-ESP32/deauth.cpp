@@ -102,14 +102,13 @@ void Deauth::deauth() {
             if (!running) {
                 start();
             } else {
-                Serial.println("('-') Attack is already running.");
+                Serial.println("(X-X) Attack is already running");
                 Serial.println(" ");
                 delay(5000);
             }
         } else {
             // ok why did you modify the deauth function? i literally told you to not do that...
-            Serial.println("(X-X) No access point selected. Use select() first.");
-            Serial.println("('-') Told you so!");
+            Serial.println("(X-X) Unable to find access point");
             Serial.println(" ");
             delay(5000);
         } 
