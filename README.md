@@ -12,7 +12,7 @@
 
 ### Intro
 
-Due to a surge in people asking for ESP32 support, I have created this fork. Fundamentally the ESP8266 and ESP32 can perform similar functions, although the ESP32 has more features, memory, computing power, etc. 
+Due to a surge in people asking for ESP32 support, I have created this fork. Fundamentally the ESP8266 and ESP32 can perform similar functions, although the ESP32 has more features, memory, computing power, etc. Development may be a bit slower as I am still working on the actual [Minigotchi](https://github.com/Pwnagotchi-Unofficial/minigotchi). As soon as this project is finished, I will start working on porting!
 
 ### Install guide
 
