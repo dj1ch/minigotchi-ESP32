@@ -21,10 +21,10 @@ void Minigotchi::boot() {
     Serial.println(" ");
     Serial.println("('-') You can edit my configuration parameters in config.cpp!");
     Serial.println(" ");
-    delay(5000);
+    delay(250);
     Serial.println("(>-<) Starting now...");
     Serial.println(" ");
-    delay(1000);
+    delay(250);
     Serial.println("################################################");
     Serial.println("#                BOOTUP PROCESS                #");
     Serial.println("################################################");
@@ -37,21 +37,21 @@ void Minigotchi::boot() {
 }
 
 void Minigotchi::info() {
-    delay(1000);
+    delay(250);
     Serial.println(" ");
     Serial.println("('-') Current Minigotchi Stats: ");
     version();
     mem();
     cpu();
     Serial.println(" ");
-    delay(1000);
+    delay(250);
 }
 
 // if this can be printed, everything should have gone right...
 void Minigotchi::finish() {
     Serial.println("################################################");
     Serial.println(" ");
-    delay(1000);
+    delay(250);
     Serial.println("('-') Started successfully!");
     Serial.println(" ");
 }
