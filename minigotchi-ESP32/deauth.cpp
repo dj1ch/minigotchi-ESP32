@@ -55,13 +55,13 @@ void Deauth::select() {
     // cool animation 
     for (int i = 0; i < 5; ++i) {
         Serial.println("(0-o) Scanning for APs.");
-        delay(500);
+        delay(250);
         Serial.println("(o-0) Scanning for APs..");
-        delay(500);
+        delay(250);
         Serial.println("(0-o) Scanning for APs...");
-        delay(500);
+        delay(250);
         Serial.println(" ");
-        delay(500);
+        delay(250);
     }
 
     delay(5000);

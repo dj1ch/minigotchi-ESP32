@@ -35,17 +35,17 @@ void Pwnagotchi::detect() {
     // cool animation
     for (int i = 0; i < 5; ++i) {
         Serial.println("(0-o) Scanning for Pwnagotchi.");
-        delay(500);
+        delay(250);
         Serial.println("(o-0) Scanning for Pwnagotchi..");
-        delay(500);
+        delay(250);
         Serial.println("(0-o) Scanning for Pwnagotchi...");
-        delay(500);
+        delay(250);
         Serial.println(" ");
-        delay(500);
+        delay(250);
     }
 
     // delay for scanning
-    delay(5000);
+    delay(250);
 
     // set mode and callback
     esp_wifi_set_opmode(STATION_MODE);
@@ -136,7 +136,7 @@ void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type)
 
                 Serial.println("(^-^) Starting advertisement...");
                 Serial.println(" ");
-                delay(5000);
+                delay(250);
                 Frame::start();
             }
         }

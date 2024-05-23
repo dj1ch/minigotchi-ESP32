@@ -23,17 +23,14 @@ void setup() {
 void loop() {
     // cycle channels at start of loop
     minigotchi.cycle();
-    delay(5000);
+    delay(250);
 
     // the longer we are on this channel, the more likely we're gonna see a pwnagotchi on this channel
     // get local payload from local pwnagotchi, send raw frame if one is found
     minigotchi.detect();
-    delay(5000);
-
-    // ugly hack: remove all these lines containing the words "delay(5000);" or comment them out with a "//" slash.
-    // doing so will make the loop a lot faster. plus this might overheat the board and stuff but its worth a try.
+    delay(250);
 
     // deauth random access point
     minigotchi.deauth();
-    delay(5000);
+    delay(250);
 }
