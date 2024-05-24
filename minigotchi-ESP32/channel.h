@@ -15,8 +15,9 @@ class Channel {
 public:
     static void init(int initChannel);
     static void cycle();
-    static void switchC(int newChannel);
+    static void switchChannel(int newChannel);
     static int getChannel();
+    static void checkChannel(int channel);
     static int list();
     static int channelList[13]; // 13 channels 
 
