@@ -13,10 +13,6 @@
 #include <stdint.h>
 #include <string>
 
-extern "C" {
-    #include "structs.h"
-}
-
 class Pwnagotchi {
 public:
     static void detect();
