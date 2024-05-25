@@ -6,6 +6,7 @@
 #define PWNAGOTCHI_H
 
 #include "frame.h"
+#include "minigotchi.h"
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
