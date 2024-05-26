@@ -255,7 +255,7 @@ void Frame::send() {
 
     // send full frame
     // we dont use raw80211 since it sends a header(which we don't need), although we do use it for monitoring, etc.
-    Frame::sent = wifi_send_pkt_freedom(Frame::beaconFrame.data(), Frame::frameSize, 0) == 0;
+    Frame::sent = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(), Frame::frameSize, 0) == ESP_OK;
 }
 
 

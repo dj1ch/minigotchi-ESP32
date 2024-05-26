@@ -112,15 +112,15 @@ void Minigotchi::monStart() {
     WiFi.disconnect();
 
     // revert to station mode
-    wifi_set_opmode(STATION_MODE);
-    wifi_promiscuous_enable(1);
+    esp_wifi_set_mode(WIFI_MODE_STA);
+    esp_wifi_set_promiscuous(true);
 }
 
 void Minigotchi::monStop() {
-    wifi_promiscuous_enable(0);
+    esp_wifi_set_promiscuous(false);
 
     // revert to station mode
-    wifi_set_opmode(STATION_MODE);
+    esp_wifi_set_mode(WIFI_MODE_STA);
 }
 
 /** developer note:

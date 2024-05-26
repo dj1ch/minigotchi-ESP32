@@ -65,11 +65,9 @@ void Deauth::list() {
 }
 
 bool Deauth::send(uint8_t* buf, uint16_t len, bool sys_seq) {
-    // apparently will not work with 0 on regular, fixed on spacehuhn
-    bool sent = wifi_send_pkt_freedom(buf, len, sys_seq) == 0;
+    esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
     delay(102);
-
-    return sent;
+    return (err == ESP_OK);
 }
 
 // check if this is a broadcast
@@ -110,7 +108,7 @@ String Deauth::printMacStr(uint8_t* mac) {
     String macStr = "";
     for (int i = 0; i < 6; i++) {
         if (mac[i] < 16) {
-            macStr += "0"; // Add leading zero for single-digit hex values
+            macStr += "0";
         }
         macStr += String(mac[i], HEX);
         if (i < 5) {
@@ -206,8 +204,8 @@ void Deauth::select() {
     uint8_t* apBssid = WiFi.BSSID(Deauth::randomIndex);
 
     // set our mac address
-    uint8_t mac[WL_MAC_ADDR_LENGTH];
-    WiFi.macAddress(mac);
+    uint8_t mac[6];
+    esp_wifi_get_mac(ESP_IF_WIFI_STA, mac);
 
     /** developer note:
      * 

@@ -55,7 +55,7 @@ void Pwnagotchi::detect() {
 
     // set mode and callback
     Minigotchi::monStart();
-    wifi_set_promiscuous_rx_cb(&pwnagotchiCallback);
+    esp_wifi_set_promiscuous_rx_cb(&pwnagotchiCallback);
 
     // check if the pwnagotchiCallback wasn't triggered during scanning
     if (!pwnagotchiDetected) {
@@ -81,7 +81,7 @@ void Pwnagotchi::detect() {
 
 // patch for crashes
 void Pwnagotchi::stopCallback() {
-    wifi_set_promiscuous_rx_cb(nullptr);
+    esp_wifi_set_promiscuous_rx_cb(nullptr);
 }
 
 void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type) {
