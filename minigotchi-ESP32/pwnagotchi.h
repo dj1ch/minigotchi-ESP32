@@ -10,6 +10,7 @@
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
+#include <esp_wifi_types.h>
 #include <Arduino.h>
 #include <stdint.h>
 #include <string>
