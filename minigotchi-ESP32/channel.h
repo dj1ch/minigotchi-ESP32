@@ -7,6 +7,7 @@
 
 #include "minigotchi.h"
 #include "config.h"
+#include "display.h"
 #include <WiFi.h>
 #include <esp_wifi.h>
 
@@ -14,10 +15,11 @@ class Channel {
 public:
     static void init(int initChannel);
     static void cycle();
-    static void switchC(int newChannel);
+    static void switchChannel(int newChannel);
     static int getChannel();
+    static void checkChannel(int channel);
     static int list();
-    static int channelList[3]; // 3 channels 
+    static int channelList[13]; // 13 channels 
 
 private:
     static int randomIndex; 

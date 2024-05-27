@@ -16,27 +16,33 @@
 bool Config::deauth = true;
 bool Config::advertise = true;
 
+// screen configuration
+bool Config::display = false;
+std::string Config::screen = "";
+
 // define baud rate
 int Config::baud = 115200;
 
 // define init channel
-const char* bssid = "fo:od:ba:be:fo:od";
+std::string Config::bssid = "fo:od:ba:be:fo:od";
 int Config::channel = 1;
 
 // define whitelist 
-std::vector<std::string> Config::whitelist = {"fo:od:ba:be:fo:od", "fo:od:ba:be:fo:od", "fo:od:ba:be:fo:od"};
+std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
 
 // json config
 int Config::epoch = 1;
 std::string Config::face = "(^-^)";
-uint8_t Config::identity = 0x00;
+std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
 std::string Config::name = "minigotchi";
+int Config::ap_ttl = Config::random(30, 600);
 bool Config::associate = true;
 int Config::bored_num_epochs = Config::random(5, 30);
 
 // define channels
-int Config::channels[3] = {1, 6, 11};
+int Config::channels[13] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
+// see https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/ai/gym.py
 int Config::excited_num_epochs = Config::random(5, 30);
 int Config::hop_recon_time = Config::random(5, 60);
 int Config::max_inactive_scale = Config::random(3, 10);
@@ -54,7 +60,7 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.0.2-beta";
+std::string Config::version = "3.1.0-beta";
 
 /** developer note:
  * 

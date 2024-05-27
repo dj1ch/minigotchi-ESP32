@@ -1,32 +1,42 @@
 # Faces
 
-The Minigotchi has multiple faces, similar to that of the Pwnagotchi. I tried my best here to adhere to how emotions were handled with the Pwnagotchi. It doesn't exactly have an emotion set using a setting, rather having the emotion being shown to the user. It might be best to have the emotion set to a variable, although this will be done later. 
-
-**Note that these are the only emotions that the Minigotchi is capable of showing. You may add your own but at this moment the last release doesn't have any emotions.**
+The Minigotchi has multiple faces, similar to that of the Pwnagotchi. I tried my best here to adhere to how emotions were handled with the Pwnagotchi. It doesn't exactly have an emotion set using a setting, but rather having the emotion being shown to the user.
 
 ### (^-^) Happy
+
 - found a Pwnagotchi
 - can say the stats while happy
 
 ### (;-;) Sad
+
 - can't find a Pwnagotchi
-- can't find any AP's
+- can't find any APs
 
 ### (X-X) Broken
-- error while the program was running has occured
-- usually an error will be provided, or it will literally tell you what the issue is
+
+- An error while the program was running has occurred
+- Usually, an error will be provided, or it will tell you what the issue is
+
+```
+(X-X) An error has occurred!
+(X-X) <The actual error here>
+```
 
 ### (>-<) Intense
+
 - sending frames to an AP
-- sending json packet
+- sending *Pwnagotchi-like* beacon frame
 - doing any task of some sort that may require resources
 
 ### (0-o) (o-0) Looking around
-- looking for a Pwnagotchi, scanning for AP's
+
+- looking for a Pwnagotchi, scanning for APs
 
 ### ('-') Neutral
+
 - normal face on startup
 - may have something to say
 
 ### (-.-) Sleeping
+
 - switching channel

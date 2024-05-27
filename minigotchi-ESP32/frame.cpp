@@ -17,7 +17,11 @@
 */
 
 // initializing
-bool Frame::running = false;
+size_t Frame::frameSize = 0;
+std::vector<uint8_t> Frame::beaconFrame;
+size_t Frame::payloadSize = 0;
+const size_t Frame::chunkSize = 0xFF;
+bool Frame::sent = false;
 
 // payload ID's according to pwngrid
 const uint8_t Frame::IDWhisperPayload = 0xDE;
@@ -29,16 +33,18 @@ const uint8_t Frame::IDWhisperStreamHeader = 0xE2;
 // other addresses
 const uint8_t Frame::SignatureAddr[] = {0xde, 0xad, 0xbe, 0xef, 0xde, 0xad};
 const uint8_t Frame::BroadcastAddr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-const int Frame::wpaFlags = 1041;
+const uint16_t Frame::wpaFlags = 0x0411;
 
-// frame control, etc
-const uint8_t Frame::header[] = {
-    0x80, 0x00,                         // Frame Control: Version 0, Type: Management, Subtype: Beacon
-    0x00, 0x00,                         // Duration/ID (will be overwritten)
-    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, // Destination address: Broadcast
-    0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, // Source address: Set in "init"
-    0xa0, 0xa0, 0xa0, 0xa0, 0xa0, 0xa0, // BSSID: Set in "init"
-    0x00, 0x00                          // Sequence/Fragment number
+const uint8_t Frame::header[] {
+    /*  0 - 1  */ 0x80, 0x00,                                     // frame control, beacon frame
+    /*  2 - 3  */ 0x00, 0x00,                                     // duration
+    /*  4 - 9  */ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,             // broadcast address
+    /* 10 - 15 */ 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad,             // source address
+    /* 16 - 21 */ 0xa1, 0x00, 0x64, 0xe6, 0x0b, 0x8b,             // bssid
+    /* 22 - 23 */ 0x40, 0x43,                                     // fragment and sequence number
+    /* 24 - 32 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // timestamp
+    /* 33 - 34 */ 0x64, 0x00,                                     // interval
+    /* 35 - 36 */ 0x11, 0x04,                                     // capability info
 };
 
 /** developer note:
@@ -47,7 +53,7 @@ const uint8_t Frame::header[] = {
  * we build the frame like so
  * 
  * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte, streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool) (error, []byte) {
- * 	stack := []gopacket.SerializableLayer{
+ * 	 stack := []gopacket.SerializableLayer{
  *		&layers.RadioTap{},
  *		&layers.Dot11{
  *			Address1: to,
@@ -116,110 +122,131 @@ const uint8_t Frame::header[] = {
  *  
 */
 
+/** developer note:
+ * 
+ * we're relying off of the frame structure from pack.go
+ * 
+ * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte, streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool) (error, []byte) {
+ * 	 stack := []gopacket.SerializableLayer{
+ *		&layers.RadioTap{},
+ *		&layers.Dot11{
+ *			Address1: to,
+ *			Address2: SignatureAddr,
+ *			Address3: from,
+ *			Type:     layers.Dot11TypeMgmtBeacon,
+ *		},
+ * 		&layers.Dot11MgmtBeacon{
+ *			Flags:    uint16(wpaFlags),
+ *			Interval: 100,
+ *		},
+ *	}
+ * 
+ * see wifi_ieee80211_mac_hdr_t in structs.h for the frame structure...
+ * 
+*/
+
+void Frame::init() {
+    // insert header
+    Frame::beaconFrame.reserve(Frame::beaconFrame.size() + sizeof(header));
+    Frame::beaconFrame.insert(Frame::beaconFrame.end(), std::begin(header), std::end(header));
+}
+
+void Frame::essid() {
+    // make a json doc
+    String jsonString;
+    DynamicJsonDocument doc(1024);
+
+    doc["epoch"] = Config::epoch;
+    doc["face"] = Config::face;
+    doc["identity"] = Config::identity;
+    doc["name"] = Config::name;
+
+    JsonObject policy = doc.createNestedObject("policy");
+    policy["advertise"] = Config::advertise;
+    policy["ap_ttl"] = Config::ap_ttl;
+    policy["associate"] = Config::associate;
+    policy["bored_num_epochs"] = Config::bored_num_epochs;
+
+    JsonArray channels = policy.createNestedArray("channels");
+    for (size_t i = 0; i < sizeof(Config::channels) / sizeof(Config::channels[0]); ++i) {
+        channels.add(Config::channels[i]);
+    }
+
+    policy["deauth"] = Config::deauth;
+    policy["excited_num_epochs"] = Config::excited_num_epochs;
+    policy["hop_recon_time"] = Config::hop_recon_time;
+    policy["max_inactive_scale"] = Config::max_inactive_scale;
+    policy["max_interactions"] = Config::max_interactions;
+    policy["max_misses_for_recon"] = Config::max_misses_for_recon;
+    policy["min_recon_time"] = Config::min_rssi;
+    policy["min_rssi"] = Config::min_rssi;
+    policy["recon_inactive_multiplier"] = Config::recon_inactive_multiplier;
+    policy["recon_time"] = Config::recon_time;
+    policy["sad_num_epochs"] = Config::sad_num_epochs;
+    policy["sta_ttl"] = Config::sta_ttl;
+
+    doc["pwnd_run"] = Config::pwnd_run;
+    doc["pwnd_tot"] = Config::pwnd_tot;
+    doc["session_id"] = Config::session_id;
+    doc["uptime"] = Config::uptime;
+    doc["version"] = Config::version;
+
+    // serialize then put into beacon frame
+    serializeJson(doc, jsonString);
+    Frame::beaconFrame.reserve(Frame::beaconFrame.size() + jsonString.length());
+    Frame::beaconFrame.insert(Frame::beaconFrame.end(), jsonString.begin(), jsonString.end());
+
+    /** developer note:
+     * 
+     * if you literally want to check the json everytime you send a packet(non serialized ofc)
+     *
+     * Serial.println(jsonString); 
+    */
+}
+
+/** developer note:
+ * 
+ * frame structure based on how it was built here
+ * 
+ * 1. header 
+ * 2. payload id's
+ * 3. (chunked) pwnagotchi data
+ * 
+*/
+
 void Frame::pack() {
     // clear frame before constructing
-    frameControl.clear();
-    beaconFrame.clear();
+    Frame::beaconFrame.clear();
 
-    // copy pre-defined header to beaconFrame
-    beaconFrame.insert(beaconFrame.end(), Frame::header, Frame::header + sizeof(Frame::header));
-
-    // parse and set the BSSID (to)
-    const char* bssidStr = Config::bssid;
-    uint8_t bssidBytes[6];
-
-    char *token = strtok((char*)bssidStr, ":");
-    int i = 0;
-    while (token != NULL && i < 6) {
-        bssidBytes[i++] = strtol(token, NULL, 16);
-        token = strtok(NULL, ":");
-    }
-
-    // set the BSSID in the frame header
-    std::copy(bssidBytes, bssidBytes + 6, beaconFrame.begin() + 10);
-
-    // set signature address
-    beaconFrame[10] = Frame::SignatureAddr[0];
-    beaconFrame[11] = Frame::SignatureAddr[1];
-    beaconFrame[12] = Frame::SignatureAddr[2];
-    beaconFrame[13] = Frame::SignatureAddr[3];
-    beaconFrame[14] = Frame::SignatureAddr[4];
-    beaconFrame[15] = Frame::SignatureAddr[5];
-
-    // get mac addr (from)
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-    char macStr[18];
-    sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-
-    // dynamic construction
-    size_t offset = 0;
-
-    // id's
-    beaconFrame.push_back(Frame::IDWhisperIdentity);
-    beaconFrame.push_back(Frame::IDWhisperSignature);
-    beaconFrame.push_back(Frame::IDWhisperStreamHeader);
-
-    // other payload data
-    beaconFrame.push_back(Config::epoch);
-    
-    // all chars
-    for (size_t i = 0; i < sizeof(Config::face); ++i) {
-        beaconFrame.push_back(Config::face[i]);
-    }
-
-    for (size_t i = 0; i < sizeof(Config::identity); ++i) {
-        beaconFrame.push_back(Config::identity[i]);
-    }
-
-    for (size_t i = 0; i < sizeof(Config::name); ++i) {
-        beaconFrame.push_back(Config::name[i]);
-    }
-
-    beaconFrame.push_back(Config::associate);
-    
-    beaconFrame.push_back(Config::bored_num_epochs);
-    beaconFrame.push_back(Config::excited_num_epochs);
-    beaconFrame.push_back(Config::hop_recon_time);
-    beaconFrame.push_back(Config::max_inactive_scale);
-    beaconFrame.push_back(Config::max_interactions);
-    beaconFrame.push_back(Config::max_misses_for_recon);
-    beaconFrame.push_back(Config::min_recon_time);
-    beaconFrame.push_back(Config::min_rssi);
-    beaconFrame.push_back(Config::recon_inactive_multiplier);
-    beaconFrame.push_back(Config::recon_time);
-    beaconFrame.push_back(Config::sad_num_epochs);
-    beaconFrame.push_back(Config::sta_ttl);
-    beaconFrame.push_back(Config::pwnd_run);
-    beaconFrame.push_back(Config::pwnd_tot);
-
-    for (size_t i = 0; i < sizeof(Config::session_id); ++i) {
-        beaconFrame.push_back(Config::session_id[i]);
-    }
-
-    beaconFrame.push_back(Config::uptime);
-
-    for (size_t i = 0; i < sizeof(Config::version); ++i) {
-        beaconFrame.push_back(Config::version[i]);
-    }
+    // add the header and essid
+    init();
+    essid();
 
     // payload size
-    const size_t payloadSize = beaconFrame.size();
+    Frame::payloadSize = Frame::beaconFrame.size();
+    Frame::frameSize = Frame::beaconFrame.size();
 
-    // full frame size
-    frameSize = beaconFrame.size();
+    for (size_t i = 0; i < payloadSize; i += Frame::chunkSize) {
+        Frame::beaconFrame.push_back(Frame::IDWhisperPayload);
 
-    // add IDWhisperPayload for every chunk
-    const size_t chunkSize = 0xff;
-
-    for (size_t i = 0; i < frameSize; i += chunkSize) {
-    beaconFrame.push_back(IDWhisperPayload);
-
-    size_t chunkEnd = std::min(i + chunkSize, payloadSize);
-    for (size_t j = i; j < chunkEnd; ++j) {
-        beaconFrame.push_back(beaconFrame[j]);
+        size_t chunkEnd = std::min(i + Frame::chunkSize, Frame::payloadSize);
+        for (size_t j = i; j < chunkEnd; ++j) {
+            Frame::beaconFrame.push_back(Frame::beaconFrame[j]);
         }
     }
+
+    /** developer note: 
+     * 
+     * we can print the beacon frame like so...
+     * 
+     * Serial.println("('-') Full Beacon Frame:");
+     * for (size_t i = 0; i < beaconFrame.size(); ++i) {
+     *     Serial.print(beaconFrame[i], HEX);
+     *     Serial.print(" ");
+     * }
+     * Serial.println(" ");
+     * 
+    */
 }
 
 void Frame::send() {
@@ -228,23 +255,49 @@ void Frame::send() {
 
     // send full frame
     // we dont use raw80211 since it sends a header(which we don't need), although we do use it for monitoring, etc.
-    WiFi.rawPacket(beaconFrame.data(), frameSize);
+    Frame::sent = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(), Frame::frameSize, 0) == ESP_OK;
 }
 
 
 void Frame::advertise() {
-    if (Config::advertise && Frame::running) {
-        send();
-        delay(100);
+    int packets = 0;
+    unsigned long startTime = millis();
+
+    if (Config::advertise) {
+        Serial.println("(>-<) Starting advertisment...");
+        Serial.println(" ");
+        Display::cleanDisplayFace("(>-<)");
+        Display::attachSmallText("Starting advertisment...");
+        delay(250);
+        for (int i = 0; i < 150; ++i) {
+            send();
+            delay(102);
+
+            if (Frame::sent) {
+                packets++;
+
+                // calculate packets per second
+                float pps = packets / (float)(millis() - startTime) * 1000;
+
+                // show pps
+                if (!isinf(pps)) {
+                    Serial.print("(>-<) Packets per second: ");
+                    Serial.print(pps);
+                    Serial.println(" pkt/s");
+                    Display::cleanDisplayFace("(>-<)");
+                    Display::attachSmallText("Packets per second: " + (String) pps + " pkt/s");
+                }
+            } else {
+                Serial.println("(X-X) Advertisment failed to send!");
+            }
+        }
+    
+    Serial.println(" ");
+    Serial.println("(^-^) Advertisment finished!");
+    Serial.println(" ");
+    Display::cleanDisplayFace("(^-^)");
+    Display::attachSmallText("Advertisment finished!");
     } else {
         // do nothing but still idle
     }
-}
-
-void Frame::start() {
-    Frame::running = true;
-}
-
-void Frame::stop() {
-    Frame::running = false;
 }

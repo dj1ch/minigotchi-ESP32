@@ -15,17 +15,20 @@ class Config {
 public:
     static bool deauth;
     static bool advertise;
+    static bool display;
+    static std::string screen;
     static int baud;
-    static const char* bssid;
+    static std::string bssid;
     static int channel;
     static std::vector<std::string> whitelist;
     static int epoch;
     static std::string face;
     static std::string identity;
     static std::string name;
+    static int ap_ttl;
     static bool associate;
     static int bored_num_epochs;
-    static int channels[3];
+    static int channels[13];
     static int excited_num_epochs;
     static int hop_recon_time;
     static int max_inactive_scale;
