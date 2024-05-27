@@ -10,7 +10,6 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <WiFi.h>
 #include <esp_wifi.h>
 #include <ArduinoJson.h>
 

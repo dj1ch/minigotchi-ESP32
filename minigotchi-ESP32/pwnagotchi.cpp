@@ -55,7 +55,7 @@ void Pwnagotchi::detect() {
 
     // set mode and callback
     Minigotchi::monStart();
-    esp_wifi_set_promiscuous_rx_cb(&pwnagotchiCallback);
+    esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
 
     // check if the pwnagotchiCallback wasn't triggered during scanning
     if (!pwnagotchiDetected) {
@@ -85,7 +85,7 @@ void Pwnagotchi::stopCallback() {
 }
 
 // source: https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
-void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type) {
+void Pwnagotchi::pwnagotchiCallback(void *buf, wifi_promiscuous_pkt_type_t type) {
     wifi_promiscuous_pkt_t *snifferPacket = (wifi_promiscuous_pkt_t*)buf;
     WifiMgmtHdr *frameControl = (WifiMgmtHdr*)snifferPacket->payload;
     wifi_pkt_rx_ctrl_t ctrl = (wifi_pkt_rx_ctrl_t)snifferPacket->rx_ctrl;
@@ -96,12 +96,13 @@ void Pwnagotchi::pwnagotchiCallback(unsigned char *buf, short unsigned int type)
         int fctl = ntohs(frameControl->fctl);
         const wifi_ieee80211_packet_t *ipkt = (wifi_ieee80211_packet_t *)snifferPacket->payload;
         const WifiMgmtHdr *hdr = &ipkt->hdr;
-    // check if it is a beacon frame
-    if (snifferPacket->payload[0] == 0x80) {
-        // extract mac
-        char addr[] = "00:00:00:00:00:00";
-        getMAC(addr, snifferPacket->payload, 10);
-        String src = addr;
+
+        // check if it is a beacon frame
+        if (snifferPacket->payload[0] == 0x80) {
+            // extract mac
+            char addr[] = "00:00:00:00:00:00";
+            getMAC(addr, snifferPacket->payload, 10);
+            String src = addr;
 
             // check if the source MAC matches the target
             if (src == "de:ad:be:ef:de:ad") {
