@@ -103,10 +103,8 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 - Install the following dependencies with the library manager: `ArduinoJson`, `Adafruit GFX`, and your screen library(see below), etc with all their dependencies (Please install all of them for them to work correctly).
 
-| Screen Types                                                                                                                                            |
+| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SSD1306` | `WEMOS_OLED_SHIELD`                                                                                                                         |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed |
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
