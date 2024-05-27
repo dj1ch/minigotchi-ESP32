@@ -67,20 +67,12 @@ See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communic
 
 - [Pwngrid](https://github.com/evilsocket/pwngrid), this is what the project is trying to replicate, specifically the Pwnagotchi's system of peer detection. If this didn't exist, this project probably wouldn't have either.
 
-- [Arduino](https://github.com/esp8266/Arduino), mostly just the repository containing libraries for the project so I can build this code. Many libraries were used in this core repository.
-
-- [80211Raw](https://github.com/tht/80211Raw) allows raw arbritary frames to be received and sent through an ESP8266 or ESP32 using C and C++ in an interesting and useful POC. This is used to send the *Pwnagotchi-like* frames. Most of the Minigotchi is built around this library.
-
-- [ESP8266 Deauther](https://github.com/SpacehuhnTech/esp8266_deauther/), the POC that shows that an ESP8266 can deauth and attack local access points. Deauthing is based on this project and is done in a very similar fashion. Not only that, but it can also send probes and create fake AP's.
-
 - [ESP32 Marauder](https://github.com/justcallmekoko/ESP32Marauder), similar to the ESP8266 Deauther, although packed with more features and support for Flipper Zero's ESP32 WiFi Card Module. It has wardriving capabilities, BLE, Pwnagotchi Scanning, and Deauthing available. This is a very cool project, I highly recommend checking this out if you have an ESP32. 
-
-- [ESPAsyncWebServer](https://github.com/lacamera/ESPAsyncWebServer), the library that allows a Web UI on the ESP8266, along with an AP.
 
 - [Milkydeveloper](https://github.com/MilkyDeveloper), idk what he did but he wanted to be here ig so...(this is totally not an advertisement)
 
-- [This is a set of projects](https://github.com/lpodkalicki/blog), one of which was an ESP32 sniffer.
+- [esp-idf](https://github.com/espressif/esp-idf), the Espressif development framework for IOT devices like the ESP32
 
-- [esp8266-sniffer](https://github.com/kalanda/esp8266-sniffer), an ESP8266 sniffer dedicated to finding probes from smartphones.
+- [arduino-ESP32](https://github.com/espressif/arduino-esp32), the core Arduino libraries for the.
 
 **Made with ❤️ by [@dj1ch](https://github.com/dj1ch) and the rest of the Pwnagotchi-Unofficial team!**
