@@ -205,7 +205,7 @@ void Deauth::select() {
 
     // set our mac address
     uint8_t mac[6];
-    esp_wifi_get_mac(ESP_IF_WIFI_STA, mac);
+    esp_wifi_get_mac(WIFI_IF_STA, mac);
 
     /** developer note:
      * 
