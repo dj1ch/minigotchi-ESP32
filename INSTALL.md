@@ -26,7 +26,7 @@ bool Config::advertise = true;
 
 From here, you can turn off deauthing or advertising. Since this is the main feature of the minigotchi, I highly recommend you don't turn either of these off.
 
-- After that, there should be a line that states the baud rate. 
+- After that, there should be a line that states the baud rate.
 
 ```cpp
 // baud rate
@@ -45,7 +45,7 @@ int Config::channel = 1;
 
 Replace the `"fo:od:ba:be:fo:od"` with your actual BSSID(in the quotations), and the `1` with the channel you prefer(not in quotations). Note that the WiFi network you're listening on should be on a specific WiFi channel anyway, each AP is on a specific one. The BSSID in question should be one of your own, assuming the Pwnagotchi is in your home it should be able to associate with your home WiFi network.
 
-- After this, we can configure our screen (Not in any version `> 3.0.1`)
+- After this, we can configure our screen (Not in any version `<= 3.0.1`)
 
 ```cpp
 // screen configuration
