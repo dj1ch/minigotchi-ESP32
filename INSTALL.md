@@ -79,9 +79,9 @@ This defines our whitelist. The Minigotchi will not deauth these access points/a
 int Config::channels[13] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 ```
 
-Usually, this shouldn't be changed as these are the only channels we can access on the ESP8266.
+Usually, this shouldn't be changed as these are the only channels we can access on the ESP32. Some ESP32s may be able to access 5ghz channels but not all of them. These are only 2.4 ghz channels.
 
-- Save and exit the file when you have configured everything to your liking. Note you cannot change this after it is flashed onto the board. 
+- Save and exit the file when you have configured everything to your liking. Note you cannot change this after it is flashed onto the board.
 
 ### Step 2: Building and flashing
 
@@ -109,11 +109,11 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
-- Go to `Tools` > `Board` and use one of the boards in the `Deauther ESP8266 Boards` section. (Example: `LOLIN(WEMOS) D1 mini`)
+- Go to `Tools` > `Board` and use one of the boards in the `esp32` section. (Example: `Adafruit Feather ESP32-S3 TFT`)
 
-- Select your COM port/Serial port through `Tools` > `Port` where the ESP8266 is plugged in
+- Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
-- Click on the upload button(arrow pointing to the left). 
+- Click on the upload button(arrow pointing to the left).
 
 **OR**
 
