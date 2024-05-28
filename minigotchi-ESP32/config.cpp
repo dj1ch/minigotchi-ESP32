@@ -25,11 +25,11 @@ std::string Config::screen = "";
 int Config::baud = 115200;
 
 // define init channel
-std::string Config::bssid = "C8:9E:43:C2:06:5B";
+std::string Config::bssid = "";
 int Config::channel = 4;
 
 // define whitelist 
-std::vector<std::string> Config::whitelist = {"MetaverseNet", "MetaverseNet-Guest"};
+std::vector<std::string> Config::whitelist = {"", ""};
 
 // json config
 int Config::epoch = 1;
