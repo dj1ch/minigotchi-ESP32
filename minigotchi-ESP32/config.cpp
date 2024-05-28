@@ -3,6 +3,7 @@
 */
 
 #include "config.h"
+#include <TFT_eSPI.h>
 
 /** developer note:
  *
@@ -17,18 +18,18 @@ bool Config::deauth = true;
 bool Config::advertise = true;
 
 // screen configuration
-bool Config::display = false;
+bool Config::display = true;
 std::string Config::screen = "";
 
 // define baud rate
 int Config::baud = 115200;
 
 // define init channel
-std::string Config::bssid = "fo:od:ba:be:fo:od";
-int Config::channel = 1;
+std::string Config::bssid = "C8:9E:43:C2:06:5B";
+int Config::channel = 4;
 
 // define whitelist 
-std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
+std::vector<std::string> Config::whitelist = {"MetaverseNet", "MetaverseNet-Guest"};
 
 // json config
 int Config::epoch = 1;
