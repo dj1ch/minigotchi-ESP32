@@ -6,6 +6,7 @@
 #define CONFIG_H
 
 #include <Arduino.h>
+#include <TFT_eSPI.h>
 #include <string>
 #include <vector>
 #include <iostream>
