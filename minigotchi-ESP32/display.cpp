@@ -3,58 +3,36 @@
 */
 
 #include "display.h"
+#include <TFT_eSPI.h>
+TFT_eSPI tft; // Define TFT_eSPI object
 
-Adafruit_SSD1306* adafruit_display;
+
 
 void Display::startScreen() {
   if (Config::display) {
-    if (Config::screen == "SSD1306") {
-      adafruit_display = new Adafruit_SSD1306(SSD1306_SCREEN_WIDTH, SSD1306_SCREEN_HEIGHT, &Wire, SSD1306_OLED_RESET);
-      adafruit_display->begin(SSD1306_SWITCHCAPVCC, 0x3C); // for the 128x64 displays
-    } else if(Config::screen == "WEMOS_OLED_SHIELD") {
-      adafruit_display = new Adafruit_SSD1306(WEMOS_OLED_SHIELD_OLED_RESET);
-      adafruit_display->begin(SSD1306_SWITCHCAPVCC, 0x3C); // initialize with the I2C addr 0x3C (for the 64x48)
-    } else {
-      // use wemos shield by default
-      adafruit_display = new Adafruit_SSD1306(WEMOS_OLED_SHIELD_OLED_RESET);
-      adafruit_display->begin(SSD1306_SWITCHCAPVCC, 0x3C); // initialize with the I2C addr 0x3C (for the 64x48)
-    }
-
-    delay(5);
-    // initialize w/ delays to prevent crash
-    adafruit_display->display();
-    delay(5);
-    adafruit_display->clearDisplay();
-    delay(5);
-    adafruit_display->setTextColor(WHITE);
-    delay(5);
+    tft.begin(); // Initialize TFT_eSPI library
+    tft.setRotation(1); // Set display rotation if needed
+    tft.fillScreen(TFT_BLACK); // Fill screen with black color
+    tft.setTextColor(TFT_WHITE); // Set text color to white
+    tft.setTextSize(2); // Set text size
   }
 }
 
 void Display::cleanDisplayFace(String text) {
   if (Config::display) {
-    adafruit_display->setCursor(0, 0);
-    delay(5);
-    adafruit_display->setTextSize(2);
-    delay(5);
-    adafruit_display->clearDisplay();
-    delay(5);
-    adafruit_display->println(text);
-    delay(5);
-    adafruit_display->display();
-    delay(5);
+    tft.fillScreen(TFT_BLACK); // Clear screen with black color
+    tft.setTextColor(TFT_GREEN); // Set text color to green
+    tft.setCursor(110, 5); // Set cursor position
+    tft.setTextSize(4); // Set text size
+    tft.println(text); // Print text
   }
 }
 
 void Display::attachSmallText(String text) {
   if (Config::display) {
-    adafruit_display->setCursor(0, 20);
-    delay(5);
-    adafruit_display->setTextSize(1);
-    delay(5);
-    adafruit_display->println(text);
-    delay(5);
-    adafruit_display->display();
-    delay(5);
+    tft.setTextColor(TFT_YELLOW); // Set text color to green
+    tft.setCursor(50, 80); // Set cursor position
+    tft.setTextSize(1); // Set text size
+    tft.println(text); // Print text
   }
 }
