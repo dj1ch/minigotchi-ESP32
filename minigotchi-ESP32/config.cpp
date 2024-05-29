@@ -18,8 +18,8 @@ bool Config::deauth = true;
 bool Config::advertise = true;
 
 // screen configuration
-bool Config::display = false;
-std::string Config::screen = "";
+bool Config::display = false;  // Change to true if using a display
+std::string Config::screen = "";  // Define SSD1306, WEMOS_OLED_SHIELD or CYD depending on display used
 
 // define baud rate
 int Config::baud = 115200;
@@ -29,13 +29,13 @@ std::string Config::bssid = "fo:od:ba:be:fo:od";
 int Config::channel = 1;
 
 // define whitelist 
-std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
+std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"}; 
 
 // json config
 int Config::epoch = 1;
 std::string Config::face = "(^-^)";
 std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
-std::string Config::name = "minigotchi";
+std::string Config::name = "minigotchi"; 
 int Config::ap_ttl = Config::random(30, 600);
 bool Config::associate = true;
 int Config::bored_num_epochs = Config::random(5, 30);
