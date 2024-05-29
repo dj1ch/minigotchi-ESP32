@@ -3,7 +3,7 @@
 */
 
 #include "config.h"
-#include <TFT_eSPI.h>
+
 
 /** developer note:
  *
@@ -18,7 +18,7 @@ bool Config::deauth = true;
 bool Config::advertise = true;
 
 // screen configuration
-bool Config::display = true;
+bool Config::display = false;
 std::string Config::screen = "";
 
 // define baud rate

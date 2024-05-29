@@ -28,7 +28,7 @@ void loop() {
     // the longer we are on this channel, the more likely we're gonna see a pwnagotchi on this channel
     // get local payload from local pwnagotchi, send raw frame if one is found
     minigotchi.detect();
-    delay(900);
+    delay(250);
 
     // deauth random access point
     minigotchi.deauth();
