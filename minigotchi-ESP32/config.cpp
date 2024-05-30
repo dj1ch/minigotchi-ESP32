@@ -60,7 +60,7 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.1.0-beta";
+std::string Config::version = "3.2.2-beta";
 
 /** developer note:
  * 
