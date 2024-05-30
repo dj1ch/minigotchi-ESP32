@@ -109,7 +109,3 @@ int Channel::getChannel() {
     esp_wifi_sta_get_ap_info(&ap_info);
     return ap_info.primary;
 }
-
-int Channel::list() {
-    return channelList[3];
-}
