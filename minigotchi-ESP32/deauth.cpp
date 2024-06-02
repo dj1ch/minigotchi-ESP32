@@ -63,6 +63,12 @@ void Deauth::add(const std::string& bssids) {
     }
 }
 
+void Deauth::list() {
+    for (const auto& bssid : Config::whitelist) {
+        Deauth::add(bssid);
+    }
+}
+
 bool Deauth::send(uint8_t* buf, uint16_t len, bool sys_seq) {
     esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
     delay(102);

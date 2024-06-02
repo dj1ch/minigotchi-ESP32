@@ -18,6 +18,7 @@
 class Deauth {
 public:
     static void deauth();
+    static void list();
     static void add(const std::string& bssids);
     static uint8_t deauthTemp[26];
     static uint8_t deauthFrame[26];
