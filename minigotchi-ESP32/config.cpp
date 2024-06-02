@@ -13,13 +13,13 @@
  *
  */
 
-// define whether or not these deauthing or advertising is turned on 
+// define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
 bool Config::advertise = true;
 
 // screen configuration
-bool Config::display = false;  // Change to true if using a display
-std::string Config::screen = "";  // Define SSD1306, WEMOS_OLED_SHIELD or CYD depending on display used
+bool Config::display = false;  
+std::string Config::screen = "";  
 
 // define baud rate
 int Config::baud = 115200;
