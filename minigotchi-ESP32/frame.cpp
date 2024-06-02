@@ -272,7 +272,7 @@ void Frame::advertise() {
         Display::attachSmallText("Starting advertisment...");
         delay(250);
         for (int i = 0; i < 150; ++i) {
-            if (send()) {
+            if (Frame::send()) {
                 packets++;
 
                 // calculate packets per second
