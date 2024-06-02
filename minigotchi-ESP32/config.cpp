@@ -24,7 +24,6 @@ std::string Config::screen = "";
 int Config::baud = 115200;
 
 // define init channel
-std::string Config::bssid = "fo:od:ba:be:fo:od";
 int Config::channel = 1;
 
 // define whitelist 
