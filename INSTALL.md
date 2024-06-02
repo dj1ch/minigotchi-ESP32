@@ -35,15 +35,14 @@ int Config::baud = 115200;
 
 Here, you can adjust the baud rate, which is of course optional. Make sure your serial terminal is running at the same baud rate as the Minigotchi.
 
-- Here, we can adjust the BSSID we listen on, and the channel we start on.
+- Here, we can adjust the channel we start on.
 
 ```cpp
-// define init bssid, channel
-std::string Config::bssid = "fo:od:ba:be:fo:od"; // note: this used to be const* char Config::bssid = "fo:od:ba:be:fo:od";
+// define init channel
 int Config::channel = 1;
 ```
 
-Replace the `"fo:od:ba:be:fo:od"` with your actual BSSID(in the quotations), and the `1` with the channel you prefer(not in quotations). Note that the WiFi network you're listening on should be on a specific WiFi channel anyway, each AP is on a specific one. The BSSID in question should be one of your own, assuming the Pwnagotchi is in your home it should be able to associate with your home WiFi network.
+Replace the `1` with the channel you prefer(not in quotations).
 
 - After this, we can configure our screen (Not in any version `<= 3.0.1`)
 
