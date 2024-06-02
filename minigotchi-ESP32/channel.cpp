@@ -33,17 +33,17 @@ void Channel::init(int initChannel) {
 
     // switch channel
     Minigotchi::monStop();
-    esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
+    esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
     Minigotchi::monStart();
 
-    if (initChannel == getChannel()) {
+    if (err == ESP_OK && initChannel == getChannel()) {
         Serial.print("('-') Successfully initialized on channel ");
         Serial.println(getChannel());
         Display::cleanDisplayFace("('-')");
         Display::attachSmallText("Successfully initialized on channel " + (String) getChannel());
         delay(250);
     } else {
-        Serial.print("(X-X) Channel initialization failed, try again?");
+        Serial.println("(X-X) Channel initialization failed, try again?");
         Display::cleanDisplayFace("(X-X)");
         Display::attachSmallText("Channel initialization failed, try again?");
         delay(250);
@@ -74,18 +74,26 @@ void Channel::switchChannel(int newChannel) {
 
     // monitor this one channel
     Minigotchi::monStop();
-    esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
+    esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
     Minigotchi::monStart();
 
-    // switched channel
-    checkChannel(newChannel);
+    // check if the channel switch was successful
+    if (err == ESP_OK) {
+        checkChannel(newChannel);
+    } else {
+        Serial.println("(X-X) Failed to switch channel.");
+        Display::cleanDisplayFace("(X-X)");
+        Display::attachSmallText("Failed to switch channel.");
+        delay(250);
+    }
 }
 
 // check if the channel switch was successful
 void Channel::checkChannel(int channel) {
-    if (channel == getChannel()) {
+    int currentChannel = Channel::getChannel();
+    if (channel == currentChannel) {
         Serial.print("('-') Currently on channel ");
-        Serial.println(getChannel());
+        Serial.println(currentChannel);
         Display::cleanDisplayFace("('-')");
         Display::attachSmallText("Currently on channel " + (String) getChannel());
         Serial.println(" ");
@@ -95,7 +103,7 @@ void Channel::checkChannel(int channel) {
         Serial.print(channel);
         Serial.println(" has failed");
         Serial.print("(X-X) Currently on channel ");
-        Serial.print(getChannel());
+        Serial.print(currentChannel);
         Serial.println(" instead");
         Serial.println(" ");
         Display::cleanDisplayFace("(X-X)");
