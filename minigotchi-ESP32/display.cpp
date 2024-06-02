@@ -59,9 +59,9 @@ void Display::startScreen() {
       adafruit_display->display();
       delay(5);
       adafruit_display->clearDisplay();
-	  delay(5);
+	    delay(5);
       adafruit_display->setTextColor(WHITE);
-	  delay(5);
+	    delay(5);
     }
   }
 }
@@ -76,15 +76,15 @@ void Display::cleanDisplayFace(String text) {
       tft.println(text);  // Print text
     } else {
       adafruit_display->clearDisplay();
-	  delay(5);
+	    delay(5);
       adafruit_display->setTextSize(2);
-	  delay(5);
+	    delay(5);
       adafruit_display->setCursor(0, 0);
-	  delay(5);
+	    delay(5);
       adafruit_display->println(text);
-	  delay(5);
+	    delay(5);
       adafruit_display->display();
-	  delay(5);
+	    delay(5);
     }
   }
 }
@@ -98,13 +98,13 @@ void Display::attachSmallText(String text) {
       tft.println(text);  // Print text
     } else {
       adafruit_display->setCursor(0, 20);
-	  delay(5);
+	    delay(5);
       adafruit_display->setTextSize(1);
-	  delay(5);
+	    delay(5);
       adafruit_display->println(text);
-	  delay(5);
+	    delay(5);
       adafruit_display->display();
-	  delay(5);
+	    delay(5);
     }
   }
 }
