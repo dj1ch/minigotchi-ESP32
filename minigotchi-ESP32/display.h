@@ -2,9 +2,11 @@
 #define DISPLAY_H
 
 #include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
+#include <SPI.h>
 #include <Wire.h>
 #include <TFT_eSPI.h>  // Defines the TFT_eSPI library for CYD
-#include "Config.h"
+#include "config.h"
 
 // SSD1306 screen
 #define SSD1306_SCREEN_WIDTH 128

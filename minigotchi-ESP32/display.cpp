@@ -3,7 +3,7 @@
 */
 
 #include "display.h"
-#include <TFT_eSPI.h>  // Include the TFT_eSPI library to enable control of TFT displays using the ESP32 and CYD
+
 TFT_eSPI tft; // Define TFT_eSPI object
 
 Adafruit_SSD1306* Display::adafruit_display = nullptr;
