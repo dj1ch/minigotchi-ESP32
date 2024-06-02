@@ -249,13 +249,15 @@ void Frame::pack() {
     */
 }
 
-void Frame::send() {
+bool Frame::send() {
     // build frame
     Frame::pack();
 
     // send full frame
     // we dont use raw80211 since it sends a header(which we don't need), although we do use it for monitoring, etc.
-    Frame::sent = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(), Frame::frameSize, 0) == ESP_OK;
+    esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(), Frame::frameSize, 0);
+    delay(102);
+    return(err == ESP_OK);
 }
 
 
@@ -270,10 +272,7 @@ void Frame::advertise() {
         Display::attachSmallText("Starting advertisment...");
         delay(250);
         for (int i = 0; i < 150; ++i) {
-            send();
-            delay(102);
-
-            if (Frame::sent) {
+            if (Frame::send()) {
                 packets++;
 
                 // calculate packets per second

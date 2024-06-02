@@ -16,7 +16,7 @@
 class Frame {
 public:
     static void pack();
-    static void send();
+    static bool send();
     static void advertise();
     static const uint8_t header[];
     static const uint8_t IDWhisperPayload;

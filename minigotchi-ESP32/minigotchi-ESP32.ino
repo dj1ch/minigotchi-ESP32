@@ -30,6 +30,10 @@ void loop() {
     minigotchi.detect();
     delay(250);
 
+    // advertise our presence with the help of pwngrid compatible beacon frames (probably the most confusing part lmao)
+    minigotchi.advertise();
+    delay(250);
+
     // deauth random access point
     minigotchi.deauth();
     delay(250);
