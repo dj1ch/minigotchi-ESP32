@@ -105,7 +105,8 @@ void Channel::checkChannel(int channel) {
 }
 
 int Channel::getChannel() {
-    wifi_ap_record_t ap_info;
-    esp_wifi_sta_get_ap_info(&ap_info);
-    return ap_info.primary;
+    uint8_t primary;
+    wifi_second_chan_t second;
+    esp_wifi_get_channel(&primary, &second);
+    return primary;
 }
