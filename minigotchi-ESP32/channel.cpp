@@ -82,6 +82,7 @@ void Channel::switchChannel(int newChannel) {
         checkChannel(newChannel);
     } else {
         Serial.println("(X-X) Failed to switch channel.");
+        Serial.println(" "); 
         Display::cleanDisplayFace("(X-X)");
         Display::attachSmallText("Failed to switch channel.");
         delay(250);

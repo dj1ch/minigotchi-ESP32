@@ -69,9 +69,9 @@ void Minigotchi::finish() {
 
 void Minigotchi::version() {
     Serial.print("('-') Version: ");
-    Serial.println(Config::version.c_str());
+    Serial.println(Config::version);
     Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("Version: " + (String) Config::version.c_str());
+    Display::attachSmallText("Version: " + (String) Config::version);
     delay(250);
 }
 
