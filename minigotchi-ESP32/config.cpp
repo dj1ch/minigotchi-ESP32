@@ -15,17 +15,16 @@
 
 // define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
-bool Config::advertise = true;
+bool Config::advertise = false;
 
 // screen configuration
 bool Config::display = false;  
-std::string Config::screen = "";  
+std::string Config::screen = "";
 
 // define baud rate
 int Config::baud = 115200;
 
 // define init channel
-std::string Config::bssid = "fo:od:ba:be:fo:od";
 int Config::channel = 1;
 
 // define whitelist 
@@ -61,7 +60,7 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.1.0-beta";
+std::string Config::version = "3.2.2-beta";
 
 /** developer note:
  * 
