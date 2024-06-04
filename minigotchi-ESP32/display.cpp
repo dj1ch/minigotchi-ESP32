@@ -109,7 +109,6 @@ void Display::attachSmallText(String text) {
       tft.setTextSize(1);  // Set text size
       tft.println(text);  // Print text
     } else if (Config::screen == "T_DISPLAY_T3") {
-      tft.fillScreen(TFT_BLACK);
       tft.setTextColor(TFT_WHITE);
       tft.setCursor(0, 40);
       tft.setTextSize(1);
