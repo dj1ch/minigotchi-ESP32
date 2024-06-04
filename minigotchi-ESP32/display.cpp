@@ -48,6 +48,12 @@ void Display::startScreen() {
       tft.fillScreen(TFT_BLACK);  // Fill screen with black color
       tft.setTextColor(TFT_WHITE);  // Set text color to white
       tft.setTextSize(2);  // Set text size
+    } else if (Config::screen == "T_DISPLAY_T3") {
+      tft.begin();
+      tft.setRotation(1);
+      tft.fillScreen(TFT_BLACK);
+      tft.setTextColor(TFT_WHITE);
+      tft.setTextSize(2);
     } else {
       // use wemos shield by default
       adafruit_display = new Adafruit_SSD1306(WEMOS_OLED_SHIELD_OLED_RESET);
@@ -74,6 +80,12 @@ void Display::cleanDisplayFace(String text) {
       tft.setCursor(0, 5);  // Set cursor position
       tft.setTextSize(4);  // Set text size
       tft.println(text);  // Print text
+    } else if (Config::screen == "T_DISPLAY_T3") {
+      tft.fillScreen(TFT_BLACK);
+      tft.setTextColor(TFT_WHITE);
+      tft.setCursor(0, 5);
+      tft.setTextSize(4);
+      tft.println(text);
     } else {
       adafruit_display->clearDisplay();
 	    delay(5);
@@ -96,6 +108,12 @@ void Display::attachSmallText(String text) {
       tft.setCursor(0, 40);  // Set cursor position
       tft.setTextSize(1);  // Set text size
       tft.println(text);  // Print text
+    } else if (Config::screen == "T_DISPLAY_T3") {
+      tft.fillScreen(TFT_BLACK);
+      tft.setTextColor(TFT_WHITE);
+      tft.setCursor(0, 40);
+      tft.setTextSize(1);
+      tft.println(text);
     } else {
       adafruit_display->setCursor(0, 20);
 	    delay(5);
