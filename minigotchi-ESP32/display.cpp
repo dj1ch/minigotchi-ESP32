@@ -84,7 +84,7 @@ void Display::cleanDisplayFace(String text) {
       tft.fillScreen(TFT_BLACK);
       tft.setTextColor(TFT_WHITE);
       tft.setCursor(0, 5);
-      tft.setTextSize(4);
+      tft.setTextSize(6);
       tft.println(text);
     } else {
       adafruit_display->clearDisplay();
@@ -110,8 +110,8 @@ void Display::attachSmallText(String text) {
       tft.println(text);  // Print text
     } else if (Config::screen == "T_DISPLAY_T3") {
       tft.setTextColor(TFT_WHITE);
-      tft.setCursor(0, 40);
-      tft.setTextSize(1);
+      tft.setCursor(0, 50);
+      tft.setTextSize(2);
       tft.println(text);
     } else {
       adafruit_display->setCursor(0, 20);
