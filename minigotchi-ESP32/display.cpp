@@ -44,16 +44,26 @@ void Display::startScreen() {
       adafruit_display->setTextColor(WHITE);
     } else if (Config::screen == "CYD") {   // Check if the screen configuration is set to "CYD" and execute the corresponding code
       tft.begin();  // Initialize TFT_eSPI library
+      delay(100);
       tft.setRotation(1);  // Set display rotation if needed
+      delay(100);
       tft.fillScreen(TFT_BLACK);  // Fill screen with black color
+      delay(100);
       tft.setTextColor(TFT_WHITE);  // Set text color to white
+      delay(100);
       tft.setTextSize(2);  // Set text size
+      delay(100);
     } else if (Config::screen == "T_DISPLAY_T3") {
       tft.begin();
+      delay(100);
       tft.setRotation(1);
+      delay(100);
       tft.fillScreen(TFT_BLACK);
+      delay(100);
       tft.setTextColor(TFT_WHITE);
+      delay(100);
       tft.setTextSize(2);
+      delay(100);
     } else {
       // use wemos shield by default
       adafruit_display = new Adafruit_SSD1306(WEMOS_OLED_SHIELD_OLED_RESET);
@@ -61,13 +71,13 @@ void Display::startScreen() {
         Serial.println(F("SSD1306 allocation failed"));
         return;
       }
-      delay(5); // initialize w/ delays to prevent crash
+      delay(100); // initialize w/ delays to prevent crash
       adafruit_display->display();
-      delay(5);
+      delay(100);
       adafruit_display->clearDisplay();
-	    delay(5);
+	    delay(100);
       adafruit_display->setTextColor(WHITE);
-	    delay(5);
+	    delay(100);
     }
   }
 }
@@ -76,16 +86,26 @@ void Display::cleanDisplayFace(String text) {
   if (Config::display) {
     if (Config::screen == "CYD") {   // Check if the screen configuration is set to "CYD" and execute the corresponding code
       tft.fillScreen(TFT_BLACK);  // Clear screen with black color
+      delay(5);
       tft.setTextColor(TFT_WHITE);  // Set text color to WHITE
+      delay(5);
       tft.setCursor(0, 5);  // Set cursor position
+      delay(5);
       tft.setTextSize(4);  // Set text size
+      delay(5);
       tft.println(text);  // Print text
+      delay(5);
     } else if (Config::screen == "T_DISPLAY_T3") {
       tft.fillScreen(TFT_BLACK);
+      delay(5);
       tft.setTextColor(TFT_WHITE);
+      delay(5);
       tft.setCursor(0, 5);
+      delay(5);
       tft.setTextSize(6);
+      delay(5);
       tft.println(text);
+      delay(5);
     } else {
       adafruit_display->clearDisplay();
 	    delay(5);
@@ -105,14 +125,22 @@ void Display::attachSmallText(String text) {
   if (Config::display) {
     if (Config::screen == "CYD") {   // Check if the screen configuration is set to "CYD" and execute the corresponding code
       tft.setTextColor(TFT_WHITE);  // Set text color to WHITE
+      delay(5);
       tft.setCursor(0, 40);  // Set cursor position
+      delay(5);
       tft.setTextSize(1);  // Set text size
+      delay(5);
       tft.println(text);  // Print text
+      delay(5);
     } else if (Config::screen == "T_DISPLAY_T3") {
       tft.setTextColor(TFT_WHITE);
+      delay(5);
       tft.setCursor(0, 50);
+      delay(5);
       tft.setTextSize(2);
+      delay(5);
       tft.println(text);
+      delay(5);
     } else {
       adafruit_display->setCursor(0, 20);
 	    delay(5);
