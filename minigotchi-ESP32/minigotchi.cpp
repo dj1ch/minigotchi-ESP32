@@ -14,6 +14,21 @@
 
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less cluttered!!!
 
+// current epoch val
+int Minigotchi::currentEpoch = 0;
+
+int Minigotchi::addEpoch() {
+    Minigotchi::currentEpoch++;
+    return Minigotchi::currentEpoch;
+}
+
+void Minigotchi::epoch() {
+    Minigotchi::addEpoch();
+    Serial.print("('-') Current Epoch: ");
+    Serial.println(Minigotchi::currentEpoch);
+    Serial.println(" ");
+}
+
 // things to do when starting up
 void Minigotchi::boot() {
     Display::startScreen();

@@ -31,7 +31,7 @@ int Config::channel = 1;
 std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"}; 
 
 // json config
-int Config::epoch = 1;
+int Config::epoch = Minigotchi::currentEpoch;
 std::string Config::face = "(^-^)";
 std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
 std::string Config::name = "minigotchi"; 
