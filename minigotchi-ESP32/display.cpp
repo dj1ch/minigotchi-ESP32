@@ -53,7 +53,7 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2);  // Set text size
       delay(100);
-    } else if (Config::screen == "T_DISPLAY_T3") {
+    } else if (Config::screen == "T_DISPLAY_S3") {
       tft.begin();
       delay(100);
       tft.setRotation(1);
@@ -95,7 +95,7 @@ void Display::cleanDisplayFace(String text) {
       delay(5);
       tft.println(text);  // Print text
       delay(5);
-    } else if (Config::screen == "T_DISPLAY_T3") {
+    } else if (Config::screen == "T_DISPLAY_S3") {
       tft.fillScreen(TFT_BLACK);
       delay(5);
       tft.setTextColor(TFT_WHITE);
@@ -132,7 +132,7 @@ void Display::attachSmallText(String text) {
       delay(5);
       tft.println(text);  // Print text
       delay(5);
-    } else if (Config::screen == "T_DISPLAY_T3") {
+    } else if (Config::screen == "T_DISPLAY_S3") {
       tft.setTextColor(TFT_WHITE);
       delay(5);
       tft.setCursor(0, 50);

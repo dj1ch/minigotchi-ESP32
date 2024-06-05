@@ -27,8 +27,8 @@
 #define CYD_SCREEN_HEIGHT 320
 
 // lilygo t-display-t3
-#define T_DISPLAY_T3_WIDTH 320
-#define T_DISPLAY_T3_HEIGHT 170
+#define T_DISPLAY_S3_WIDTH 320
+#define T_DISPLAY_S3_HEIGHT 170
 
 class Display {
 public:
