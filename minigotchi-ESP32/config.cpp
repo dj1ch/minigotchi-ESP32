@@ -15,11 +15,11 @@
 
 // define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
-bool Config::advertise = false;
+bool Config::advertise = true;
 
 // screen configuration
-bool Config::display = true;  
-std::string Config::screen = "T_DISPLAY_T3";  
+bool Config::display = false;  
+std::string Config::screen = "";  
 
 // define baud rate
 int Config::baud = 115200;
