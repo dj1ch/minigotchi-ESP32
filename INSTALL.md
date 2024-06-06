@@ -52,11 +52,15 @@ bool Config::display = false;
 std::string Config::screen = "";
 ```
 
-There are two different screen types available:
+There are multiple different screen types available:
 
 - `SSD1306`
 
 - `WEMOS_OLED_SHIELD`
+
+- `CYD`
+
+- `T_DISPLAY_S3`
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
