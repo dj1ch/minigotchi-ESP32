@@ -12,8 +12,7 @@
  * variables are defined here which will be used by the minigotchi
  * whatever can be disabled/enabled can be enabled here
  *
- * There are two lines in minigotchi-ESP32.ino that are for M5stick C Plus 1&2.
- * Uncomment (Only one) the device you are using.
+ * 
  */
 
 // define whether or not the deauthing or advertising is turned on 
