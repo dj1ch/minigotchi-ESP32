@@ -356,7 +356,7 @@ void Deauth::start() {
                 Serial.print(pps);
                 Serial.print(" pkt/s");
                 Serial.println(" (AP:" + (String) randomAP.c_str() + ")");
-                Display::cleanDisplayFace("(>-<)");
+                Display::cleanDisplayFace("(>-<)"); // Edited Face
                 Display::attachSmallText("Packets per second: " + (String) pps + " pkt/s" + "(AP:" + (String) randomAP.c_str() + ")"); 
             } 
         } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) || !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {

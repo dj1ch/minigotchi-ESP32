@@ -1,3 +1,4 @@
+
 /**
  * config.h: header files for config.cpp
 */
@@ -5,6 +6,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "minigotchi.h"
 #include <Arduino.h>
 #include <string>
 #include <vector>

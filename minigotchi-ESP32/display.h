@@ -5,7 +5,7 @@
 #include <Adafruit_GFX.h>
 #include <SPI.h>
 #include <Wire.h>
-#include <TFT_eSPI.h>  // Defines the TFT_eSPI library for CYD
+#include <TFT_eSPI.h>  // Defines the TFT_eSPI library
 #include "config.h"
 
 // SSD1306 screen
@@ -16,9 +16,23 @@
 #define SSD1306_OLED_RESET -1 
 #define WEMOS_OLED_SHIELD_OLED_RESET 0 // GPIO0
 
+/** developer note:
+ * 
+ * the TFT_eSPI library may not require this, but these will be here regardless
+ * 
+*/
+
 // Define display parameters for CYD
 #define CYD_SCREEN_WIDTH 240
 #define CYD_SCREEN_HEIGHT 320
+
+// Define display parameters for TTGO_T_DISPLAY
+#define TTGO_T_DISPLAY_WIDTH 135
+#define TTGO_T_DISPLAY_HEIGHT 240
+
+// Define display parameters for M5StickC Plus and M5Cardputer
+#define M5STICK_SCREEN_WIDTH 135
+#define M5STICK_SCREEN_HEIGHT 240
 
 class Display {
 public:
