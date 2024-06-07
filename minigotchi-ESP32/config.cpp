@@ -18,11 +18,7 @@
 bool Config::deauth = true;
 bool Config::advertise = false;
 
-// If using M5stick you must uncomment which version. This is to start the AXP192 driver needed for m5 devices.
-//#define M5STICK_C_PLUS
-//#define M5STICK_C_PLUS2
-
-// screen configuration
+// screen configuration (The is one edit in minigotchi-ESP32.ino if your using M5stickC Plus 1.1 & 2)
 bool Config::display = true;  
 std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5Stick)
 
