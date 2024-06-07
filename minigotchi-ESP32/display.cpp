@@ -100,13 +100,13 @@ void Display::cleanDisplayFace(String text) {
     if (Config::screen == "CYD") {   // Check if the screen configuration is set to "CYD" and execute the corresponding code
       tft.fillScreen(TFT_BLACK);  // Clear screen with black color
       delay(5);
-      tft.setTextColor(TFT_WHITE);  // Set text color to WHITE
+      tft.setTextColor(TFT_WHITE);  // Set face color to WHITE
       delay(5);
       tft.setCursor(0, 5);  // Set cursor position
       delay(5);
-      tft.setTextSize(4);  // Set text size
+      tft.setTextSize(4);  // Set face size
       delay(5);
-      tft.println(text);  // Print text
+      tft.println(text);  // Print face
       delay(5);
     } else if (Config::screen == "TTGO_T_DISPLAY") { // New condition for TTGO_T_DISPLAY
       tft.fillScreen(TFT_BLACK); // Clear screen with black color
