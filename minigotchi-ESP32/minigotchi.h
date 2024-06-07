@@ -1,3 +1,4 @@
+
 /**
  * minigotchi.h: header files for minigotchi.cpp
 */
@@ -29,6 +30,9 @@ public:
     static void detect();
     static void deauth();
     static void advertise();
+    static void epoch();
+    static int addEpoch();
+    static int currentEpoch;
 
 };
 

@@ -1,3 +1,4 @@
+
 /**
  * config.cpp: configuration for minigotchi
 */
@@ -11,15 +12,21 @@
  * variables are defined here which will be used by the minigotchi
  * whatever can be disabled/enabled can be enabled here
  *
+ * There are two lines in minigotchi-ESP32.ino that are for M5stick C Plus 1&2.
+ * Uncomment (Only one) the device you are using.
  */
 
 // define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
-bool Config::advertise = false;
+bool Config::advertise = true;
 
-// screen configuration
-bool Config::display = false;  
-std::string Config::screen = "";
+// If using M5stickC Plus you must define which version
+//#define M5STICK_C_PLUS
+//#define M5STICK_C_PLUS2
+
+// screen configuration 
+bool Config::display = true;  
+std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5Stick, M5Cardputer)
 
 // define baud rate
 int Config::baud = 115200;
@@ -31,7 +38,7 @@ int Config::channel = 1;
 std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"}; 
 
 // json config
-int Config::epoch = 1;
+int Config::epoch = Minigotchi::currentEpoch;
 std::string Config::face = "(^-^)";
 std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
 std::string Config::name = "minigotchi"; 
