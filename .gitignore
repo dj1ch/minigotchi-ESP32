@@ -2,5 +2,5 @@
 .vscode
 
 # builds
-minigotchi/*.zip
-minigotchi/build
+minigotchi-*/*.zip
+minigotchi-*/build

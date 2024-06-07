@@ -111,6 +111,14 @@ Make sure you install the correct library, they aren't the same library and if y
 
 - Go to `Tools` > `Board` and use one of the boards in the `esp32` section. (Example: `Adafruit Feather ESP32-S3 TFT`)
 
+- Open the following with your text editor `C:\Users\<YOUR USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10\platform.txt` and add the following:
+
+    1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
+
+    2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
+
+    3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
+
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
 - Click on the upload button(arrow pointing to the left).
