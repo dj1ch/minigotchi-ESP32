@@ -30,7 +30,7 @@
 #define TTGO_T_DISPLAY_WIDTH 135
 #define TTGO_T_DISPLAY_HEIGHT 240
 
-// Define display parameters for M5StickC Plus and M5Cardputer
+// Define display parameters for M5StickC Plus
 #define M5STICK_SCREEN_WIDTH 135
 #define M5STICK_SCREEN_HEIGHT 240
 

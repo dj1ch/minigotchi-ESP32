@@ -26,7 +26,6 @@ void setup() {
 
     Serial.begin(config.baud);
     minigotchi.boot();
-    
 }
 
 /** developer note: 

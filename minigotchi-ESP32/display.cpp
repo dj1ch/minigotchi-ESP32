@@ -66,7 +66,7 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2); // Set text size
       delay(100);
-    } else if (Config::screen == "M5Stick" || Config::screen ==  "M5Cardputer") {  // New condition for M5StickC Plus
+    } else if (Config::screen == "M5Stick") {  // New condition for M5StickC Plus
       tft.begin(); // Initialize TFT_eSPI library
       delay(100);
       tft.setRotation(1); // Set display rotation if needed
@@ -119,7 +119,7 @@ void Display::cleanDisplayFace(String text) {
 	    delay(5);
       tft.println(text);
 	    delay(5);
-    } else if (Config::screen == "M5Stick" || Config::screen ==  "M5Cardputer") { // New condition for M5StickC Plus
+    } else if (Config::screen == "M5Stick") { // New condition for M5StickC Plus
       tft.fillScreen(TFT_BLACK); // Clear screen with black color
       delay(5);
       tft.setTextColor(TFT_WHITE); // Set face color
@@ -165,7 +165,7 @@ void Display::attachSmallText(String text) {
       delay(5);
       tft.println(text); // Print text
       delay(5);
-    } else if (Config::screen == "M5Stick" || Config::screen ==  "M5Cardputer") { // New condition for M5StickC Plus
+    } else if (Config::screen == "M5Stick") { // New condition for M5StickC Plus
       tft.setTextColor(TFT_WHITE);  // Set text color to WHITE
       delay(5);
       tft.setCursor(0, 60);  // Set text position

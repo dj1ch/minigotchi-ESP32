@@ -12,20 +12,19 @@
  * variables are defined here which will be used by the minigotchi
  * whatever can be disabled/enabled can be enabled here
  *
- * 
  */
 
 // define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
-bool Config::advertise = true;
+bool Config::advertise = false;
 
-// If using M5stickC Plus you must define which version
+// If using M5stick you must uncomment which version. This is to start the AXP192 driver needed for m5 devices.
 //#define M5STICK_C_PLUS
 //#define M5STICK_C_PLUS2
 
-// screen configuration 
+// screen configuration
 bool Config::display = true;  
-std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5Stick, M5Cardputer)
+std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5Stick)
 
 // define baud rate
 int Config::baud = 115200;
