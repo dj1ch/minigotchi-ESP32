@@ -1,9 +1,8 @@
 /**
  * config.cpp: configuration for minigotchi
-*/
+ */
 
 #include "config.h"
-
 
 /** developer note:
  *
@@ -33,7 +32,8 @@ std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
 // json config
 int Config::epoch = Minigotchi::currentEpoch;
 std::string Config::face = "(^-^)";
-std::string Config::identity = "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
+std::string Config::identity =
+    "b9210077f7c14c0651aa338c55e820e93f90110ef679648001b1cecdbffc0090";
 std::string Config::name = "minigotchi";
 int Config::ap_ttl = Config::random(30, 600);
 bool Config::associate = true;
@@ -64,16 +64,14 @@ std::string Config::version = "3.2.2-beta";
 
 /** developer note:
  *
- * these are meant to provide valid values for the frame's data to be almost identical to a pwnagotchi's.
- * they must be within a certain range to be valid.
+ * these are meant to provide valid values for the frame's data to be almost
+ * identical to a pwnagotchi's. they must be within a certain range to be valid.
  *
-*/
+ */
 
 // randomize config values
-int Config::random(int min, int max) {
-    return min + rand() % (max - min + 1);
-}
+int Config::random(int min, int max) { return min + rand() % (max - min + 1); }
 
 int Config::time() {
-    return millis() / 1000; // convert to seconds
+  return millis() / 1000; // convert to seconds
 }
