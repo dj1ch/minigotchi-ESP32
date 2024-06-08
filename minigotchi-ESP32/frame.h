@@ -15,27 +15,27 @@
 
 class Frame {
 public:
-    static void pack();
-    static bool send();
-    static void advertise();
-    static const uint8_t header[];
-    static const uint8_t IDWhisperPayload;
-    static const uint8_t IDWhisperCompression;
-    static const uint8_t IDWhisperIdentity;
-    static const uint8_t IDWhisperSignature;
-    static const uint8_t IDWhisperStreamHeader;
-    static const uint8_t SignatureAddr[];
-    static const uint8_t BroadcastAddr[];
-    static const uint16_t wpaFlags;
-    static bool sent;
-    static size_t frameSize;
-    static std::vector<uint8_t> beaconFrame;
-    static size_t payloadSize;
-    static const size_t chunkSize;
+  static void pack();
+  static bool send();
+  static void advertise();
+  static const uint8_t header[];
+  static const uint8_t IDWhisperPayload;
+  static const uint8_t IDWhisperCompression;
+  static const uint8_t IDWhisperIdentity;
+  static const uint8_t IDWhisperSignature;
+  static const uint8_t IDWhisperStreamHeader;
+  static const uint8_t SignatureAddr[];
+  static const uint8_t BroadcastAddr[];
+  static const uint16_t wpaFlags;
+  static bool sent;
+  static size_t frameSize;
+  static std::vector<uint8_t> beaconFrame;
+  static size_t payloadSize;
+  static const size_t chunkSize;
 
 private:
-    static void init();
-    static void essid();
+  static void init();
+  static void essid();
 };
 
 #endif // FRAME_H

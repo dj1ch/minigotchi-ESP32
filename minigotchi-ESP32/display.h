@@ -32,15 +32,15 @@
 
 class Display {
 public:
-    static void startScreen();
-    static void cleanDisplayFace(String text);
-    static void attachSmallText(String text);
-    ~Display();
+  static void startScreen();
+  static void cleanDisplayFace(String text);
+  static void attachSmallText(String text);
+  ~Display();
 
 private:
-    static Adafruit_SSD1306 *adafruit_display;
-    static TFT_eSPI *tft_display; // Declare a static pointer to a TFT_eSPI object
-    // to manage the TFT display.
+  static Adafruit_SSD1306 *adafruit_display;
+  static TFT_eSPI *tft_display; // Declare a static pointer to a TFT_eSPI object
+                                // to manage the TFT display.
 };
 
 #endif // DISPLAY_H
