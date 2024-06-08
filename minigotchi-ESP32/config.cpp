@@ -16,9 +16,9 @@
 bool Config::deauth = true;
 bool Config::advertise = true;
 
-// screen configuration
-bool Config::display = false;
-std::string Config::screen = "";
+// screen configuration 
+bool Config::display = true;  
+std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5StickCP, M5StickCP2, M5Cardputer)
 
 // define baud rate
 int Config::baud = 115200;
