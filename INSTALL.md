@@ -35,15 +35,14 @@ int Config::baud = 115200;
 
 Here, you can adjust the baud rate, which is of course optional. Make sure your serial terminal is running at the same baud rate as the Minigotchi.
 
-- Here, we can adjust the BSSID we listen on, and the channel we start on.
+- Here, we can adjust the channel we start on.
 
 ```cpp
-// define init bssid, channel
-std::string Config::bssid = "fo:od:ba:be:fo:od"; // note: this used to be const* char Config::bssid = "fo:od:ba:be:fo:od";
+// define init channel
 int Config::channel = 1;
 ```
 
-Replace the `"fo:od:ba:be:fo:od"` with your actual BSSID(in the quotations), and the `1` with the channel you prefer(not in quotations). Note that the WiFi network you're listening on should be on a specific WiFi channel anyway, each AP is on a specific one. The BSSID in question should be one of your own, assuming the Pwnagotchi is in your home it should be able to associate with your home WiFi network.
+Replace the `1` with the channel you prefer(not in quotations).
 
 - After this, we can configure our screen (Not in any version `<= 3.0.1`)
 
@@ -53,11 +52,15 @@ bool Config::display = false;
 std::string Config::screen = "";
 ```
 
-There are two different screen types available:
+There are multiple different screen types available:
 
 - `SSD1306`
 
 - `WEMOS_OLED_SHIELD`
+
+- `CYD`
+
+- `T_DISPLAY_S3`
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
@@ -103,9 +106,9 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 - Install the following dependencies with the library manager: `ArduinoJson`, `Adafruit GFX`, and your screen library(see below), etc with all their dependencies (Please install all of them for them to work correctly).
 
-| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed |
+| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                    |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed | Follow the [CYD documentation](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/SETUP.md), it uses a similar library much like the `T_DISPLAY_S3` | Follow the [T-Display-S3 documentation](https://github.com/Xinyuan-LilyGO/T-Display-S3/tree/main?tab=readme-ov-file#4%EF%B8%8F%E2%83%A3--arduino-ide-manual-installation), it uses a library similar to the `CYD` |
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
