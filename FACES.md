@@ -25,7 +25,7 @@ The Minigotchi has multiple faces, similar to that of the Pwnagotchi. I tried my
 ### (>-<) Intense
 
 - sending frames to an AP
-- sending *Pwnagotchi-like* beacon frame
+- sending _Pwnagotchi-like_ beacon frame
 - doing any task of some sort that may require resources
 
 ### (0-o) (o-0) Looking around
