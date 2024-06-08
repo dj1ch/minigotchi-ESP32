@@ -3,6 +3,7 @@
 */
 
 #include "minigotchi.h"
+#include "AXP192.h"
 
 /** developer note:
  *
@@ -29,8 +30,19 @@ void Minigotchi::epoch() {
     Serial.println(" ");
 }
 
+
 // things to do when starting up
 void Minigotchi::boot() {
+    // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB cable
+    if (Config::screen == "M5StickCP") {
+      AXP192 axp192; 
+      axp192.begin(); // Use the instance of AXP192
+      axp192.ScreenBreath(100); // Use the instance of AXP192
+    } else if (Config::screen == "M5StickCP2") {
+      pinMode(4, OUTPUT);
+      digitalWrite(4, HIGH);
+    } 
+
     Display::startScreen();
     Serial.println(" ");
     Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");

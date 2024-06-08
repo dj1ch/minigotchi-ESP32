@@ -16,11 +16,11 @@
 
 // define whether or not the deauthing or advertising is turned on 
 bool Config::deauth = true;
-bool Config::advertise = false;
+bool Config::advertise = true;
 
-// screen configuration (The is one edit in minigotchi-ESP32.ino if your using M5stickC Plus 1.1 & 2)
+// screen configuration 
 bool Config::display = true;  
-std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5Stick)
+std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5StickCP, M5StickCP2, M5Cardputer)
 
 // define baud rate
 int Config::baud = 115200;

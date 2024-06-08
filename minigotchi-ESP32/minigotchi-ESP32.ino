@@ -8,28 +8,11 @@
 Config config;
 Minigotchi minigotchi;
 
-// If using M5stick you must uncomment which version. This is to start the AXP192 driver needed for m5 devices.
-//#define M5STICK_C_PLUS
-//#define M5STICK_C_PLUS2
-
-#ifdef M5STICK_C_PLUS
-#include "AXP192.h"
-AXP192 axp192; 
-#endif
-
 void setup() {
-#ifdef M5STICK_C_PLUS2
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
-#endif
-
-#ifdef M5STICK_C_PLUS
-    axp192.begin(); // Use the instance of AXP192
-    axp192.ScreenBreath(100); // Use the instance of AXP192
-#endif
 
     Serial.begin(config.baud);
     minigotchi.boot();
+    
 }
 
 /** developer note: 
