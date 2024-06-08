@@ -9,15 +9,17 @@ Config config;
 Minigotchi minigotchi;
 
 void setup() {
+
     Serial.begin(config.baud);
     minigotchi.boot();
+    
 }
 
-/** developer note:
+/** developer note: 
  *
  * everything should have been moved to minigotchi.cpp
  * as the program becomes more complicated, it gets easier to maintain all the main features in one file
- *
+ * 
 */
 
 void loop() {
