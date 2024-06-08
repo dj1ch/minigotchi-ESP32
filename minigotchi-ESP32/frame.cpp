@@ -4,7 +4,7 @@
 
 #include "frame.h"
 
-/** developer note: 
+/** developer note:
  *
  * when it comes to detecting a pwnagotchi, this is done with pwngrid/opwngrid.
  * essentially pwngrid looks for the numbers 222-226 in payloads, and if they aren't there, it ignores it.
@@ -12,8 +12,8 @@
  *
  * note that these frames aren't just normal beacon frames, rather a modified one with data, additional ids, etc.
  * frames are dynamically constructed, headers are included like a normal frame.
- * by far this is the most memory heaviest part of the minigotchi, the reason is 
- * 
+ * by far this is the most memory heaviest part of the minigotchi, the reason is
+ *
 */
 
 // initializing
@@ -48,10 +48,10 @@ const uint8_t Frame::header[] {
 };
 
 /** developer note:
- * 
+ *
  * according to pack.go:
  * we build the frame like so
- * 
+ *
  * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte, streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool) (error, []byte) {
  * 	 stack := []gopacket.SerializableLayer{
  *		&layers.RadioTap{},
@@ -119,13 +119,13 @@ const uint8_t Frame::header[] {
  *
  * ofc, when it comes to any new programming language such as Go, i am pretty clueless as how to interpret it
  * so this is all my best try
- *  
+ *
 */
 
 /** developer note:
- * 
+ *
  * we're relying off of the frame structure from pack.go
- * 
+ *
  * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte, streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool) (error, []byte) {
  * 	 stack := []gopacket.SerializableLayer{
  *		&layers.RadioTap{},
@@ -140,9 +140,9 @@ const uint8_t Frame::header[] {
  *			Interval: 100,
  *		},
  *	}
- * 
+ *
  * see wifi_ieee80211_mac_hdr_t in structs.h for the frame structure...
- * 
+ *
 */
 
 void Frame::init() {
@@ -197,21 +197,21 @@ void Frame::essid() {
     Frame::beaconFrame.insert(Frame::beaconFrame.end(), jsonString.begin(), jsonString.end());
 
     /** developer note:
-     * 
+     *
      * if you literally want to check the json everytime you send a packet(non serialized ofc)
      *
-     * Serial.println(jsonString); 
+     * Serial.println(jsonString);
     */
 }
 
 /** developer note:
- * 
+ *
  * frame structure based on how it was built here
- * 
- * 1. header 
+ *
+ * 1. header
  * 2. payload id's
  * 3. (chunked) pwnagotchi data
- * 
+ *
 */
 
 void Frame::pack() {
@@ -235,17 +235,17 @@ void Frame::pack() {
         }
     }
 
-    /** developer note: 
-     * 
+    /** developer note:
+     *
      * we can print the beacon frame like so...
-     * 
+     *
      * Serial.println("('-') Full Beacon Frame:");
      * for (size_t i = 0; i < beaconFrame.size(); ++i) {
      *     Serial.print(beaconFrame[i], HEX);
      *     Serial.print(" ");
      * }
      * Serial.println(" ");
-     * 
+     *
     */
 }
 
@@ -290,12 +290,12 @@ void Frame::advertise() {
                 Serial.println("(X-X) Advertisment failed to send!");
             }
         }
-    
-    Serial.println(" ");
-    Serial.println("(^-^) Advertisment finished!");
-    Serial.println(" ");
-    Display::cleanDisplayFace("(^-^)");
-    Display::attachSmallText("Advertisment finished!");
+
+        Serial.println(" ");
+        Serial.println("(^-^) Advertisment finished!");
+        Serial.println(" ");
+        Display::cleanDisplayFace("(^-^)");
+        Display::attachSmallText("Advertisment finished!");
     } else {
         // do nothing but still idle
     }

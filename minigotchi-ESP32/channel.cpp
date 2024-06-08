@@ -50,7 +50,7 @@ void Channel::init(int initChannel) {
     }
 }
 
-void Channel::cycle() { 
+void Channel::cycle() {
     // get channels
     int numChannels = sizeof(channelList) / sizeof(channelList[0]);
 
@@ -82,7 +82,7 @@ void Channel::switchChannel(int newChannel) {
         checkChannel(newChannel);
     } else {
         Serial.println("(X-X) Failed to switch channel.");
-        Serial.println(" "); 
+        Serial.println(" ");
         Display::cleanDisplayFace("(X-X)");
         Display::attachSmallText("Failed to switch channel.");
         delay(250);

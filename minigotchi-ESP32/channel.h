@@ -18,11 +18,11 @@ public:
     static void switchChannel(int newChannel);
     static int getChannel();
     static void checkChannel(int channel);
-    static int channelList[13]; // 13 channels 
+    static int channelList[13]; // 13 channels
 
 private:
-    static int randomIndex; 
-    static int numChannels; 
+    static int randomIndex;
+    static int numChannels;
     static int currentChannel;
     static int newChannel;
 };
