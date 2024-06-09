@@ -119,6 +119,11 @@ Make sure you install the correct library, they aren't the same library and if y
     1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
 
     2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
+	
+	- Here is a video explaining the editing process of platform.txt file 👉 [Video tutorial](https://drive.google.com/file/d/1K_cO0YvqHfJTDT-sdI3XbLX3S0hHSdKR/view?usp=sharing).
+	
+  <br>
+	
 
     3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
 
