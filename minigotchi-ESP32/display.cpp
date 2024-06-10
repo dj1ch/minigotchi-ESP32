@@ -9,7 +9,7 @@ TFT_eSPI tft; // Define TFT_eSPI object
 Adafruit_SSD1306 *Display::adafruit_display = nullptr;
 TFT_eSPI *Display::tft_display =
     nullptr; // Initialize the static pointer tft_display in the Display class
-             // to null
+// to null
 
 Display::~Display() {
   if (adafruit_display) {
@@ -53,8 +53,8 @@ void Display::startScreen() {
       adafruit_display->setTextColor(WHITE);
     } else if (Config::screen ==
                "CYD") { // Check if the screen configuration is set to "CYD" and
-                        // execute the corresponding code
-      tft.begin();      // Initialize TFT_eSPI library
+      // execute the corresponding code
+      tft.begin(); // Initialize TFT_eSPI library
       delay(100);
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
@@ -113,7 +113,7 @@ void Display::cleanDisplayFace(String text) {
   if (Config::display) {
     if (Config::screen ==
         "CYD") { // Check if the screen configuration is set to "CYD" and
-                 // execute the corresponding code
+      // execute the corresponding code
       tft.fillScreen(TFT_BLACK); // Clear screen with black color
       delay(5);
       tft.setTextColor(TFT_WHITE); // Set text color to WHITE
