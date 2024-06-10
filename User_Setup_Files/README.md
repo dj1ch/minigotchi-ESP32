@@ -6,11 +6,7 @@ These files are to be added to your TFT_eSPI library. The images below show the 
 Inside this file locate the display you are using. (Use pic for ref)
 To use the display/device of your choice remove the // infront of the entry. Make sure only one display is uncommented at a time and also pay attention to the name to minimize error.
 
-
-
 ## Screenshots
-
 
 ![ttf-lib](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/User_Setup_Files/Screenshots/ttf-lib.png)
 ![user_setup_choices](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/User_Setup_Files/Screenshots/user_setup_choices.png)
-
