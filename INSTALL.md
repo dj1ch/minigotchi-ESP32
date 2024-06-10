@@ -19,7 +19,7 @@ Here you can find out how to install Minigotchi on the ESP32. Installing on the 
 - At the set of lines that says:
 
 ```cpp
-// set to true normally 
+// set to true normally
 bool Config::deauth = true;
 bool Config::advertise = true;
 ```
@@ -69,7 +69,7 @@ Set `bool Config::display = false;` to true, and `std::string Config::screen = "
 - There should also be a line that says:
 
 ```cpp
-// define whitelist 
+// define whitelist
 std::string Config::whitelist[] = {"SSID", "SSID", "SSID"};
 ```
 
@@ -96,7 +96,7 @@ Usually, this shouldn't be changed as these are the only channels we can access 
 https://dl.espressif.com/dl/package_esp32_index.json
 https://espressif.github.io/arduino-esp32/package_esp32_index.json
 https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json
- ```
+```
 
 - Now go to `Tools` > `Board` > `Boards Manager` and search `esp32` and click `Install` on `esp32`, using the version `2.0.10`.
 
@@ -116,11 +116,11 @@ Make sure you install the correct library, they aren't the same library and if y
 
 - Open the following with your text editor `C:\Users\<YOUR USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10\platform.txt` and add the following:
 
-    1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
+  1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
 
-    2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
+  2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
 
-    3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
+  3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
 
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
@@ -134,7 +134,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
 ### Step 3: Post Install
 
-- You can click the *Serial Monitor* button on the top bar to see the serial monitor output. Make sure the baud rate is `115200`. You can also use https://serial.huhn.me/ as a serial monitor, I also recommend using this!
+- You can click the _Serial Monitor_ button on the top bar to see the serial monitor output. Make sure the baud rate is `115200`. You can also use https://serial.huhn.me/ as a serial monitor, I also recommend using this!
 
 - I also highly recommend doing the following:
 
