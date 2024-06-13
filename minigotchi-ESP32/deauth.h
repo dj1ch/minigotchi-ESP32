@@ -32,7 +32,7 @@ private:
   static String printHidden(int network);
   static void printMac(uint8_t *mac);
   static String printMacStr(uint8_t *mac);
-  static void select();
+  static bool select();
   static void start();
   static uint8_t bssid[6];
   static bool running;
