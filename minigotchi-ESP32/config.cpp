@@ -12,9 +12,17 @@
  *
  */
 
-// define whether or not the deauthing or advertising is turned on
+// define whether or not deauthing or advertising is turned on
 bool Config::deauth = true;
 bool Config::advertise = true;
+
+// define universal delays
+int Config::shortDelay = 500;
+int Config::longDelay = 5000;
+
+// Defines if this is running in parasite mode where it hooks up directly to a
+// Pwnagotchi
+bool Config::parasite = false;
 
 // screen configuration
 bool Config::display = false;
@@ -60,7 +68,7 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.2.2-beta";
+std::string Config::version = "3.3.2-beta";
 
 /** developer note:
  *
