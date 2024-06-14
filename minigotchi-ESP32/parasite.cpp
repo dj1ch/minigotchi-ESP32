@@ -38,7 +38,7 @@ void Parasite::sendChannelStatus(parasite_channel_status_type_t status) {
   if (Config::parasite) {
     char chnBuf[4];
     snprintf(chnBuf, sizeof(chnBuf), "%d", Parasite::channel);
-    Parasite::sendData("chn", (uint8)status, chnBuf);
+    Parasite::sendData("chn", static_cast<uint8_t>(status), chnBuf);
   }
 }
 
@@ -75,9 +75,9 @@ void Parasite::sendPwnagotchiStatus(parasite_pwnagotchi_scan_type_t status,
       // Will truncate it to 22 characters + "..." if it exceeds 25 somehow
       char buf[26];
       Parasite::formatData(buf, frd, sizeof(buf));
-      Parasite::sendData("pwn", (uint8)status, buf);
+      Parasite::sendData("pwn", static_cast<uint8_t>(status), buf);
     } else {
-      Parasite::sendData("pwn", (uint8)status, frd);
+      Parasite::sendData("pwn", static_cast<uint8_t>(status), frd);
     }
   }
 }
@@ -107,14 +107,14 @@ void Parasite::sendDeauthStatus(parasite_deauth_status_type_t status,
       }
       doc["channel"] = chnBuf;
       serializeJson(doc, buf);
-      Parasite::sendData("atk", (uint8)status, buf);
+      Parasite::sendData("atk", static_cast<uint8_t>(status), buf);
     } else {
-      Parasite::sendData("atk", (uint8)status, nullptr);
+      Parasite::sendData("atk", static_cast<uint8_t>(status), nullptr);
     }
   }
 }
 
-void Parasite::sendData(const char *command, uint8 status, const char *data) {
+void Parasite::sendData(const char *command, uint8_t status, const char *data) {
   JsonDocument doc;
   char nBuf[4];  // Up to 3 digits + null terminator
   char buf[129]; // Up to 128 characters + null terminator

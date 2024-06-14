@@ -19,6 +19,7 @@ public:
   static void switchChannel(int newChannel);
   static int getChannel();
   static void checkChannel(int channel);
+  static bool isValidChannel(int channel);
   static int channelList[13]; // 13 channels
 
 private:

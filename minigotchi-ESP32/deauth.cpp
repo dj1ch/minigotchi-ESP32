@@ -194,7 +194,7 @@ bool Deauth::select() {
     Display::updateDisplay("('-')", "Selected random AP: " + randomAP);
     delay(Config::shortDelay);
 
-    if (encType == -1 || encType == ENC_TYPE_NONE) {
+    if (encType == -1) {
       Serial.println(
           "('-') Selected AP is not encrypted. Skipping deauthentication...");
       Display::updateDisplay(
@@ -252,7 +252,7 @@ bool Deauth::select() {
     uint8_t *apBssid = WiFi.BSSID(Deauth::randomIndex);
 
     // set our mac address
-    uint8_t mac[WL_MAC_ADDR_LENGTH];
+    uint8_t mac[6];
     WiFi.macAddress(mac);
 
     /** developer note:
@@ -368,42 +368,6 @@ bool Deauth::select() {
     delay(Config::shortDelay);
   }
   return false;
-}
-
-void Deauth::deauth() {
-  if (Config::deauth) {
-    // select AP
-    Deauth::select();
-
-    if (randomAP.length() > 0) {
-      Serial.println(
-          "(>-<) Starting deauthentication attack on the selected AP...");
-      Serial.println(" ");
-      Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
-      delay(250);
-      // define the attack
-      if (!running) {
-        start();
-      } else {
-        Serial.println("('-') Attack is already running.");
-        Serial.println(" ");
-        Display::updateDisplay("('-')", " Attack is already running.");
-        delay(250);
-      }
-    } else {
-      // ok why did you modify the deauth function? i literally told you to not
-      // do that...
-      Serial.println("(X-X) No access point selected. Use select() first.");
-      Serial.println("('-') Told you so!");
-      Serial.println(" ");
-      Display::updateDisplay("(X-X)", "No access point selected. Use select() first.");
-      delay(250);
-      Display::updateDisplay("('-')", "Told you so!");
-      delay(250);
-    }
-  } else {
-    // do nothing if deauthing is disabled
-  }
 }
 
 void Deauth::deauth() {

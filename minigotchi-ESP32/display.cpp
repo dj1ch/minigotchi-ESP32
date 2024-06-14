@@ -104,6 +104,7 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2); // Set text size
       delay(100);
+    }
   }
 }
 

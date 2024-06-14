@@ -50,7 +50,7 @@ public:
   static int channel;
 
 private:
-  static void sendData(const char *cmd, uint8 status, const char *data);
+  static void sendData(const char *command, uint8_t status, const char *data);
   static void formatData(char *buf, const char *data, size_t bufSize);
 };
 
