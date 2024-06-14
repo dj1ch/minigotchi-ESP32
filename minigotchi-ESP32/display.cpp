@@ -6,8 +6,8 @@
 
 TFT_eSPI tft; // Define TFT_eSPI object
 
-Adafruit_SSD1306 *Display::adafruit_display = nullptr;
-Adafruit_SSD1305 *Display::adafruit_display = nullptr;
+Adafruit_SSD1306 *Display::ssd1306_adafruit_display = nullptr;
+Adafruit_SSD1305 *Display::ssd1305_adafruit_display = nullptr;
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display = nullptr;
 TFT_eSPI *Display::tft_display = nullptr;
 
@@ -104,14 +104,6 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2); // Set text size
       delay(100);
-  }
-}
-
-void Display::clearTft() {
-  if (tft_display != nullptr) {
-      tft.fillScreen(TFT_BLACK);
-      delay(5);
-      tft.setTextColor(TFT_WHITE);
   }
 }
 

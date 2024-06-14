@@ -5,6 +5,7 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
+#include "parasite.h"
 #include "config.h"
 #include "display.h"
 #include "minigotchi.h"

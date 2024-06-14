@@ -5,6 +5,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "parasite.h"
 #include "minigotchi.h"
 #include <Arduino.h>
 #include <iostream>

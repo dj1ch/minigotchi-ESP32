@@ -5,6 +5,7 @@
 #ifndef MINIGOTCHI_H
 #define MINIGOTCHI_H
 
+#include "parasite.h"
 #include "channel.h"
 #include "config.h"
 #include "deauth.h"

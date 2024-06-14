@@ -79,8 +79,7 @@ void Deauth::add(const std::string &bssids) {
     Serial.print("('-') Adding ");
     Serial.print(token.c_str());
     Serial.println(" to the whitelist");
-    Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("Adding " + (String) + " to the whitelist");
+    Display::updateDisplay("('-')", "Adding " + (String) + " to the whitelist");
     whitelist.push_back(token.c_str());
   }
 }
@@ -380,8 +379,7 @@ void Deauth::deauth() {
       Serial.println(
           "(>-<) Starting deauthentication attack on the selected AP...");
       Serial.println(" ");
-      Display::cleanDisplayFace("(>-<)");
-      Display::attachSmallText("Begin deauth-attack on AP...");
+      Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
       delay(250);
       // define the attack
       if (!running) {
@@ -389,8 +387,7 @@ void Deauth::deauth() {
       } else {
         Serial.println("('-') Attack is already running.");
         Serial.println(" ");
-        Display::cleanDisplayFace("('-')");
-        Display::attachSmallText(" Attack is already running.");
+        Display::updateDisplay("('-')", " Attack is already running.");
         delay(250);
       }
     } else {
@@ -399,11 +396,9 @@ void Deauth::deauth() {
       Serial.println("(X-X) No access point selected. Use select() first.");
       Serial.println("('-') Told you so!");
       Serial.println(" ");
-      Display::cleanDisplayFace("(X-X)");
-      Display::attachSmallText("No access point selected. Use select() first.");
+      Display::updateDisplay("(X-X)", "No access point selected. Use select() first.");
       delay(250);
-      Display::cleanDisplayFace("('-')");
-      Display::attachSmallText("Told you so!");
+      Display::updateDisplay("('-')", "Told you so!");
       delay(250);
     }
   } else {

@@ -5,6 +5,7 @@
 #ifndef DEAUTH_H
 #define DEAUTH_H
 
+#include "parasite.h"
 #include "config.h"
 #include "minigotchi.h"
 #include <Arduino.h>

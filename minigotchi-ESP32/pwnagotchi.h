@@ -5,6 +5,7 @@
 #ifndef PWNAGOTCHI_H
 #define PWNAGOTCHI_H
 
+#include "parasite.h"
 #include "frame.h"
 #include "minigotchi.h"
 #include <Arduino.h>

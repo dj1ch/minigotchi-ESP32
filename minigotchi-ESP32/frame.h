@@ -5,6 +5,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 
+#include "parasite.h"
 #include "config.h"
 #include "display.h"
 #include <ArduinoJson.h>
