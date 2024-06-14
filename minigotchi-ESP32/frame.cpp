@@ -173,7 +173,7 @@ const uint8_t Frame::header[]{
 
 void Frame::init() {
   // insert header
-  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + sizeof(header));
+  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + 2 + sizeof(header));
   Frame::beaconFrame.insert(Frame::beaconFrame.end(), std::begin(header),
                             std::end(header));
 }
@@ -221,9 +221,13 @@ void Frame::essid() {
 
   // serialize then put into beacon frame
   serializeJson(doc, jsonString);
-  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + jsonString.length());
+  uint8_t essidLength = jsonString.length();
+  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + 2 + essidLength);
+  Frame::beaconFrame.push_back(0x00);
+  Frame::beaconFrame.push_back(essidLength);
   Frame::beaconFrame.insert(Frame::beaconFrame.end(), jsonString.begin(),
                             jsonString.end());
+
 
   /** developer note:
    *
@@ -254,16 +258,23 @@ void Frame::pack() {
 
   // payload size
   Frame::payloadSize = Frame::beaconFrame.size();
-  Frame::frameSize = Frame::beaconFrame.size();
+
+  // store for later
+  std::vector<uint8_t> originalBeaconFrame = Frame::beaconFrame;
 
   for (size_t i = 0; i < payloadSize; i += Frame::chunkSize) {
     Frame::beaconFrame.push_back(Frame::IDWhisperPayload);
 
     size_t chunkEnd = std::min(i + Frame::chunkSize, Frame::payloadSize);
+    Frame::beaconFrame.push_back(chunkEnd - i);
+
     for (size_t j = i; j < chunkEnd; ++j) {
-      Frame::beaconFrame.push_back(Frame::beaconFrame[j]);
+      Frame::beaconFrame.push_back(originalBeaconFrame[j]);
     }
   }
+
+  // update size since we changed the frame
+  Frame::frameSize = Frame::beaconFrame.size();
 
   /** developer note:
    *
