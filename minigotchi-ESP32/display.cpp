@@ -13,13 +13,13 @@ TFT_eSPI *Display::tft_display = nullptr;
 
 Display::~Display() {
   if (ssd1306_adafruit_display) {
-    delete adafruit_display;
+    delete ssd1306_adafruit_display;
   }
   if (ssd1305_adafruit_display) {
-    delete adafruit_display;
+    delete ssd1305_adafruit_display;
   }
   if (ssd1306_ideaspark_display) {
-    delete adafruit_display;
+    delete ssd1306_ideaspark_display;
   }
   if (tft_display) { // Check if tft_display is not null (i.e., if a TFT display
     // object exists) and delete it to free up memory
