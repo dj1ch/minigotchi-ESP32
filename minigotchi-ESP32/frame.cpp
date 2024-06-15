@@ -181,7 +181,7 @@ void Frame::init() {
 void Frame::essid() {
   // make a json doc
   String jsonString;
-  DynamicJsonDocument doc(1024);
+  DynamicJsonDocument doc(2048);
 
   doc["epoch"] = Config::epoch;
   doc["face"] = Config::face;
@@ -272,6 +272,10 @@ void Frame::pack() {
       Frame::beaconFrame.push_back(originalBeaconFrame[j]);
     }
   }
+
+  // save some memory
+  originalBeaconFrame.clear();
+  originalBeaconFrame.shrink_to_fit();
 
   // update size since we changed the frame
   Frame::frameSize = Frame::beaconFrame.size();
