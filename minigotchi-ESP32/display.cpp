@@ -21,8 +21,7 @@ Display::~Display() {
   if (ssd1306_ideaspark_display) {
     delete ssd1306_ideaspark_display;
   }
-  if (tft_display) { // Check if tft_display is not null (i.e., if a TFT display
-    // object exists) and delete it to free up memory
+  if (tft_display) {
     delete tft_display;
   }
 }
@@ -62,9 +61,11 @@ void Display::startScreen() {
     } else if (Config::screen ==
                "CYD") { // Check if the screen configuration is set to "CYD" and
       // execute the corresponding code
+      tft_display = &tft;
       tft.begin(); // Initialize TFT_eSPI library
       delay(100);
     } else if (Config::screen == "T_DISPLAY_S3") {
+      tft_display = &tft;
       tft.begin();
       delay(100);
     } else {
@@ -78,24 +79,24 @@ void Display::startScreen() {
     }
 
     // initialize w/ delays to prevent crash
-    if (ssd1306_adafruit_display != nullptr) {
+    if (Config::screen == "SSD1306" && ssd1306_adafruit_display != nullptr) {
       ssd1306_adafruit_display->display();
       delay(100);
       ssd1306_adafruit_display->clearDisplay();
       delay(100);
       ssd1306_adafruit_display->setTextColor(WHITE);
       delay(100);
-    } else if (ssd1305_adafruit_display != nullptr) {
+    } else if (Config::screen == "SSD1305" && ssd1305_adafruit_display != nullptr) {
       ssd1305_adafruit_display->display();
       delay(100);
       ssd1305_adafruit_display->clearDisplay();
       delay(100);
       ssd1305_adafruit_display->setTextColor(WHITE);
       delay(100);
-    } else if (ssd1306_ideaspark_display != nullptr) {
+    } else if (Config::screen == "IDEASPARK_SSD1306" && ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
-    } else if (tft_display != nullptr) {
+    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
       tft.fillScreen(TFT_BLACK); // Fill screen with black color
@@ -122,7 +123,7 @@ void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
 void Display::updateDisplay(String face, String text) {
   if (Config::display) {
-    if (ssd1306_adafruit_display != nullptr) {
+    if ((Config::screen == "SSD1306" || Config::screen == "WEMOS_OLED_SHIELD") && ssd1306_adafruit_display != nullptr) {
       ssd1306_adafruit_display->setCursor(0, 0);
       delay(5);
       ssd1306_adafruit_display->setTextSize(2);
@@ -139,7 +140,7 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_adafruit_display->display();
       delay(5);
-    } else if (ssd1305_adafruit_display != nullptr) {
+    } else if (Config::screen == "SSD1305" && ssd1305_adafruit_display != nullptr) {
       ssd1305_adafruit_display->setCursor(32, 0);
       delay(5);
       ssd1305_adafruit_display->setTextSize(2);
@@ -156,7 +157,7 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1305_adafruit_display->display();
       delay(5);
-    } else if (ssd1306_ideaspark_display != nullptr) {
+    } else if (Config::screen == "IDEASPARK_SSD1306" && ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(5);
       ssd1306_ideaspark_display->setDrawColor(2);
@@ -173,7 +174,7 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
-    } else if (tft_display != nullptr) {
+    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
       // TFT_eSPI is used for multiple displays
       if (Config::screen == "CYD") {
       tft.setCursor(0, 5);
@@ -210,32 +211,34 @@ void Display::updateDisplay(String face, String text) {
 // fit on the screen So will print text for screens using that library via this
 // method to handle line-breaking
 void Display::printU8G2Data(int x, int y, const char *data) {
-  int numCharPerLine = ssd1306_ideaspark_display->getWidth() /
-                       ssd1306_ideaspark_display->getMaxCharWidth();
-  if (strlen(data) <= numCharPerLine &&
-      ssd1306_ideaspark_display->getStrWidth(data) <=
-          ssd1306_ideaspark_display->getWidth() -
-              ssd1306_ideaspark_display->getMaxCharWidth()) {
-    ssd1306_ideaspark_display->drawStr(x, y, data);
-  } else {
-    int lineNum = 0;
-    char buf[numCharPerLine + 1];
-    memset(buf, 0, sizeof(buf));
-    for (int i = 0; i < strlen(data); ++i) {
-      if (data[i] != '\n') {
-        buf[strlen(buf)] = data[i];
-      }
-      if (data[i] == '\n' || strlen(buf) == numCharPerLine ||
-          i == strlen(data) - 1 ||
-          ssd1306_ideaspark_display->getStrWidth(buf) >=
-              ssd1306_ideaspark_display->getWidth() -
-                  ssd1306_ideaspark_display->getMaxCharWidth()) {
-        buf[strlen(buf)] = '\0';
-        ssd1306_ideaspark_display->drawStr(
-            x,
-            y + (ssd1306_ideaspark_display->getMaxCharHeight() * lineNum++) + 1,
-            buf);
-        memset(buf, 0, sizeof(buf));
+  if (Config::screen == "IDEASPARK_SSD1306") {
+    int numCharPerLine = ssd1306_ideaspark_display->getWidth() /
+                        ssd1306_ideaspark_display->getMaxCharWidth();
+    if (strlen(data) <= numCharPerLine &&
+        ssd1306_ideaspark_display->getStrWidth(data) <=
+            ssd1306_ideaspark_display->getWidth() -
+                ssd1306_ideaspark_display->getMaxCharWidth()) {
+      ssd1306_ideaspark_display->drawStr(x, y, data);
+    } else {
+      int lineNum = 0;
+      char buf[numCharPerLine + 1];
+      memset(buf, 0, sizeof(buf));
+      for (int i = 0; i < strlen(data); ++i) {
+        if (data[i] != '\n') {
+          buf[strlen(buf)] = data[i];
+        }
+        if (data[i] == '\n' || strlen(buf) == numCharPerLine ||
+            i == strlen(data) - 1 ||
+            ssd1306_ideaspark_display->getStrWidth(buf) >=
+                ssd1306_ideaspark_display->getWidth() -
+                    ssd1306_ideaspark_display->getMaxCharWidth()) {
+          buf[strlen(buf)] = '\0';
+          ssd1306_ideaspark_display->drawStr(
+              x,
+              y + (ssd1306_ideaspark_display->getMaxCharHeight() * lineNum++) + 1,
+              buf);
+          memset(buf, 0, sizeof(buf));
+        }
       }
     }
   }
