@@ -79,9 +79,11 @@ void Channel::switchChannel(int newChannel) {
   if (err == ESP_OK) {
     checkChannel(newChannel);
   } else {
+    
     Serial.println("(X-X) Failed to switch channel.");
     Serial.println(" ");
     Display::updateDisplay("(X-X)", "Failed to switch channel.");
+    checkChannel(newChannel);
     delay(250);
   }
 }
