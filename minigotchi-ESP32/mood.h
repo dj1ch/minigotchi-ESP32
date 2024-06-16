@@ -6,6 +6,7 @@
 #define MOOD_CPP
 
 #include "config.h"
+#include "display.h"
 #include <Arduino.h>
 #include <string>
 
@@ -20,10 +21,10 @@ public:
     static String neutral;
     static String sleeping;
 
-    static void getMood();
-    static void checkMood(String face);
+    static String getMood();
+    static void setMood(String face);
 private:
-
+    static String currentMood;
 };
 
 #endif // MOOD_CPP
