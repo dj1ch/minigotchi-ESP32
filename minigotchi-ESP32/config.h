@@ -25,6 +25,14 @@ public:
   static int baud;
   static int channel;
   static std::vector<std::string> whitelist;
+  static String happy;
+  static String sad;
+  static String broken;
+  static String intense;
+  static String looking1;
+  static String looking2;
+  static String neutral;
+  static String sleeping;
   static int epoch;
   static std::string face;
   static std::string identity;

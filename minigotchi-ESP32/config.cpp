@@ -14,7 +14,7 @@
 
 // define whether or not deauthing or advertising is turned on
 bool Config::deauth = true;
-bool Config::advertise = true;
+bool Config::advertise = false;
 
 // define universal delays
 int Config::shortDelay = 500;
@@ -25,8 +25,8 @@ int Config::longDelay = 5000;
 bool Config::parasite = false;
 
 // screen configuration
-bool Config::display = false;
-std::string Config::screen = "";
+bool Config::display = true;
+std::string Config::screen = "T_DISPLAY_S3";
 
 // define baud rate
 int Config::baud = 115200;
@@ -36,6 +36,16 @@ int Config::channel = 1;
 
 // define whitelist
 std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
+
+// define faces
+String Config::happy = "(^-^)";
+String Config::sad = "(;-;)";
+String Config::broken = "(X-X)";
+String Config::intense = "(>-<)";
+String Config::looking1 = "(0-o)";
+String Config::looking2 = "(o-0)";
+String Config::neutral = "('-')";
+String Config::sleeping = "(-.-)";
 
 // json config
 int Config::epoch = Minigotchi::currentEpoch;
