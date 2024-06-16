@@ -177,6 +177,7 @@ void Display::updateDisplay(String face, String text) {
     } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
       // TFT_eSPI is used for multiple displays
       if (Config::screen == "CYD") {
+      tft.fillScreen(TFT_BLACK); // Fill screen with black color
       tft.setCursor(0, 5);
       delay(5);
       tft.setTextSize(4);
@@ -190,6 +191,7 @@ void Display::updateDisplay(String face, String text) {
       tft.println(text);
       delay(5);
       } else if (Config::screen == "T_DISPLAY_S3") {
+        tft.fillScreen(TFT_BLACK); // Fill screen with black color
         tft.setCursor(0, 5);
         delay(5);
         tft.setTextSize(6);
