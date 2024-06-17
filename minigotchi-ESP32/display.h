@@ -72,8 +72,6 @@ public:
   static void updateDisplay(String face);
   static void updateDisplay(String face, String text);
   static void printU8G2Data(int x, int y, const char *data);
-  static String checkPrintFace(String previousFace, String currentFace);
-  static String checkPrintText(String previousText, String currentText);
   static String storedFace;
   static String previousFace;
   static String storedText;

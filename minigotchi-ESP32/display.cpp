@@ -143,29 +143,6 @@ void Display::startScreen() {
  *
  */
 
-// check if the needs to be printed
-String Display::checkPrintFace(String previousFace, String currentFace) {
-  if (previousFace == currentFace) {
-    Display::previousFace = previousFace;
-    return Display::previousFace;
-  } else {
-    Display::previousFace = currentFace;
-    tft.fillScreen(TFT_BLACK);
-    return Display::previousFace;
-  }
-}
-
-String Display::checkPrintText(String previousText, String currentText) {
-  if (previousText == currentText) {
-    Display::previousText = previousText;
-    return Display::previousText;
-  } else {
-    Display::previousText = currentText;
-    tft.fillScreen(TFT_BLACK);
-    return Display::previousText;
-  }
-}
-
 void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
 void Display::updateDisplay(String face, String text) {
