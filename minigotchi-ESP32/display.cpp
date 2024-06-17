@@ -29,6 +29,12 @@ Adafruit_SSD1305 *Display::ssd1305_adafruit_display = nullptr;
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display = nullptr;
 TFT_eSPI *Display::tft_display = nullptr;
 
+String Display::storedFace = "";
+String Display::previousFace = "";
+
+String Display::storedText = "";
+String Display::previousText = "";
+
 Display::~Display() {
   if (ssd1306_adafruit_display) {
     delete ssd1306_adafruit_display;
@@ -137,6 +143,29 @@ void Display::startScreen() {
  *
  */
 
+// check if the needs to be printed
+String Display::checkPrintFace(String previousFace, String currentFace) {
+  if (previousFace == currentFace) {
+    Display::previousFace = previousFace;
+    return Display::previousFace;
+  } else {
+    Display::previousFace = currentFace;
+    tft.fillScreen(TFT_BLACK);
+    return Display::previousFace;
+  }
+}
+
+String Display::checkPrintText(String previousText, String currentText) {
+  if (previousText == currentText) {
+    Display::previousText = previousText;
+    return Display::previousText;
+  } else {
+    Display::previousText = currentText;
+    tft.fillScreen(TFT_BLACK);
+    return Display::previousText;
+  }
+}
+
 void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
 void Display::updateDisplay(String face, String text) {
@@ -193,35 +222,27 @@ void Display::updateDisplay(String face, String text) {
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
     } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
-      // TFT_eSPI is used for multiple displays
-      if (Config::screen == "CYD") {
-      tft.fillScreen(TFT_BLACK); // Fill screen with black color
-      tft.setCursor(0, 5);
-      delay(5);
-      tft.setTextSize(4);
-      delay(5);
-      tft.println(face);
-      delay(5);
-      tft.setCursor(0, 40);
-      delay(5);
-      tft.setTextSize(1);
-      delay(5);
-      tft.println(text);
-      delay(5);
-      } else if (Config::screen == "T_DISPLAY_S3") {
-        tft.fillScreen(TFT_BLACK); // Fill screen with black color
+      bool faceChanged = (face != Display::storedFace);
+      bool textChanged = (text != Display::storedText);
+
+      if (faceChanged) {
+        int faceHeight = (Config::screen == "CYD") ? 40 : 50;
+        tft.fillRect(0, 5, tft.width(), faceHeight, TFT_BLACK); // Clear face area
         tft.setCursor(0, 5);
-        delay(5);
-        tft.setTextSize(6);
-        delay(5);
+        tft.setTextSize((Config::screen == "CYD") ? 4 : 6);
+        tft.setTextColor(TFT_WHITE);
         tft.println(face);
-        delay(5);
-        tft.setCursor(0, 50);
-        delay(5);
-        tft.setTextSize(2);
-        delay(5);
+        Display::storedFace = face;
+      }
+
+      if (textChanged) {
+        int textY = (Config::screen == "CYD") ? 40 : 50;
+        tft.fillRect(0, textY, tft.width(), tft.height() - textY, TFT_BLACK); // Clear text area
+        tft.setCursor(0, textY);
+        tft.setTextSize((Config::screen == "CYD") ? 1 : 2);
+        tft.setTextColor(TFT_WHITE);
         tft.println(text);
-        delay(5);
+        Display::storedText = text;
       }
     }
   }
