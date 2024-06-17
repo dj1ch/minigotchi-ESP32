@@ -48,7 +48,7 @@ String Mood::getMood(String face) {
   } else if (face == Mood::looking1) {
     currentMood = "looking1";
   } else if (face == Mood::looking2) {
-    currentMood = "looking2"
+    currentMood = "looking2";
   } else if (face == Mood::neutral) {
     currentMood = "neutral";
   } else if (face == Mood::sleeping) {
