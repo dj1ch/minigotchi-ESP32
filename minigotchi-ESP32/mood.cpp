@@ -68,7 +68,7 @@ String Mood::getFace(String mood) {
   if (mood == "happy") {
     currentFace = Mood::happy;
   } else if (mood == "sad") {
-    currentFace = Mood:sad;
+    currentFace = Mood::sad;
   } else if (mood == "broken") {
     currentFace = Mood::broken;
   } else if (mood == "looking1") {
