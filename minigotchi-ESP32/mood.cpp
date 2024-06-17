@@ -91,5 +91,7 @@ bool Mood::checkMood(String previous, String current) {
     return true;
   } else if (previous != current)  {
     return false;
+  } else {
+    return false;
   }
 }
