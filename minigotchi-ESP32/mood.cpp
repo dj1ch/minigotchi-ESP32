@@ -86,3 +86,10 @@ String Mood::getFace(String mood) {
   return currentFace;
 }
 
+bool Mood::checkMood(String previous, String current) {
+  if (previous == current) {
+    return true;
+  } else if (previous != current)  {
+    return false;
+  }
+}

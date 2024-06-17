@@ -43,6 +43,7 @@ public:
     static String getCurrentMood();
     static String getMood(String face);
     static String getFace(String mood);
+    static bool checkMood(String previous, String current);
 private:
     static String currentMood;
     static String currentFace;
