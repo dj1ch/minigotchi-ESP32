@@ -23,7 +23,9 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "mood.h"
 #include "config.h"
+#include <string>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
@@ -70,6 +72,12 @@ public:
   static void updateDisplay(String face);
   static void updateDisplay(String face, String text);
   static void printU8G2Data(int x, int y, const char *data);
+  static String checkPrintFace(String previousFace, String currentFace);
+  static String checkPrintText(String previousText, String currentText);
+  static String storedFace;
+  static String previousFace;
+  static String storedText;
+  static String previousText;
   ~Display();
 
 private:

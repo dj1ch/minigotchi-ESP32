@@ -39,6 +39,7 @@ public:
     static String neutral;
     static String sleeping;
 
+    static String getFull(String face);
     static String getCurrentFace();
     static String getCurrentMood();
     static String getMood(String face);

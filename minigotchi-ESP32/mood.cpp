@@ -32,6 +32,19 @@ String Mood::looking2 = Config::looking2;
 String Mood::neutral = Config::neutral;
 String Mood::sleeping = Config::sleeping;
 
+/** developer note:
+ * 
+ * these checking procedures will only really be used for faces,
+ * since they change often and the minigotchi is intended to be fast...
+ * 
+ */
+
+// not only are we returning the current mood, 
+// but we are also writing the current mood to the private variable
+String Mood::getFull(String face) {
+  Mood::getFace(Mood::getMood(face));
+}
+
 String Mood::getCurrentMood() {
   return currentMood;
 }
