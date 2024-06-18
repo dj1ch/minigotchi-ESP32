@@ -47,7 +47,7 @@ public:
   static const uint8_t BroadcastAddr[];
   static const uint16_t wpaFlags;
 
-  static std::vector<uint8_t> beaconFrame;
+  static uint8_t beaconFrame[2048];
   static const int pwngridHeaderLength;
   static size_t essidLength;
   static uint8_t headerLength;

@@ -40,7 +40,7 @@ size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
 
 // beacon stuff
-std::vector<uint8_t> Frame::beaconFrame;
+uint8_t Frame::beaconFrame[2048];
 size_t Frame::essidLength = 0;
 uint8_t Frame::headerLength = 0;
 
@@ -160,9 +160,9 @@ void Frame::pack() {
   // serialize then put into beacon frame
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
-  Frame::headerLength = ((uint8_t)(essidLength / 255) * 2);
-  Frame::beaconFrame.resize(Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength + Frame::chunkSize);
-  memcpy(Frame::beaconFrame.data(), Frame::header, sizeof(Frame::header));
+  Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
+  Frame::beaconFrame[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
+  memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
 
   /** developer note:
    *
@@ -213,8 +213,8 @@ bool Frame::send() {
   // we dont use raw80211 since it sends a header(which we don't need), although
   // we do use it for monitoring, etc.
   delay(102);
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(), 
-                                    Frame::beaconFrame.size(), false);
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame, 
+                                    sizeof(Frame::beaconFrame), false);
 
   return (err == ESP_OK);
 }

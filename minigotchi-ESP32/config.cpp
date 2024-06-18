@@ -32,7 +32,7 @@
 
 // define whether or not deauthing or advertising is turned on
 bool Config::deauth = true;
-bool Config::advertise = false;
+bool Config::advertise = true;
 
 // define universal delays
 int Config::shortDelay = 500;
