@@ -51,27 +51,27 @@ std::string Pwnagotchi::extractMAC(const unsigned char *buff) {
 }
 
 void Pwnagotchi::detect() {
+  // set mode and callback
+  Minigotchi::monStart();
+  esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
+
   // cool animation
   for (int i = 0; i < 5; ++i) {
     Serial.println("(0-o) Scanning for Pwnagotchi.");
     Display::updateDisplay("(0-o)", "Scanning  for Pwnagotchi.");
-    delay(250);
+    delay(Config::shortDelay);
     Serial.println("(o-0) Scanning for Pwnagotchi..");
     Display::updateDisplay("(o-0)", "Scanning  for Pwnagotchi..");
-    delay(250);
+    delay(Config::shortDelay);
     Serial.println("(0-o) Scanning for Pwnagotchi...");
     Display::updateDisplay("(0-o)", "Scanning  for Pwnagotchi...");
-    delay(250);
+    delay(Config::shortDelay);
     Serial.println(" ");
-    delay(250);
+    delay(Config::shortDelay);
   }
 
   // delay for scanning
-  delay(250);
-
-  // set mode and callback
-  Minigotchi::monStart();
-  esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
+  delay(Config::longDelay);
 
   // check if the pwnagotchiCallback wasn't triggered during scanning
   if (!pwnagotchiDetected) {
