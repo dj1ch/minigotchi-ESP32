@@ -40,6 +40,7 @@ size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
 
 // beacon stuff
+uint8_t* Frame::Frame::beaconFrame = nullptr;
 size_t Frame::essidLength = 0;
 uint8_t Frame::headerLength = 0;
 
@@ -115,7 +116,7 @@ const int Frame::pwngridHeaderLength = sizeof(Frame::header);
  * 
  */
 
-void Frame::pack() {
+uint8_t* Frame::pack() {
   // make a json doc
   String jsonString = "";
   DynamicJsonDocument doc(2048);
@@ -160,8 +161,8 @@ void Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  uint8_t beaconFrame[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
-  memcpy(beaconFrame, Frame::header, Frame::essidLength);
+  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
+  memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
 
   /** developer note:
    *
@@ -175,11 +176,11 @@ void Frame::pack() {
 
   for (int i = 0; i < Frame::essidLength; i++) {
     if (i == 0 || i % 255 == 0) {
-      beaconFrame[currentByte++] = Frame::IDWhisperPayload;
+      Frame::beaconFrame[currentByte++] = Frame::IDWhisperPayload;
       if (Frame::essidLength - i < Frame::chunkSize) {
         Frame::payloadSize = Frame::essidLength - i;
       }
-      beaconFrame[currentByte++] = Frame::payloadSize;
+      Frame::beaconFrame[currentByte++] = Frame::payloadSize;
     }
 
     uint8_t nextByte = (uint8_t)'?';
@@ -187,17 +188,17 @@ void Frame::pack() {
       nextByte = (uint8_t)jsonString[i];
     }
 
-    beaconFrame[currentByte++] = nextByte;
+    Frame::beaconFrame[currentByte++] = nextByte;
   }
 
-  return beaconFrame;
+  return Frame::beaconFrame;
   /** developer note:
    *
    * we can print the beacon frame like so...
    *
    * Serial.println("('-') Full Beacon Frame:");
-   * for (size_t i = 0; i < beaconFrame.size(); ++i) {
-   *     Serial.print(beaconFrame[i], HEX);
+   * for (size_t i = 0; i < Frame::beaconFrame.size(); ++i) {
+   *     Serial.print(Frame::beaconFrame[i], HEX);
    *     Serial.print(" ");
    * }
    * Serial.println(" ");
@@ -207,7 +208,7 @@ void Frame::pack() {
 
 bool Frame::send() {
   // build frame
-  uint8_t frame = Frame::pack();
+  uint8_t* frame = Frame::pack();
 
   // send full frame
   // we dont use raw80211 since it sends a header(which we don't need), although
@@ -216,6 +217,7 @@ bool Frame::send() {
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, 
                                     sizeof(frame), false);
 
+  delete[] frame;
   return (err == ESP_OK);
 }
 
@@ -239,9 +241,12 @@ void Frame::advertise() {
         if (!isinf(pps)) {
           Serial.print("(>-<) Packets per second: ");
           Serial.print(pps);
-          Serial.println(" pkt/s");
-          Display::updateDisplay("(>-<)", "Packets per second: " + (String)pps +
-                                   " pkt/s");
+          Serial.print(" pkt/s (Channel: ");
+          Serial.print(Channel::getChannel());
+          Serial.println(")");
+          Display::updateDisplay(
+              "(>-<)", "Packets per second: " + (String)pps + " pkt/s" +
+                           " (Channel: " + (String)Channel::getChannel() + ")");
         }
       } else {
         Serial.println("(X-X) Advertisment failed to send!");

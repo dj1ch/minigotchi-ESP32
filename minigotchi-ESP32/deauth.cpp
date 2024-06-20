@@ -109,8 +109,8 @@ void Deauth::list() {
 }
 
 bool Deauth::send(uint8_t *buf, uint16_t len, bool sys_seq) {
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
   delay(102);
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
   return (err == ESP_OK);
 }
 
@@ -135,19 +135,6 @@ void Deauth::printMac(uint8_t *mac) {
   }
 
   Serial.println();
-}
-
-String Deauth::printHidden(int network) {
-  String hidden;
-  bool check = WiFi.channel(network);
-
-  if (check == 0) {
-    hidden = "False";
-  } else {
-    hidden = "True";
-  }
-
-  return hidden;
 }
 
 String Deauth::printMacStr(uint8_t *mac) {
@@ -356,10 +343,6 @@ bool Deauth::select() {
     Display::updateDisplay(
         "('-')", "AP Channel: " + (String)WiFi.channel(Deauth::randomIndex));
 
-    Serial.print("('-') AP Hidden?: ");
-    Serial.println(Deauth::printHidden(Deauth::randomIndex));
-    Display::updateDisplay(
-        "('-')", "AP Hidden?: " + Deauth::printHidden(Deauth::randomIndex));
     Serial.println(" ");
     delay(Config::longDelay);
 
@@ -462,7 +445,7 @@ void Deauth::start() {
         Serial.print(" pkt/s");
         Serial.println(" (AP:" + randomAP + ")");
         Display::updateDisplay("(>-<)", "Packets per second: " + (String)pps +
-                                            " pkt/s" + "(AP:" + randomAP + ")");
+                                            " pkt/s" + " (AP:" + randomAP + ")");
       }
     } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) &&
                !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {
