@@ -23,6 +23,7 @@
 #ifndef PWNAGOTCHI_H
 #define PWNAGOTCHI_H
 
+#include "config.h"
 #include "parasite.h"
 #include "frame.h"
 #include "minigotchi.h"

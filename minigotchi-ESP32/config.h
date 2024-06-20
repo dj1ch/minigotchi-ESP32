@@ -26,6 +26,7 @@
 #include "parasite.h"
 #include "minigotchi.h"
 #include <Arduino.h>
+#include <esp_wifi.h>
 #include <iostream>
 #include <random>
 #include <string>
@@ -75,6 +76,7 @@ public:
   static std::string session_id;
   static int uptime;
   static std::string version;
+  static wifi_init_config_t config;
 
 private:
   static int random(int min, int max);

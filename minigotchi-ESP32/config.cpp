@@ -95,6 +95,9 @@ int Config::pwnd_tot = 0;
 std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
+// wifi settings
+wifi_init_config_t Config::config = WIFI_INIT_CONFIG_DEFAULT();
+
 // define version(please do not change, this should not be changed)
 std::string Config::version = "3.3.2-beta";
 
