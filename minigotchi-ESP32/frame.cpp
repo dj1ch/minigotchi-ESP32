@@ -40,7 +40,6 @@ size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
 
 // beacon stuff
-uint8_t Frame::beaconFrame[2048];
 size_t Frame::essidLength = 0;
 uint8_t Frame::headerLength = 0;
 
@@ -161,8 +160,8 @@ void Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  Frame::beaconFrame[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
-  memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
+  uint8_t beaconFrame[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
+  memcpy(beaconFrame, Frame::header, Frame::essidLength);
 
   /** developer note:
    *
@@ -176,11 +175,11 @@ void Frame::pack() {
 
   for (int i = 0; i < Frame::essidLength; i++) {
     if (i == 0 || i % 255 == 0) {
-      Frame::beaconFrame[currentByte++] = Frame::IDWhisperPayload;
+      beaconFrame[currentByte++] = Frame::IDWhisperPayload;
       if (Frame::essidLength - i < Frame::chunkSize) {
         Frame::payloadSize = Frame::essidLength - i;
       }
-      Frame::beaconFrame[currentByte++] = Frame::payloadSize;
+      beaconFrame[currentByte++] = Frame::payloadSize;
     }
 
     uint8_t nextByte = (uint8_t)'?';
@@ -188,9 +187,10 @@ void Frame::pack() {
       nextByte = (uint8_t)jsonString[i];
     }
 
-    Frame::beaconFrame[currentByte++] = nextByte;
+    beaconFrame[currentByte++] = nextByte;
   }
 
+  return beaconFrame;
   /** developer note:
    *
    * we can print the beacon frame like so...
@@ -207,14 +207,14 @@ void Frame::pack() {
 
 bool Frame::send() {
   // build frame
-  Frame::pack();
+  uint8_t frame = Frame::pack();
 
   // send full frame
   // we dont use raw80211 since it sends a header(which we don't need), although
   // we do use it for monitoring, etc.
   delay(102);
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame, 
-                                    sizeof(Frame::beaconFrame), false);
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, 
+                                    sizeof(frame), false);
 
   return (err == ESP_OK);
 }
