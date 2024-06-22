@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * display.cpp: handles display support
@@ -26,7 +26,8 @@ TFT_eSPI tft; // Define TFT_eSPI object
 
 Adafruit_SSD1306 *Display::ssd1306_adafruit_display = nullptr;
 Adafruit_SSD1305 *Display::ssd1305_adafruit_display = nullptr;
-U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display = nullptr;
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display =
+    nullptr;
 TFT_eSPI *Display::tft_display = nullptr;
 
 String Display::storedFace = "";
@@ -81,7 +82,7 @@ void Display::startScreen() {
           U8G2_R0, IDEASPARK_SSD1306_SCL, IDEASPARK_SSD1306_SDA, U8X8_PIN_NONE);
       delay(100);
       ssd1306_ideaspark_display->begin();
-      delay(100);          
+      delay(100);
     } else if (Config::screen ==
                "CYD") { // Check if the screen configuration is set to "CYD" and
       // execute the corresponding code
@@ -110,17 +111,20 @@ void Display::startScreen() {
       delay(100);
       ssd1306_adafruit_display->setTextColor(WHITE);
       delay(100);
-    } else if (Config::screen == "SSD1305" && ssd1305_adafruit_display != nullptr) {
+    } else if (Config::screen == "SSD1305" &&
+               ssd1305_adafruit_display != nullptr) {
       ssd1305_adafruit_display->display();
       delay(100);
       ssd1305_adafruit_display->clearDisplay();
       delay(100);
       ssd1305_adafruit_display->setTextColor(WHITE);
       delay(100);
-    } else if (Config::screen == "IDEASPARK_SSD1306" && ssd1306_ideaspark_display != nullptr) {
+    } else if (Config::screen == "IDEASPARK_SSD1306" &&
+               ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
+    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
+               tft_display != nullptr) {
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
       tft.fillScreen(TFT_BLACK); // Fill screen with black color
@@ -147,7 +151,9 @@ void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
 void Display::updateDisplay(String face, String text) {
   if (Config::display) {
-    if ((Config::screen == "SSD1306" || Config::screen == "WEMOS_OLED_SHIELD") && ssd1306_adafruit_display != nullptr) {
+    if ((Config::screen == "SSD1306" ||
+         Config::screen == "WEMOS_OLED_SHIELD") &&
+        ssd1306_adafruit_display != nullptr) {
       ssd1306_adafruit_display->setCursor(0, 0);
       delay(5);
       ssd1306_adafruit_display->setTextSize(2);
@@ -164,7 +170,8 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_adafruit_display->display();
       delay(5);
-    } else if (Config::screen == "SSD1305" && ssd1305_adafruit_display != nullptr) {
+    } else if (Config::screen == "SSD1305" &&
+               ssd1305_adafruit_display != nullptr) {
       ssd1305_adafruit_display->setCursor(32, 0);
       delay(5);
       ssd1305_adafruit_display->setTextSize(2);
@@ -181,7 +188,8 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1305_adafruit_display->display();
       delay(5);
-    } else if (Config::screen == "IDEASPARK_SSD1306" && ssd1306_ideaspark_display != nullptr) {
+    } else if (Config::screen == "IDEASPARK_SSD1306" &&
+               ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(5);
       ssd1306_ideaspark_display->setDrawColor(2);
@@ -198,13 +206,15 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") && tft_display != nullptr) {
+    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
+               tft_display != nullptr) {
       bool faceChanged = (face != Display::storedFace);
       bool textChanged = (text != Display::storedText);
 
       if (faceChanged) {
         int faceHeight = (Config::screen == "CYD") ? 40 : 50;
-        tft.fillRect(0, 5, tft.width(), faceHeight, TFT_BLACK); // Clear face area
+        tft.fillRect(0, 5, tft.width(), faceHeight,
+                     TFT_BLACK); // Clear face area
         tft.setCursor(0, 5);
         tft.setTextSize((Config::screen == "CYD") ? 4 : 6);
         tft.setTextColor(TFT_WHITE);
@@ -214,7 +224,8 @@ void Display::updateDisplay(String face, String text) {
 
       if (textChanged) {
         int textY = (Config::screen == "CYD") ? 40 : 50;
-        tft.fillRect(0, textY, tft.width(), tft.height() - textY, TFT_BLACK); // Clear text area
+        tft.fillRect(0, textY, tft.width(), tft.height() - textY,
+                     TFT_BLACK); // Clear text area
         tft.setCursor(0, textY);
         tft.setTextSize((Config::screen == "CYD") ? 1 : 2);
         tft.setTextColor(TFT_WHITE);
@@ -231,7 +242,7 @@ void Display::updateDisplay(String face, String text) {
 void Display::printU8G2Data(int x, int y, const char *data) {
   if (Config::screen == "IDEASPARK_SSD1306") {
     int numCharPerLine = ssd1306_ideaspark_display->getWidth() /
-                        ssd1306_ideaspark_display->getMaxCharWidth();
+                         ssd1306_ideaspark_display->getMaxCharWidth();
     if (strlen(data) <= numCharPerLine &&
         ssd1306_ideaspark_display->getStrWidth(data) <=
             ssd1306_ideaspark_display->getWidth() -
@@ -253,7 +264,8 @@ void Display::printU8G2Data(int x, int y, const char *data) {
           buf[strlen(buf)] = '\0';
           ssd1306_ideaspark_display->drawStr(
               x,
-              y + (ssd1306_ideaspark_display->getMaxCharHeight() * lineNum++) + 1,
+              y + (ssd1306_ideaspark_display->getMaxCharHeight() * lineNum++) +
+                  1,
               buf);
           memset(buf, 0, sizeof(buf));
         }

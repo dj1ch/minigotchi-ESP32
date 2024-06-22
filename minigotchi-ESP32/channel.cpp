@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * channel.cpp: handles channel switching
@@ -46,7 +46,8 @@ void Channel::init(int initChannel) {
   Serial.print("(-.-) Initializing on channel ");
   Serial.println(initChannel);
   Serial.println(" ");
-  Display::updateDisplay("(-.-)", "Initializing on channel " + (String)initChannel);
+  Display::updateDisplay("(-.-)",
+                         "Initializing on channel " + (String)initChannel);
   delay(250);
 
   // switch channel
@@ -58,11 +59,12 @@ void Channel::init(int initChannel) {
     Serial.print("('-') Successfully initialized on channel ");
     Serial.println(getChannel());
     Display::updateDisplay("('-')", "Successfully initialized on channel " +
-                             (String)getChannel());
+                                        (String)getChannel());
     delay(250);
   } else {
     Serial.println("(X-X) Channel initialization failed, try again?");
-    Display::updateDisplay("(X-X)", "Channel initialization failed, try again?");
+    Display::updateDisplay("(X-X)",
+                           "Channel initialization failed, try again?");
     delay(250);
   }
 }
@@ -97,7 +99,7 @@ void Channel::switchChannel(int newChannel) {
   if (err == ESP_OK) {
     checkChannel(newChannel);
   } else {
-    
+
     Serial.println("(X-X) Failed to switch channel.");
     Serial.println(" ");
     Display::updateDisplay("(X-X)", "Failed to switch channel.");
@@ -112,7 +114,8 @@ void Channel::checkChannel(int channel) {
   if (channel == currentChannel) {
     Serial.print("('-') Currently on channel ");
     Serial.println(currentChannel);
-    Display::updateDisplay("('-')", "Currently on channel " + (String)getChannel());
+    Display::updateDisplay("('-')",
+                           "Currently on channel " + (String)getChannel());
     Serial.println(" ");
     delay(250);
   } else {
@@ -124,7 +127,7 @@ void Channel::checkChannel(int channel) {
     Serial.println(" instead");
     Serial.println(" ");
     Display::updateDisplay("(X-X)", "Channel switch to " + (String)channel +
-                             " has failed");
+                                        " has failed");
     delay(250);
   }
 }

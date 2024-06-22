@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * mood.cpp: handles and sets mood on the minigotchi
@@ -33,26 +33,22 @@ String Mood::neutral = Config::neutral;
 String Mood::sleeping = Config::sleeping;
 
 /** developer note:
- * 
+ *
  * these checking procedures will only really be used for faces,
  * since they change often and the minigotchi is intended to be fast...
- * 
+ *
  */
 
-// not only are we returning the current mood, 
+// not only are we returning the current mood,
 // but we are also writing the current mood to the private variable
-String Mood::getFull(String face) {
-  Mood::getFace(Mood::getMood(face));
-}
+String Mood::getFull(String face) { Mood::getFace(Mood::getMood(face)); }
 
-String Mood::getCurrentMood() {
-  return currentMood;
-}
+String Mood::getCurrentMood() { return currentMood; }
 
 String Mood::getMood(String face) {
   if (face == Mood::happy) {
     currentMood = "happy";
-  } else if (face == Mood::sad)  {
+  } else if (face == Mood::sad) {
     currentMood = "sad";
   } else if (face == Mood::broken) {
     currentMood = "broken";
@@ -73,9 +69,7 @@ String Mood::getMood(String face) {
   return currentMood;
 }
 
-String Mood::getCurrentFace() {
-  return currentFace;
-}
+String Mood::getCurrentFace() { return currentFace; }
 
 String Mood::getFace(String mood) {
   if (mood == "happy") {
@@ -102,7 +96,7 @@ String Mood::getFace(String mood) {
 bool Mood::checkMood(String previous, String current) {
   if (previous == current) {
     return true;
-  } else if (previous != current)  {
+  } else if (previous != current) {
     return false;
   } else {
     return false;

@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * minigotchi.cpp: handles system usage info, etc
@@ -100,7 +100,8 @@ void Minigotchi::finish() {
 void Minigotchi::version() {
   Serial.print("('-') Version: ");
   Serial.println(Config::version.c_str());
-  Display::updateDisplay("('-')", "Version: " + (String)Config::version.c_str());
+  Display::updateDisplay("('-')",
+                         "Version: " + (String)Config::version.c_str());
   delay(250);
 }
 
@@ -108,7 +109,8 @@ void Minigotchi::mem() {
   Serial.print("('-') Heap: ");
   Serial.print(ESP.getFreeHeap());
   Serial.println(" bytes");
-  Display::updateDisplay("('-')", "Heap: " + (String)ESP.getFreeHeap() + " bytes");
+  Display::updateDisplay("('-')",
+                         "Heap: " + (String)ESP.getFreeHeap() + " bytes");
   delay(250);
 }
 
@@ -116,8 +118,8 @@ void Minigotchi::cpu() {
   Serial.print("('-') CPU Frequency: ");
   Serial.print(ESP.getCpuFreqMHz());
   Serial.println(" MHz");
-  Display::updateDisplay("('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
-                           " MHz");
+  Display::updateDisplay(
+      "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
   delay(250);
 }
 

@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * frame.cpp: handles the sending of "pwnagotchi" beacon frames
@@ -40,7 +40,7 @@ size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
 
 // beacon stuff
-uint8_t* Frame::Frame::beaconFrame = nullptr;
+uint8_t *Frame::Frame::beaconFrame = nullptr;
 size_t Frame::essidLength = 0;
 uint8_t Frame::headerLength = 0;
 
@@ -109,14 +109,14 @@ const int Frame::pwngridHeaderLength = sizeof(Frame::header);
  */
 
 /** developer note:
- * 
+ *
  * referenced the following for packing-related function:
- * 
+ *
  * https://github.com/evilsocket/pwngrid/blob/master/wifi/pack.go
- * 
+ *
  */
 
-uint8_t* Frame::pack() {
+uint8_t *Frame::pack() {
   // make a json doc
   String jsonString = "";
   DynamicJsonDocument doc(2048);
@@ -161,7 +161,8 @@ uint8_t* Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength];
+  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
+                                   Frame::essidLength + Frame::headerLength];
   memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
 
   /** developer note:
@@ -208,14 +209,13 @@ uint8_t* Frame::pack() {
 
 bool Frame::send() {
   // build frame
-  uint8_t* frame = Frame::pack();
+  uint8_t *frame = Frame::pack();
 
   // send full frame
   // we dont use raw80211 since it sends a header(which we don't need), although
   // we do use it for monitoring, etc.
   delay(102);
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, 
-                                    sizeof(frame), false);
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, sizeof(frame), false);
 
   delete[] frame;
   return (err == ESP_OK);
