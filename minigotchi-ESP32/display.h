@@ -1,20 +1,20 @@
 /*
-* Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2024 dj1ch
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * display.h: header files for display.cpp
@@ -23,16 +23,16 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "mood.h"
 #include "config.h"
-#include <string>
+#include "mood.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
 #include <SPI.h>
-#include <U8g2lib.h>
 #include <TFT_eSPI.h> // Defines the TFT_eSPI library for CYD
+#include <U8g2lib.h>
 #include <Wire.h>
+#include <string>
 
 #define SSD1306_SCREEN_WIDTH 128
 #define SSD1306_SCREEN_HEIGHT 64
@@ -68,21 +68,21 @@
 
 class Display {
 public:
-    static void startScreen();
-    static void updateDisplay(String face);
-    static void updateDisplay(String face, String text);
-    static void printU8G2Data(int x, int y, const char *data);
-    static String storedFace;
-    static String previousFace;
-    static String storedText;
-    static String previousText;
-    ~Display();
+  static void startScreen();
+  static void updateDisplay(String face);
+  static void updateDisplay(String face, String text);
+  static void printU8G2Data(int x, int y, const char *data);
+  static String storedFace;
+  static String previousFace;
+  static String storedText;
+  static String previousText;
+  ~Display();
 
 private:
-    static Adafruit_SSD1306 *ssd1306_adafruit_display;
-    static Adafruit_SSD1305 *ssd1305_adafruit_display;
-    static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
-    static TFT_eSPI *tft_display;
+  static Adafruit_SSD1306 *ssd1306_adafruit_display;
+  static Adafruit_SSD1305 *ssd1305_adafruit_display;
+  static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
+  static TFT_eSPI *tft_display;
 };
 
 #endif // DISPLAY_H
