@@ -1,3 +1,21 @@
+/*
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * frame.cpp: handles the sending of "pwnagotchi" beacon frames
  */
@@ -18,11 +36,13 @@
  */
 
 // initializing
-size_t Frame::frameSize = 0;
-std::vector<uint8_t> Frame::beaconFrame;
-size_t Frame::payloadSize = 0;
+size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
-bool Frame::sent = false;
+
+// beacon stuff
+uint8_t *Frame::Frame::beaconFrame = nullptr;
+size_t Frame::essidLength = 0;
+uint8_t Frame::headerLength = 0;
 
 // payload ID's according to pwngrid
 const uint8_t Frame::IDWhisperPayload = 0xDE;
@@ -75,113 +95,31 @@ const uint8_t Frame::header[]{
     0x04, // capability info
 };
 
+// get header length
+const int Frame::pwngridHeaderLength = sizeof(Frame::header);
+
 /** developer note:
  *
- * according to pack.go:
- * we build the frame like so
+ * frame structure based on how it was built here
  *
- * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte,
- *streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool)
- *(error, []byte) { stack := []gopacket.SerializableLayer{ &layers.RadioTap{},
- *		&layers.Dot11{
- *			Address1: to,
- *			Address2: SignatureAddr,
- *			Address3: from,
- *			Type:     layers.Dot11TypeMgmtBeacon,
- *		},
- * 		&layers.Dot11MgmtBeacon{
- *			Flags:    uint16(wpaFlags),
- *			Interval: 100,
- *		},
- *	}
- *
- *	if peerID != nil {
- *		stack = append(stack, Info(IDWhisperIdentity, peerID))
- *	}
- *
- *	if signature != nil {
- *		stack = append(stack, Info(IDWhisperSignature, signature))
- *	}
- *
- *	if streamID > 0 {
- *		streamBuf := new(bytes.Buffer)
- *		if err := binary.Write(streamBuf, binary.LittleEndian,
- *streamID); err != nil { return err, nil } else if err =
- *binary.Write(streamBuf, binary.LittleEndian, seqNum); err != nil { return err,
- *nil } else if err = binary.Write(streamBuf, binary.LittleEndian, seqTot); err
- *!= nil { return err, nil
- *		}
- *		stack = append(stack, Info(IDWhisperStreamHeader,
- *streamBuf.Bytes()))
- *	}
- *
- *	if compress {
- *		if didCompress, compressed, err := Compress(payload); err != nil
- *{ return err, nil } else if didCompress { stack = append(stack,
- *Info(IDWhisperCompression, []byte{1})) payload = compressed
- *		}
- *	}
- *
- *	dataSize := len(payload)
- *	dataLeft := dataSize
- *	dataOff := 0
- *	chunkSize := 0xff
- *
- *	for dataLeft > 0 {
- *		sz := chunkSize
- *		if dataLeft < chunkSize {
- *			sz = dataLeft
- *		}
- *
- *		chunk := payload[dataOff : dataOff+sz]
- *		stack = append(stack, Info(IDWhisperPayload, chunk))
- *
- *		dataOff += sz
- *		dataLeft -= sz
- *	}
- *
- *	return Serialize(stack...)
- * }
- *
- * ofc, when it comes to any new programming language such as Go, i am pretty
- *clueless as how to interpret it so this is all my best try
+ * 1. header
+ * 2. payload id's
+ * 3. (chunked) pwnagotchi data
  *
  */
 
 /** developer note:
  *
- * we're relying off of the frame structure from pack.go
+ * referenced the following for packing-related function:
  *
- * func PackOneOf(from, to net.HardwareAddr, peerID []byte, signature []byte,
- *streamID uint64, seqNum uint64, seqTot uint64, payload []byte, compress bool)
- *(error, []byte) { stack := []gopacket.SerializableLayer{ &layers.RadioTap{},
- *		&layers.Dot11{
- *			Address1: to,
- *			Address2: SignatureAddr,
- *			Address3: from,
- *			Type:     layers.Dot11TypeMgmtBeacon,
- *		},
- * 		&layers.Dot11MgmtBeacon{
- *			Flags:    uint16(wpaFlags),
- *			Interval: 100,
- *		},
- *	}
- *
- * see wifi_ieee80211_mac_hdr_t in structs.h for the frame structure...
+ * https://github.com/evilsocket/pwngrid/blob/master/wifi/pack.go
  *
  */
 
-void Frame::init() {
-  // insert header
-  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + sizeof(header));
-  Frame::beaconFrame.insert(Frame::beaconFrame.end(), std::begin(header),
-                            std::end(header));
-}
-
-void Frame::essid() {
+uint8_t *Frame::pack() {
   // make a json doc
-  String jsonString;
-  DynamicJsonDocument doc(1024);
+  String jsonString = "";
+  DynamicJsonDocument doc(2048);
 
   doc["epoch"] = Config::epoch;
   doc["face"] = Config::face;
@@ -221,9 +159,11 @@ void Frame::essid() {
 
   // serialize then put into beacon frame
   serializeJson(doc, jsonString);
-  Frame::beaconFrame.reserve(Frame::beaconFrame.size() + jsonString.length());
-  Frame::beaconFrame.insert(Frame::beaconFrame.end(), jsonString.begin(),
-                            jsonString.end());
+  Frame::essidLength = measureJson(doc);
+  Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
+  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
+                                   Frame::essidLength + Frame::headerLength];
+  memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
 
   /** developer note:
    *
@@ -232,46 +172,34 @@ void Frame::essid() {
    *
    * Serial.println(jsonString);
    */
-}
 
-/** developer note:
- *
- * frame structure based on how it was built here
- *
- * 1. header
- * 2. payload id's
- * 3. (chunked) pwnagotchi data
- *
- */
+  int currentByte = pwngridHeaderLength;
 
-void Frame::pack() {
-  // clear frame before constructing
-  Frame::beaconFrame.clear();
-
-  // add the header and essid
-  init();
-  essid();
-
-  // payload size
-  Frame::payloadSize = Frame::beaconFrame.size();
-  Frame::frameSize = Frame::beaconFrame.size();
-
-  for (size_t i = 0; i < payloadSize; i += Frame::chunkSize) {
-    Frame::beaconFrame.push_back(Frame::IDWhisperPayload);
-
-    size_t chunkEnd = std::min(i + Frame::chunkSize, Frame::payloadSize);
-    for (size_t j = i; j < chunkEnd; ++j) {
-      Frame::beaconFrame.push_back(Frame::beaconFrame[j]);
+  for (int i = 0; i < Frame::essidLength; i++) {
+    if (i == 0 || i % 255 == 0) {
+      Frame::beaconFrame[currentByte++] = Frame::IDWhisperPayload;
+      if (Frame::essidLength - i < Frame::chunkSize) {
+        Frame::payloadSize = Frame::essidLength - i;
+      }
+      Frame::beaconFrame[currentByte++] = Frame::payloadSize;
     }
+
+    uint8_t nextByte = (uint8_t)'?';
+    if (isAscii(jsonString[i])) {
+      nextByte = (uint8_t)jsonString[i];
+    }
+
+    Frame::beaconFrame[currentByte++] = nextByte;
   }
 
+  return Frame::beaconFrame;
   /** developer note:
    *
    * we can print the beacon frame like so...
    *
    * Serial.println("('-') Full Beacon Frame:");
-   * for (size_t i = 0; i < beaconFrame.size(); ++i) {
-   *     Serial.print(beaconFrame[i], HEX);
+   * for (size_t i = 0; i < Frame::beaconFrame.size(); ++i) {
+   *     Serial.print(Frame::beaconFrame[i], HEX);
    *     Serial.print(" ");
    * }
    * Serial.println(" ");
@@ -281,14 +209,15 @@ void Frame::pack() {
 
 bool Frame::send() {
   // build frame
-  Frame::pack();
+  uint8_t *frame = Frame::pack();
 
   // send full frame
   // we dont use raw80211 since it sends a header(which we don't need), although
   // we do use it for monitoring, etc.
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, Frame::beaconFrame.data(),
-                                    Frame::frameSize, 0);
   delay(102);
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, sizeof(frame), false);
+
+  delete[] frame;
   return (err == ESP_OK);
 }
 
@@ -299,8 +228,7 @@ void Frame::advertise() {
   if (Config::advertise) {
     Serial.println("(>-<) Starting advertisment...");
     Serial.println(" ");
-    Display::cleanDisplayFace("(>-<)");
-    Display::attachSmallText("Starting advertisment...");
+    Display::updateDisplay("(>-<)", "Starting advertisment...");
     delay(250);
     for (int i = 0; i < 150; ++i) {
       if (Frame::send()) {
@@ -313,10 +241,12 @@ void Frame::advertise() {
         if (!isinf(pps)) {
           Serial.print("(>-<) Packets per second: ");
           Serial.print(pps);
-          Serial.println(" pkt/s");
-          Display::cleanDisplayFace("(>-<)");
-          Display::attachSmallText("Packets per second: " + (String)pps +
-                                   " pkt/s");
+          Serial.print(" pkt/s (Channel: ");
+          Serial.print(Channel::getChannel());
+          Serial.println(")");
+          Display::updateDisplay(
+              "(>-<)", "Packets per second: " + (String)pps + " pkt/s" +
+                           " (Channel: " + (String)Channel::getChannel() + ")");
         }
       } else {
         Serial.println("(X-X) Advertisment failed to send!");
@@ -326,8 +256,7 @@ void Frame::advertise() {
     Serial.println(" ");
     Serial.println("(^-^) Advertisment finished!");
     Serial.println(" ");
-    Display::cleanDisplayFace("(^-^)");
-    Display::attachSmallText("Advertisment finished!");
+    Display::updateDisplay("(^-^)", "Advertisment finished!");
   } else {
     // do nothing but still idle
   }

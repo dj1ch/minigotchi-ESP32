@@ -17,34 +17,38 @@
  */
 
 /**
- * channel.h: header files for channel.cpp
+ * mood.cpp: header files for mood.cpp
  */
 
-#ifndef CHANNEL_H
-#define CHANNEL_H
+#ifndef MOOD_CPP
+#define MOOD_CPP
 
 #include "config.h"
 #include "display.h"
-#include "minigotchi.h"
-#include "parasite.h"
-#include <WiFi.h>
-#include <esp_wifi.h>
+#include <Arduino.h>
+#include <string>
 
-class Channel {
+class Mood {
 public:
-  static void init(int initChannel);
-  static void cycle();
-  static void switchChannel(int newChannel);
-  static int getChannel();
-  static void checkChannel(int channel);
-  static bool isValidChannel(int channel);
-  static int channelList[13]; // 13 channels
+  static String happy;
+  static String sad;
+  static String broken;
+  static String intense;
+  static String looking1;
+  static String looking2;
+  static String neutral;
+  static String sleeping;
+
+  static String getFull(String face);
+  static String getCurrentFace();
+  static String getCurrentMood();
+  static String getMood(String face);
+  static String getFace(String mood);
+  static bool checkMood(String previous, String current);
 
 private:
-  static int randomIndex;
-  static int numChannels;
-  static int currentChannel;
-  static int newChannel;
+  static String currentMood;
+  static String currentFace;
 };
 
-#endif // CHANNEL_H
+#endif // MOOD_CPP

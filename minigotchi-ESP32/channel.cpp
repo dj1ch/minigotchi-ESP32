@@ -1,3 +1,21 @@
+/*
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * channel.cpp: handles channel switching
  */
@@ -28,8 +46,8 @@ void Channel::init(int initChannel) {
   Serial.print("(-.-) Initializing on channel ");
   Serial.println(initChannel);
   Serial.println(" ");
-  Display::cleanDisplayFace("(-.-)");
-  Display::attachSmallText("Initializing on channel " + (String)initChannel);
+  Display::updateDisplay("(-.-)",
+                         "Initializing on channel " + (String)initChannel);
   delay(250);
 
   // switch channel
@@ -40,14 +58,13 @@ void Channel::init(int initChannel) {
   if (err == ESP_OK && initChannel == getChannel()) {
     Serial.print("('-') Successfully initialized on channel ");
     Serial.println(getChannel());
-    Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("Successfully initialized on channel " +
-                             (String)getChannel());
+    Display::updateDisplay("('-')", "Successfully initialized on channel " +
+                                        (String)getChannel());
     delay(250);
   } else {
     Serial.println("(X-X) Channel initialization failed, try again?");
-    Display::cleanDisplayFace("(X-X)");
-    Display::attachSmallText("Channel initialization failed, try again?");
+    Display::updateDisplay("(X-X)",
+                           "Channel initialization failed, try again?");
     delay(250);
   }
 }
@@ -70,8 +87,7 @@ void Channel::switchChannel(int newChannel) {
   Serial.print("(-.-) Switching to channel ");
   Serial.println(newChannel);
   Serial.println(" ");
-  Display::cleanDisplayFace("(-.-)");
-  Display::attachSmallText("Switching to channel " + (String)newChannel);
+  Display::updateDisplay("(-.-)", "Switching to channel " + (String)newChannel);
   delay(250);
 
   // monitor this one channel
@@ -83,10 +99,11 @@ void Channel::switchChannel(int newChannel) {
   if (err == ESP_OK) {
     checkChannel(newChannel);
   } else {
+
     Serial.println("(X-X) Failed to switch channel.");
     Serial.println(" ");
-    Display::cleanDisplayFace("(X-X)");
-    Display::attachSmallText("Failed to switch channel.");
+    Display::updateDisplay("(X-X)", "Failed to switch channel.");
+    checkChannel(newChannel);
     delay(250);
   }
 }
@@ -97,8 +114,8 @@ void Channel::checkChannel(int channel) {
   if (channel == currentChannel) {
     Serial.print("('-') Currently on channel ");
     Serial.println(currentChannel);
-    Display::cleanDisplayFace("('-')");
-    Display::attachSmallText("Currently on channel " + (String)getChannel());
+    Display::updateDisplay("('-')",
+                           "Currently on channel " + (String)getChannel());
     Serial.println(" ");
     delay(250);
   } else {
@@ -109,11 +126,21 @@ void Channel::checkChannel(int channel) {
     Serial.print(currentChannel);
     Serial.println(" instead");
     Serial.println(" ");
-    Display::cleanDisplayFace("(X-X)");
-    Display::attachSmallText("Channel switch to " + (String)channel +
-                             " has failed");
+    Display::updateDisplay("(X-X)", "Channel switch to " + (String)channel +
+                                        " has failed");
     delay(250);
   }
+}
+
+bool Channel::isValidChannel(int channel) {
+  bool isValidChannel = false;
+  for (int i = 0; i < sizeof(channelList) / sizeof(channelList[0]); i++) {
+    if (channelList[i] == channel) {
+      isValidChannel = true;
+      break;
+    }
+  }
+  return isValidChannel;
 }
 
 int Channel::getChannel() {
