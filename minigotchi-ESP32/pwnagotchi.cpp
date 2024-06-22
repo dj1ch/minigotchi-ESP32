@@ -118,6 +118,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
       char addr[] = "00:00:00:00:00:00";
       getMAC(addr, snifferPacket->payload, 10);
       String src = addr;
+      Serial.println("'" + src + "'");
 
       // check if the source MAC matches the target
       if (src == "de:ad:be:ef:de:ad") {
@@ -125,6 +126,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         Serial.println("(^-^) Pwnagotchi detected!");
         Serial.println(" ");
         Display::updateDisplay("(^-^)", "Pwnagotchi detected!");
+        delay(Config::shortDelay);
 
         // extract the ESSID from the beacon frame
         String essid;
@@ -137,6 +139,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             essid.concat("?");
           }
         }
+
+        // give it a sec
+        delay(Config::shortDelay);
 
         // network related info
         Serial.print("(^-^) RSSI: ");
@@ -152,6 +157,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         // parse the ESSID as JSON
         DynamicJsonDocument jsonBuffer(2048);
         DeserializationError error = deserializeJson(jsonBuffer, essid);
+        delay(Config::shortDelay);
 
         // check if json parsing is successful
         if (error) {
