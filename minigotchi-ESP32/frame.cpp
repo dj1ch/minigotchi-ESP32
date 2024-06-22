@@ -163,7 +163,7 @@ uint8_t *Frame::pack() {
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
   Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
                                    Frame::essidLength + Frame::headerLength];
-  memcpy(Frame::beaconFrame, Frame::header, Frame::essidLength);
+  memcpy(Frame::beaconFrame, Frame::header, Frame::pwngridHeaderLength);
 
   /** developer note:
    *
