@@ -86,13 +86,12 @@ void Pwnagotchi::detect() {
   } else if (pwnagotchiDetected) {
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
-    Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
   } else {
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
     Serial.println("(X-X) How did this happen?");
     Display::updateDisplay("(X-X)", "How did this happen?");
-    Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
+    Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
   }
 }
 
@@ -194,6 +193,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.print(" ");
           Display::updateDisplay("(^-^)", "Pwnagotchi name: " + (String)name);
           Display::updateDisplay("(^-^)", "Pwned Networks: " + (String)pwndTot);
+          Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }
       }
     }
