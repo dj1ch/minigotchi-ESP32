@@ -69,6 +69,7 @@
 class Display {
 public:
   static void startScreen();
+  static void updateDisplayTask(void* param);
   static void updateDisplay(String face);
   static void updateDisplay(String face, String text);
   static void printU8G2Data(int x, int y, const char *data);
@@ -83,6 +84,7 @@ private:
   static Adafruit_SSD1305 *ssd1305_adafruit_display;
   static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
   static TFT_eSPI *tft_display;
+  static SemaphoreHandle_t displaySemaphore;
 };
 
 #endif // DISPLAY_H

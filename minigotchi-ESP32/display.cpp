@@ -30,6 +30,8 @@ U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display =
     nullptr;
 TFT_eSPI *Display::tft_display = nullptr;
 
+SemaphoreHandle_t Display::displaySemaphore = xSemaphoreCreateBinary();
+
 String Display::storedFace = "";
 String Display::previousFace = "";
 
@@ -134,6 +136,9 @@ void Display::startScreen() {
       tft.setTextSize(2); // Set text size
       delay(100);
     }
+
+    // display semaphore
+    xSemaphoreGive(displaySemaphore);
   }
 }
 
@@ -150,6 +155,18 @@ void Display::startScreen() {
 void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
 void Display::updateDisplay(String face, String text) {
+  // use semaphore
+  if (xSemaphoreTake(displaySemaphore, portMAX_DELAY) == pdTRUE) {
+    String *textParams = new String[2]{face, text};
+    xTaskCreatePinnedToCore(Display::updateDisplayTask, "updateDisplayTask", 4096, textParams, 1, NULL, 1);
+  }
+}
+
+void Display::updateDisplayTask(void* param) {
+  String *textParams = (String *)param;
+  String face = textParams[0];
+  String text = textParams[1];
+
   if (Config::display) {
     if ((Config::screen == "SSD1306" ||
          Config::screen == "WEMOS_OLED_SHIELD") &&
@@ -234,6 +251,11 @@ void Display::updateDisplay(String face, String text) {
       }
     }
   }
+
+  delete[] textParams;
+  // Give the semaphore back after the task is done
+  xSemaphoreGive(displaySemaphore);
+  vTaskDelete(NULL);
 }
 
 // If using the U8G2 library, it does not handle wrapping if text is too long to

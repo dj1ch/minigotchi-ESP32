@@ -35,6 +35,7 @@
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
+SemaphoreHandle_t Minigotchi::taskSemaphore = xSemaphoreCreateBinary();
 
 int Minigotchi::addEpoch() {
   Minigotchi::currentEpoch++;
@@ -75,6 +76,7 @@ void Minigotchi::boot() {
   Minigotchi::info();
   Parasite::sendName();
   Minigotchi::finish();
+  xSemaphoreGive(taskSemaphore);
 }
 
 void Minigotchi::info() {
@@ -159,44 +161,59 @@ void Minigotchi::monStop() {
 }
 
 /** developer note:
- *
- * when the minigotchi isn't cycling, detecting a pwnagotchi, or deauthing,
- * it is advertising it's own presence, hence the reason there being a constant
- * Frame::stop(); and Frame::start(); in each function
- *
- * when it comes to any of these features, you can't just call something and
- * expect it to run normally ex: calling Deauth::deauth(); because you're gonna
- * get the error:
- *
- * (X-X) No access point selected. Use select() first.
- * ('-') Told you so!
- *
- * the card is still busy in monitor mode on a certain channel(advertising), and
- * the AP's we're looking for could be on other channels hence we need to call
- * Frame::stop(); to stop this then we can do what we want...
- *
+ * 
+ * for freeRTOS, which allows us to "pin tasks" to specific cores on the ESP32, we will need to create the following
+ * 
+ * - a task
+ * - a function to run that task using xTaskCreatePinnedToCore();
+ * 
+ * in this case, we use Minigotchi::<whichever function we're using>();
+ * and Minigotchi::<whichever function we're using>Task();
+ * to allow specific tasks defined in the Minigotchi::<whichever function we're using>Task();
+ * in the regular functions called Minigotchi::<whichever function we're using>();
+ * 
  */
 
-// channel cycling
-void Minigotchi::cycle() {
-  Parasite::readData();
+void Minigotchi::cycleTask(void* param) {
   Channel::cycle();
+  xSemaphoreGive(taskSemaphore);
+  vTaskDelete(NULL);
 }
 
-// pwnagotchi detection
-void Minigotchi::detect() {
-  Parasite::readData();
-  Pwnagotchi::detect(); 
+void Minigotchi::detectTask(void* param) {
+  Pwnagotchi::detect();
+  xSemaphoreGive(taskSemaphore);
+  vTaskDelete(NULL);
 }
 
-// deauthing
-void Minigotchi::deauth() {
-  Parasite::readData();
+void Minigotchi::deauthTask(void* param) {
   Deauth::deauth();
+  xSemaphoreGive(taskSemaphore);
+  vTaskDelete(NULL);
 }
 
-// advertising
-void Minigotchi::advertise() {
-  Parasite::readData();
+void Minigotchi::advertiseTask(void* param) {
   Frame::advertise();
+  xSemaphoreGive(taskSemaphore);
+  vTaskDelete(NULL);
+}
+
+void Minigotchi::cycle() {
+  xSemaphoreTake(taskSemaphore, portMAX_DELAY);
+  xTaskCreatePinnedToCore(Minigotchi::cycleTask, "cycleTask", 4096, NULL, 1, NULL, 0);
+}
+
+void Minigotchi::detect() {
+  xSemaphoreTake(taskSemaphore, portMAX_DELAY);
+  xTaskCreatePinnedToCore(Minigotchi::detectTask, "detectTask", 4096, NULL, 1, NULL, 0);
+}
+
+void Minigotchi::deauth() {
+  xSemaphoreTake(taskSemaphore, portMAX_DELAY);
+  xTaskCreatePinnedToCore(Minigotchi::deauthTask, "deauthTask", 4096, NULL, 1, NULL, 0);
+}
+
+void Minigotchi::advertise() {
+  xSemaphoreTake(taskSemaphore, portMAX_DELAY);
+  xTaskCreatePinnedToCore(Minigotchi::advertiseTask, "advertiseTask", 4096, NULL, 1, NULL, 0);
 }

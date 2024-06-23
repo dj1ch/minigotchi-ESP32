@@ -30,6 +30,11 @@
 #include "frame.h"
 #include "parasite.h"
 #include "pwnagotchi.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/timers.h"
+#include "freertos/event_groups.h"
+#include <freertos/semphr.h>
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -48,9 +53,16 @@ public:
   static void detect();
   static void deauth();
   static void advertise();
+  static void loop();
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
+private:
+  static SemaphoreHandle_t taskSemaphore;
+  static void cycleTask(void* param);
+  static void detectTask(void* param);
+  static void deauthTask(void* param);
+  static void advertiseTask(void* param);
 };
 
 #endif // MINIGOTCHI_H
