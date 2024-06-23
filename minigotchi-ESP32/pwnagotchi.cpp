@@ -82,14 +82,17 @@ void Pwnagotchi::detect() {
     Serial.println("(;-;) No Pwnagotchi found");
     Display::updateDisplay("(;-;)", "No Pwnagotchi found.");
     Serial.println(" ");
+    Parasite::sendPwnagotchiStatus(NO_FRIEND_FOUND);
   } else if (pwnagotchiDetected) {
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
+    Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
   } else {
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
     Serial.println("(X-X) How did this happen?");
     Display::updateDisplay("(X-X)", "How did this happen?");
+    Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
   }
 }
 
