@@ -37,92 +37,92 @@
 int Minigotchi::currentEpoch = 0;
 
 int Minigotchi::addEpoch() {
-    Minigotchi::currentEpoch++;
-    return Minigotchi::currentEpoch;
+  Minigotchi::currentEpoch++;
+  return Minigotchi::currentEpoch;
 }
 
 void Minigotchi::epoch() {
-    Minigotchi::addEpoch();
-    Parasite::readData();
-    Serial.print("('-') Current Epoch: ");
-    Serial.println(Minigotchi::currentEpoch);
-    Serial.println(" ");
+  Minigotchi::addEpoch();
+  Parasite::readData();
+  Serial.print("('-') Current Epoch: ");
+  Serial.println(Minigotchi::currentEpoch);
+  Serial.println(" ");
 }
 
 // things to do when starting up
 void Minigotchi::boot() {
-    Display::startScreen();
-    Serial.println(" ");
-    Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
-    Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
-    Serial.println(" ");
-    Serial.println(
-        "('-') You can edit my configuration parameters in config.cpp!");
-    Serial.println(" ");
-    delay(250);
-    Display::updateDisplay("('-')", "Edit my config.cpp!");
-    delay(250);
-    Serial.println("(>-<) Starting now...");
-    Serial.println(" ");
-    Display::updateDisplay("(>-<)", "Starting  now");
-    delay(250);
-    Serial.println("################################################");
-    Serial.println("#                BOOTUP PROCESS                #");
-    Serial.println("################################################");
-    Serial.println(" ");
-    Deauth::list();
-    Channel::init(Config::channel);
-    Minigotchi::info();
-    Parasite::sendName();
-    Minigotchi::finish();
+  Display::startScreen();
+  Serial.println(" ");
+  Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
+  Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
+  Serial.println(" ");
+  Serial.println(
+      "('-') You can edit my configuration parameters in config.cpp!");
+  Serial.println(" ");
+  delay(250);
+  Display::updateDisplay("('-')", "Edit my config.cpp!");
+  delay(250);
+  Serial.println("(>-<) Starting now...");
+  Serial.println(" ");
+  Display::updateDisplay("(>-<)", "Starting  now");
+  delay(250);
+  Serial.println("################################################");
+  Serial.println("#                BOOTUP PROCESS                #");
+  Serial.println("################################################");
+  Serial.println(" ");
+  Deauth::list();
+  Channel::init(Config::channel);
+  Minigotchi::info();
+  Parasite::sendName();
+  Minigotchi::finish();
 }
 
 void Minigotchi::info() {
-    delay(250);
-    Serial.println(" ");
-    Serial.println("('-') Current Minigotchi Stats: ");
-    Display::updateDisplay("('-')", "Current Minigotchi Stats:");
-    version();
-    mem();
-    cpu();
-    Serial.println(" ");
-    delay(250);
+  delay(250);
+  Serial.println(" ");
+  Serial.println("('-') Current Minigotchi Stats: ");
+  Display::updateDisplay("('-')", "Current Minigotchi Stats:");
+  version();
+  mem();
+  cpu();
+  Serial.println(" ");
+  delay(250);
 }
 
 // if this can be printed, everything should have gone right...
 void Minigotchi::finish() {
-    Serial.println("################################################");
-    Serial.println(" ");
-    Serial.println("('-') Started successfully!");
-    Serial.println(" ");
-    Display::updateDisplay("('-')", "Started sucessfully");
-    delay(250);
+  Serial.println("################################################");
+  Serial.println(" ");
+  Serial.println("('-') Started successfully!");
+  Serial.println(" ");
+  Display::updateDisplay("('-')", "Started sucessfully");
+  delay(250);
 }
 
 void Minigotchi::version() {
-    Serial.print("('-') Version: ");
-    Serial.println(Config::version.c_str());
-    Display::updateDisplay("('-')",
-                           "Version: " + (String)Config::version.c_str());
-    delay(250);
+  Serial.print("('-') Version: ");
+  Serial.println(Config::version.c_str());
+  Display::updateDisplay("('-')",
+                         "Version: " + (String)Config::version.c_str());
+  delay(250);
 }
 
 void Minigotchi::mem() {
-    Serial.print("('-') Heap: ");
-    Serial.print(ESP.getFreeHeap());
-    Serial.println(" bytes");
-    Display::updateDisplay("('-')",
-                           "Heap: " + (String)ESP.getFreeHeap() + " bytes");
-    delay(250);
+  Serial.print("('-') Heap: ");
+  Serial.print(ESP.getFreeHeap());
+  Serial.println(" bytes");
+  Display::updateDisplay("('-')",
+                         "Heap: " + (String)ESP.getFreeHeap() + " bytes");
+  delay(250);
 }
 
 void Minigotchi::cpu() {
-    Serial.print("('-') CPU Frequency: ");
-    Serial.print(ESP.getCpuFreqMHz());
-    Serial.println(" MHz");
-    Display::updateDisplay(
-        "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
-    delay(250);
+  Serial.print("('-') CPU Frequency: ");
+  Serial.print(ESP.getCpuFreqMHz());
+  Serial.println(" MHz");
+  Display::updateDisplay(
+      "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
+  delay(250);
 }
 
 /** developer note:
@@ -143,19 +143,19 @@ void Minigotchi::cpu() {
  */
 
 void Minigotchi::monStart() {
-    // disconnect from WiFi if we were at all
-    WiFi.disconnect();
+  // disconnect from WiFi if we were at all
+  WiFi.disconnect();
 
-    // revert to station mode
-    WiFi.mode(WIFI_STA);
-    esp_wifi_set_promiscuous(true);
+  // revert to station mode
+  WiFi.mode(WIFI_STA);
+  esp_wifi_set_promiscuous(true);
 }
 
 void Minigotchi::monStop() {
-    esp_wifi_set_promiscuous(false);
+  esp_wifi_set_promiscuous(false);
 
-    // revert to station mode
-    WiFi.mode(WIFI_STA);
+  // revert to station mode
+  WiFi.mode(WIFI_STA);
 }
 
 /** developer note:
@@ -179,24 +179,24 @@ void Minigotchi::monStop() {
 
 // channel cycling
 void Minigotchi::cycle() {
-    Parasite::readData();
-    Channel::cycle();
+  Parasite::readData();
+  Channel::cycle();
 }
 
 // pwnagotchi detection
 void Minigotchi::detect() {
-    Parasite::readData();
-    Pwnagotchi::detect();
+  Parasite::readData();
+  Pwnagotchi::detect();
 }
 
 // deauthing
 void Minigotchi::deauth() {
-    Parasite::readData();
-    Deauth::deauth();
+  Parasite::readData();
+  Deauth::deauth();
 }
 
 // advertising
 void Minigotchi::advertise() {
-    Parasite::readData();
-    Frame::advertise();
+  Parasite::readData();
+  Frame::advertise();
 }
