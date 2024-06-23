@@ -229,7 +229,8 @@ void Frame::advertise() {
     Serial.println("(>-<) Starting advertisment...");
     Serial.println(" ");
     Display::updateDisplay("(>-<)", "Starting advertisment...");
-    delay(250);
+    Parasite::sendAdvertising();
+    delay(Config::shortDelay);
     for (int i = 0; i < 150; ++i) {
       if (Frame::send()) {
         packets++;

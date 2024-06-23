@@ -43,6 +43,7 @@ int Minigotchi::addEpoch() {
 
 void Minigotchi::epoch() {
   Minigotchi::addEpoch();
+  Parasite::readData();
   Serial.print("('-') Current Epoch: ");
   Serial.println(Minigotchi::currentEpoch);
   Serial.println(" ");
@@ -72,6 +73,7 @@ void Minigotchi::boot() {
   Deauth::list();
   Channel::init(Config::channel);
   Minigotchi::info();
+  Parasite::sendName();
   Minigotchi::finish();
 }
 
@@ -176,13 +178,25 @@ void Minigotchi::monStop() {
  */
 
 // channel cycling
-void Minigotchi::cycle() { Channel::cycle(); }
+void Minigotchi::cycle() {
+  Parasite::readData();
+  Channel::cycle();
+}
 
 // pwnagotchi detection
-void Minigotchi::detect() { Pwnagotchi::detect(); }
+void Minigotchi::detect() {
+  Parasite::readData();
+  Pwnagotchi::detect(); 
+}
 
 // deauthing
-void Minigotchi::deauth() { Deauth::deauth(); }
+void Minigotchi::deauth() {
+  Parasite::readData();
+  Deauth::deauth();
+}
 
 // advertising
-void Minigotchi::advertise() { Frame::advertise(); }
+void Minigotchi::advertise() {
+  Parasite::readData();
+  Frame::advertise();
+}
