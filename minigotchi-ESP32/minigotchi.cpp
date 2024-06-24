@@ -205,15 +205,15 @@ void Minigotchi::cycle() {
 
 void Minigotchi::detect() {
   xSemaphoreTake(taskSemaphore, portMAX_DELAY);
-  xTaskCreatePinnedToCore(Minigotchi::detectTask, "detectTask", 4096, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(Minigotchi::detectTask, "detectTask", 8192, NULL, 1, NULL, 0);
 }
 
 void Minigotchi::deauth() {
   xSemaphoreTake(taskSemaphore, portMAX_DELAY);
-  xTaskCreatePinnedToCore(Minigotchi::deauthTask, "deauthTask", 4096, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(Minigotchi::deauthTask, "deauthTask", 8192, NULL, 1, NULL, 0);
 }
 
 void Minigotchi::advertise() {
   xSemaphoreTake(taskSemaphore, portMAX_DELAY);
-  xTaskCreatePinnedToCore(Minigotchi::advertiseTask, "advertiseTask", 4096, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(Minigotchi::advertiseTask, "advertiseTask", 8192, NULL, 1, NULL, 0);
 }
