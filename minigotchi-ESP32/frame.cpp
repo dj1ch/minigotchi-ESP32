@@ -251,6 +251,7 @@ void Frame::advertise() {
         }
       } else {
         Serial.println("(X-X) Advertisment failed to send!");
+        Display::updateDisplay("(X-X)", "Advertisment failed to send!");
       }
     }
 
