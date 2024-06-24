@@ -128,7 +128,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         Serial.println("(^-^) Pwnagotchi detected!");
         Serial.println(" ");
         Display::updateDisplay("(^-^)", "Pwnagotchi detected!");
-        // delay(Config::shortDelay);
+        delay(Config::shortDelay);
 
         // extract the ESSID from the beacon frame
         String essid;
@@ -175,7 +175,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Display::updateDisplay("(^-^)", "Successfully parsed json!");
           // find out some stats
           String name = jsonBuffer["name"].as<String>();
+          delay(Config::shortDelay);
           String pwndTot = jsonBuffer["pwnd_tot"].as<String>();
+          delay(Config::shortDelay);
 
           if (name == "null") {
             name = "N/A";
