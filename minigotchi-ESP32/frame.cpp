@@ -226,9 +226,9 @@ void Frame::advertise() {
   unsigned long startTime = millis();
 
   if (Config::advertise) {
-    Serial.println("(>-<) Starting advertisment...");
+    Serial.println(Mood::intense + " Starting advertisment...");
     Serial.println(" ");
-    Display::updateDisplay("(>-<)", "Starting advertisment...");
+    Display::updateDisplay(Mood::intense, "Starting advertisment...");
     Parasite::sendAdvertising();
     delay(Config::shortDelay);
     for (int i = 0; i < 150; ++i) {
@@ -240,24 +240,24 @@ void Frame::advertise() {
 
         // show pps
         if (!isinf(pps)) {
-          Serial.print("(>-<) Packets per second: ");
+          Serial.print(Mood::intense + " Packets per second: ");
           Serial.print(pps);
           Serial.print(" pkt/s (Channel: ");
           Serial.print(Channel::getChannel());
           Serial.println(")");
           Display::updateDisplay(
-              "(>-<)", "Packets per second: " + (String)pps + " pkt/s" +
+              Mood::intense, "Packets per second: " + (String)pps + " pkt/s" +
                            " (Channel: " + (String)Channel::getChannel() + ")");
         }
       } else {
-        Serial.println("(X-X) Advertisment failed to send!");
+        Serial.println(Mood::broken + " Advertisment failed to send!");
       }
     }
 
     Serial.println(" ");
-    Serial.println("(^-^) Advertisment finished!");
+    Serial.println(Mood::happy + " Advertisment finished!");
     Serial.println(" ");
-    Display::updateDisplay("(^-^)", "Advertisment finished!");
+    Display::updateDisplay(Mood::happy, "Advertisment finished!");
   } else {
     // do nothing but still idle
   }
