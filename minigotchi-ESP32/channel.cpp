@@ -43,10 +43,10 @@ void Channel::init(int initChannel) {
   // start on user specified channel
   delay(250);
   Serial.println(" ");
-  Serial.print(Mood::sleeping + " Initializing on channel ");
+  Serial.print("(-.-) Initializing on channel ");
   Serial.println(initChannel);
   Serial.println(" ");
-  Display::updateDisplay(Mood::sleeping,
+  Display::updateDisplay("(-.-)",
                          "Initializing on channel " + (String)initChannel);
   delay(250);
 
@@ -56,14 +56,14 @@ void Channel::init(int initChannel) {
   Minigotchi::monStart();
 
   if (err == ESP_OK && initChannel == getChannel()) {
-    Serial.print(Mood::neutral + " Successfully initialized on channel ");
+    Serial.print("('-') Successfully initialized on channel ");
     Serial.println(getChannel());
-    Display::updateDisplay(Mood::neutral, "Successfully initialized on channel " +
+    Display::updateDisplay("('-')", "Successfully initialized on channel " +
                                         (String)getChannel());
     delay(250);
   } else {
-    Serial.println(Mood::broken + " Channel initialization failed, try again?");
-    Display::updateDisplay(Mood::broken,
+    Serial.println("(X-X) Channel initialization failed, try again?");
+    Display::updateDisplay("(X-X)",
                            "Channel initialization failed, try again?");
     delay(250);
   }
@@ -84,10 +84,10 @@ void Channel::cycle() {
 void Channel::switchChannel(int newChannel) {
   // switch to channel
   delay(250);
-  Serial.print(Mood::sleeping + " Switching to channel ");
+  Serial.print("(-.-) Switching to channel ");
   Serial.println(newChannel);
   Serial.println(" ");
-  Display::updateDisplay(Mood::sleeping, "Switching to channel " + (String)newChannel);
+  Display::updateDisplay("(-.-)", "Switching to channel " + (String)newChannel);
   delay(250);
 
   // monitor this one channel
@@ -100,9 +100,9 @@ void Channel::switchChannel(int newChannel) {
     checkChannel(newChannel);
   } else {
 
-    Serial.println(Mood::broken + " Failed to switch channel.");
+    Serial.println("(X-X) Failed to switch channel.");
     Serial.println(" ");
-    Display::updateDisplay(Mood::broken, "Failed to switch channel.");
+    Display::updateDisplay("(X-X)", "Failed to switch channel.");
     checkChannel(newChannel);
     delay(250);
   }
@@ -112,21 +112,21 @@ void Channel::switchChannel(int newChannel) {
 void Channel::checkChannel(int channel) {
   int currentChannel = Channel::getChannel();
   if (channel == currentChannel) {
-    Serial.print(Mood::neutral + " Currently on channel ");
+    Serial.print("('-') Currently on channel ");
     Serial.println(currentChannel);
-    Display::updateDisplay(Mood::neutral,
+    Display::updateDisplay("('-')",
                            "Currently on channel " + (String)getChannel());
     Serial.println(" ");
     delay(250);
   } else {
-    Serial.print(Mood::broken + " Channel switch to channel ");
+    Serial.print("(X-X) Channel switch to channel ");
     Serial.print(channel);
     Serial.println(" has failed");
-    Serial.print(Mood::broken + " Currently on channel ");
+    Serial.print("(X-X) Currently on channel ");
     Serial.print(currentChannel);
     Serial.println(" instead");
     Serial.println(" ");
-    Display::updateDisplay(Mood::broken, "Channel switch to " + (String)channel +
+    Display::updateDisplay("(X-X)", "Channel switch to " + (String)channel +
                                         " has failed");
     delay(250);
   }

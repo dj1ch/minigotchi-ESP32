@@ -57,14 +57,14 @@ void Pwnagotchi::detect() {
 
   // cool animation
   for (int i = 0; i < 5; ++i) {
-    Serial.println(Mood::looking1 + " Scanning for Pwnagotchi.");
-    Display::updateDisplay(Mood::looking1, "Scanning  for Pwnagotchi.");
+    Serial.println("(0-o) Scanning for Pwnagotchi.");
+    Display::updateDisplay("(0-o)", "Scanning  for Pwnagotchi.");
     delay(Config::shortDelay);
-    Serial.println(Mood::looking2 + " Scanning for Pwnagotchi..");
-    Display::updateDisplay(Mood::looking2, "Scanning  for Pwnagotchi..");
+    Serial.println("(o-0) Scanning for Pwnagotchi..");
+    Display::updateDisplay("(o-0)", "Scanning  for Pwnagotchi..");
     delay(Config::shortDelay);
-    Serial.println(Mood::looking1 + " Scanning for Pwnagotchi...");
-    Display::updateDisplay(Mood::looking1, "Scanning  for Pwnagotchi...");
+    Serial.println("(0-o) Scanning for Pwnagotchi...");
+    Display::updateDisplay("(0-o)", "Scanning  for Pwnagotchi...");
     delay(Config::shortDelay);
     Serial.println(" ");
     delay(Config::shortDelay);
@@ -79,8 +79,8 @@ void Pwnagotchi::detect() {
     // so this only applies for the current searching area
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
-    Serial.println(Mood::sad + " No Pwnagotchi found");
-    Display::updateDisplay(Mood::sad, "No Pwnagotchi found.");
+    Serial.println("(;-;) No Pwnagotchi found");
+    Display::updateDisplay("(;-;)", "No Pwnagotchi found.");
     Serial.println(" ");
     Parasite::sendPwnagotchiStatus(NO_FRIEND_FOUND);
   } else if (pwnagotchiDetected) {
@@ -89,8 +89,8 @@ void Pwnagotchi::detect() {
   } else {
     Minigotchi::monStop();
     Pwnagotchi::stopCallback();
-    Serial.println(Mood::broken + " How did this happen?");
-    Display::updateDisplay(Mood::broken, "How did this happen?");
+    Serial.println("(X-X) How did this happen?");
+    Display::updateDisplay("(X-X)", "How did this happen?");
     Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
   }
 }
@@ -125,7 +125,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
       // check if the source MAC matches the target
       if (src == "de:ad:be:ef:de:ad") {
         pwnagotchiDetected = true;
-        Serial.println(Mood::happy + " Pwnagotchi detected!");
+        Serial.println("(^-^) Pwnagotchi detected!");
         Serial.println(" ");
         Display::updateDisplay("(^-^)", "Pwnagotchi detected!");
         delay(Config::shortDelay);
@@ -146,13 +146,13 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         // delay(Config::shortDelay);
 
         // network related info
-        Serial.print(Mood::happy + " RSSI: ");
+        Serial.print("(^-^) RSSI: ");
         Serial.println(snifferPacket->rx_ctrl.rssi);
-        Serial.print(Mood::happy + " Channel: ");
+        Serial.print("(^-^) Channel: ");
         Serial.println(snifferPacket->rx_ctrl.channel);
-        Serial.print(Mood::happy + " BSSID: ");
+        Serial.print("(^-^) BSSID: ");
         Serial.println(addr);
-        Serial.print(Mood::happy + " ESSID: ");
+        Serial.print("(^-^) ESSID: ");
         Serial.println(essid);
         Serial.println(" ");
 
@@ -163,16 +163,16 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
 
         // check if json parsing is successful
         if (error) {
-          Serial.println(Mood::broken + " Could not parse Pwnagotchi json: ");
-          Serial.print(Mood::broken + " ");
+          Serial.println(F("(X-X) Could not parse Pwnagotchi json: "));
+          Serial.print("(X-X) ");
           Serial.println(error.c_str());
-          Display::updateDisplay(Mood::broken, "Could not parse Pwnagotchi json: " +
+          Display::updateDisplay("(^-^)", "Could not parse Pwnagotchi json: " +
                                               (String)error.c_str());
           Serial.println(" ");
         } else {
-          Serial.println(Mood::happy + " Successfully parsed json!");
+          Serial.println("(^-^) Successfully parsed json!");
           Serial.println(" ");
-          Display::updateDisplay(Mood::happy, "Successfully parsed json!");
+          Display::updateDisplay("(^-^)", "Successfully parsed json!");
           // find out some stats
           String name = jsonBuffer["name"].as<String>();
           delay(Config::shortDelay);
@@ -188,13 +188,13 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           }
 
           // print the info
-          Serial.print(Mood::happy + " Pwnagotchi name: ");
+          Serial.print("(^-^) Pwnagotchi name: ");
           Serial.println(name);
-          Serial.print(Mood::happy + " Pwned Networks: ");
+          Serial.print("(^-^) Pwned Networks: ");
           Serial.println(pwndTot);
           Serial.print(" ");
-          Display::updateDisplay(Mood::happy, "Pwnagotchi name: " + (String)name);
-          Display::updateDisplay(Mood::happy, "Pwned Networks: " + (String)pwndTot);
+          Display::updateDisplay("(^-^)", "Pwnagotchi name: " + (String)name);
+          Display::updateDisplay("(^-^)", "Pwned Networks: " + (String)pwndTot);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }
       }
