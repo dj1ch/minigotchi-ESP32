@@ -163,7 +163,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
 
         // check if json parsing is successful
         if (error) {
-          Serial.println(F(Mood::broken + " Could not parse Pwnagotchi json: "));
+          Serial.println(Mood::broken + " Could not parse Pwnagotchi json: ");
           Serial.print(Mood::broken + " ");
           Serial.println(error.c_str());
           Display::updateDisplay(Mood::broken, "Could not parse Pwnagotchi json: " +
