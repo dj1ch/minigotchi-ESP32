@@ -23,6 +23,7 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
+#include "mood.h"
 #include "config.h"
 #include "display.h"
 #include "minigotchi.h"
