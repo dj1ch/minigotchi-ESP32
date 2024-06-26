@@ -23,8 +23,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "mood.h"
 #include "minigotchi.h"
+#include "mood.h"
 #include "parasite.h"
 #include <Arduino.h>
 #include <esp_wifi.h>

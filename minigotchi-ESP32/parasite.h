@@ -23,11 +23,11 @@
 #ifndef PARASITE_H
 #define PARASITE_H
 
-#include "mood.h"
 #include "channel.h"
 #include "config.h"
 #include "deauth.h"
 #include "frame.h"
+#include "mood.h"
 #include "pwnagotchi.h"
 #include <Arduino.h>
 #include <ArduinoJson.h>

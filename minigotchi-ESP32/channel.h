@@ -23,10 +23,10 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
-#include "mood.h"
 #include "config.h"
 #include "display.h"
 #include "minigotchi.h"
+#include "mood.h"
 #include "parasite.h"
 #include <WiFi.h>
 #include <esp_wifi.h>

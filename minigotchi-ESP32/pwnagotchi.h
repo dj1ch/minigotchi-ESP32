@@ -23,10 +23,10 @@
 #ifndef PWNAGOTCHI_H
 #define PWNAGOTCHI_H
 
-#include "mood.h"
 #include "config.h"
 #include "frame.h"
 #include "minigotchi.h"
+#include "mood.h"
 #include "parasite.h"
 #include <Arduino.h>
 #include <ArduinoJson.h>

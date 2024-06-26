@@ -23,12 +23,12 @@
 #ifndef MINIGOTCHI_H
 #define MINIGOTCHI_H
 
-#include "mood.h"
 #include "channel.h"
 #include "config.h"
 #include "deauth.h"
 #include "display.h"
 #include "frame.h"
+#include "mood.h"
 #include "parasite.h"
 #include "pwnagotchi.h"
 #include <Arduino.h>

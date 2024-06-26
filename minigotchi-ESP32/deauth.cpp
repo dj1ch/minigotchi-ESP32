@@ -217,11 +217,11 @@ bool Deauth::select() {
       Display::updateDisplay(
           "('-')",
           "Selected AP is in the whitelist. Skipping deauthentication...");
-<<<<<<< HEAD
-          delay(1000);
-=======
->>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
-      Parasite::sendDeauthStatus(SKIPPING_WHITELIST);
+      < < < < < < < HEAD delay(1000);
+      == == ==
+          = >>>>>>>
+            7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 Parasite::sendDeauthStatus(
+                SKIPPING_WHITELIST);
       return false;
     }
 
@@ -384,11 +384,9 @@ void Deauth::deauth() {
             "(>-<) Starting deauthentication attack on the selected AP...");
         Serial.println(" ");
         Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
-<<<<<<< HEAD
-        delay(900);
-=======
->>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
-        delay(Config::shortDelay);
+        < < < < < < < HEAD delay(900);
+        == == == = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 delay(
+                               Config::shortDelay);
         // define the attack
         if (!running) {
           start();
@@ -478,9 +476,6 @@ void Deauth::start() {
   Serial.println("(^-^) Attack finished!");
   Serial.println(" ");
   Display::updateDisplay("(^-^)", "Attack finished!");
-<<<<<<< HEAD
-  delay(900);
-=======
->>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
-  running = false;
+  < < < < < < < HEAD delay(900);
+  == == == = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 running = false;
 }
