@@ -52,32 +52,32 @@ void Minigotchi::epoch() {
 
 // things to do when starting up
 void Minigotchi::boot() {
-  // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
-  // cable
-  if (Config::screen == "M5StickCP") {
-    AXP192 axp192;
-    axp192.begin();           // Use the instance of AXP192
-    axp192.ScreenBreath(100); // Use the instance of AXP192
-  } else if (Config::screen == "M5StickCP2") {
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
-  }
+// StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB cable
+if (Config::screen == "M5StickCP") {
+  AXP192 axp192; 
+  axp192.begin(); // Use the instance of AXP192
+  axp192.ScreenBreath(100); // Use the instance of AXP192
+} else if (Config::screen == "M5StickCP2") {
+  pinMode(4, OUTPUT);
+  digitalWrite(4, HIGH);
+} 
 
   Display::startScreen();
   Serial.println(" ");
   Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
   Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
+  delay(1000);
   Serial.println(" ");
   Serial.println(
       "('-') You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
   delay(250);
   Display::updateDisplay("('-')", "Edit my config.cpp!");
-  delay(250);
+  delay(900);
   Serial.println("(>-<) Starting now...");
   Serial.println(" ");
   Display::updateDisplay("(>-<)", "Starting  now");
-  delay(250);
+  delay(1000);
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
   Serial.println("################################################");
@@ -94,6 +94,7 @@ void Minigotchi::info() {
   Serial.println(" ");
   Serial.println("('-') Current Minigotchi Stats: ");
   Display::updateDisplay("('-')", "Current Minigotchi Stats:");
+  delay(1000);
   version();
   mem();
   cpu();
@@ -108,7 +109,7 @@ void Minigotchi::finish() {
   Serial.println("('-') Started successfully!");
   Serial.println(" ");
   Display::updateDisplay("('-')", "Started sucessfully");
-  delay(250);
+  delay(900);
 }
 
 void Minigotchi::version() {
@@ -116,7 +117,7 @@ void Minigotchi::version() {
   Serial.println(Config::version.c_str());
   Display::updateDisplay("('-')",
                          "Version: " + (String)Config::version.c_str());
-  delay(250);
+  delay(1000);
 }
 
 void Minigotchi::mem() {
@@ -134,7 +135,7 @@ void Minigotchi::cpu() {
   Serial.println(" MHz");
   Display::updateDisplay(
       "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
-  delay(250);
+  delay(900);
 }
 
 /** developer note:

@@ -217,6 +217,7 @@ bool Deauth::select() {
       Display::updateDisplay(
           "('-')",
           "Selected AP is in the whitelist. Skipping deauthentication...");
+          delay(1000);
       Parasite::sendDeauthStatus(SKIPPING_WHITELIST);
       return false;
     }
@@ -380,6 +381,7 @@ void Deauth::deauth() {
             "(>-<) Starting deauthentication attack on the selected AP...");
         Serial.println(" ");
         Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
+        delay(900);
         delay(Config::shortDelay);
         // define the attack
         if (!running) {
@@ -470,5 +472,6 @@ void Deauth::start() {
   Serial.println("(^-^) Attack finished!");
   Serial.println(" ");
   Display::updateDisplay("(^-^)", "Attack finished!");
+  delay(900);
   running = false;
 }

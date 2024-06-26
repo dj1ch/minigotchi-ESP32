@@ -1,20 +1,56 @@
+/*
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * display.h: header files for display.cpp
+ */
+
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
 #include "config.h"
+#include "mood.h"
 #include <Adafruit_GFX.h>
+#include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
 #include <SPI.h>
-#include <TFT_eSPI.h> // Defines the TFT_eSPI library
+#include <TFT_eSPI.h> // Defines the TFT_eSPI library for CYD
+#include <U8g2lib.h>
 #include <Wire.h>
+#include <string>
 
-// SSD1306 screen
 #define SSD1306_SCREEN_WIDTH 128
 #define SSD1306_SCREEN_HEIGHT 64
 
-// Init screen
 #define SSD1306_OLED_RESET -1
 #define WEMOS_OLED_SHIELD_OLED_RESET 0 // GPIO0
+
+#define SSD1305_SCREEN_WIDTH 128
+#define SSD1305_SCREEN_HEIGHT 32
+
+#define SSD1305_OLED_CLK 14
+#define SSD1305_OLED_MOSI 13
+#define SSD1305_OLED_CS 15
+#define SSD1305_OLED_DC 4
+#define SSD1305_OLED_RESET 5
+
+#define IDEASPARK_SSD1306_SCL 14
+#define IDEASPARK_SSD1306_SDA 12
 
 /** developer note:
  *
@@ -26,25 +62,27 @@
 #define CYD_SCREEN_WIDTH 240
 #define CYD_SCREEN_HEIGHT 320
 
-// Define display parameters for TTGO_T_DISPLAY
-#define TTGO_T_DISPLAY_WIDTH 135
-#define TTGO_T_DISPLAY_HEIGHT 240
-
-// Define display parameters for M5StickC Plus and M5Cardputer
-#define M5STICK_SCREEN_WIDTH 135
-#define M5STICK_SCREEN_HEIGHT 240
+// lilygo t-display-t3
+#define T_DISPLAY_S3_WIDTH 320
+#define T_DISPLAY_S3_HEIGHT 170
 
 class Display {
 public:
   static void startScreen();
-  static void cleanDisplayFace(String text);
-  static void attachSmallText(String text);
+  static void updateDisplay(String face);
+  static void updateDisplay(String face, String text);
+  static void printU8G2Data(int x, int y, const char *data);
+  static String storedFace;
+  static String previousFace;
+  static String storedText;
+  static String previousText;
   ~Display();
 
 private:
-  static Adafruit_SSD1306 *adafruit_display;
-  static TFT_eSPI *tft_display; // Declare a static pointer to a TFT_eSPI object
-                                // to manage the TFT display.
+  static Adafruit_SSD1306 *ssd1306_adafruit_display;
+  static Adafruit_SSD1305 *ssd1305_adafruit_display;
+  static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
+  static TFT_eSPI *tft_display;
 };
 
 #endif // DISPLAY_H
