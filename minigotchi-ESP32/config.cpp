@@ -1,3 +1,21 @@
+/*
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * config.cpp: configuration for minigotchi
  */
@@ -12,13 +30,21 @@
  *
  */
 
-// define whether or not the deauthing or advertising is turned on
+// define whether or not deauthing or advertising is turned on
 bool Config::deauth = true;
 bool Config::advertise = true;
 
-// screen configuration 
-bool Config::display = true;  
-std::string Config::screen = "";  // Choices available (SSD1306, WEMOS_OLED_SHIELD, CYD, TTGO_T_DISPLAY, M5StickCP, M5StickCP2, M5Cardputer)
+// define universal delays
+int Config::shortDelay = 500;
+int Config::longDelay = 5000;
+
+// Defines if this is running in parasite mode where it hooks up directly to a
+// Pwnagotchi
+bool Config::parasite = false;
+
+// screen configuration
+bool Config::display = true;
+std::string Config::screen = "Define_Display_Here";
 
 // define baud rate
 int Config::baud = 115200;
@@ -28,6 +54,16 @@ int Config::channel = 1;
 
 // define whitelist
 std::vector<std::string> Config::whitelist = {"SSID", "SSID", "SSID"};
+
+// define faces
+String Config::happy = "(^-^)";
+String Config::sad = "(;-;)";
+String Config::broken = "(X-X)";
+String Config::intense = "(>-<)";
+String Config::looking1 = "(0-o)";
+String Config::looking2 = "(o-0)";
+String Config::neutral = "('-')";
+String Config::sleeping = "(-.-)";
 
 // json config
 int Config::epoch = Minigotchi::currentEpoch;
@@ -59,8 +95,11 @@ int Config::pwnd_tot = 0;
 std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
+// wifi settings
+wifi_init_config_t Config::config = WIFI_INIT_CONFIG_DEFAULT();
+
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.2.2-beta";
+std::string Config::version = "3.3.2-beta";
 
 /** developer note:
  *
