@@ -1,3 +1,21 @@
+/*
+ * Minigotchi: An even smaller Pwnagotchi
+ * Copyright (C) 2024 dj1ch
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * minigotchi.cpp: handles system usage info, etc
  */
@@ -26,6 +44,7 @@ int Minigotchi::addEpoch() {
 
 void Minigotchi::epoch() {
   Minigotchi::addEpoch();
+  Parasite::readData();
   Serial.print("('-') Current Epoch: ");
   Serial.println(Minigotchi::currentEpoch);
   Serial.println(" ");
@@ -47,20 +66,17 @@ void Minigotchi::boot() {
   Display::startScreen();
   Serial.println(" ");
   Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
-  Display::cleanDisplayFace("(^-^)");
-  Display::attachSmallText("Hi,       I'm Minigotchi");
+  Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
   Serial.println(" ");
   Serial.println(
       "('-') You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
   delay(250);
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("Edit my config.cpp!");
+  Display::updateDisplay("('-')", "Edit my config.cpp!");
   delay(250);
   Serial.println("(>-<) Starting now...");
   Serial.println(" ");
-  Display::cleanDisplayFace("(>-<)");
-  Display::attachSmallText("Starting  now");
+  Display::updateDisplay("(>-<)", "Starting  now");
   delay(250);
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
@@ -69,6 +85,7 @@ void Minigotchi::boot() {
   Deauth::list();
   Channel::init(Config::channel);
   Minigotchi::info();
+  Parasite::sendName();
   Minigotchi::finish();
 }
 
@@ -76,8 +93,7 @@ void Minigotchi::info() {
   delay(250);
   Serial.println(" ");
   Serial.println("('-') Current Minigotchi Stats: ");
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("Current Minigotchi Stats:");
+  Display::updateDisplay("('-')", "Current Minigotchi Stats:");
   version();
   mem();
   cpu();
@@ -91,16 +107,15 @@ void Minigotchi::finish() {
   Serial.println(" ");
   Serial.println("('-') Started successfully!");
   Serial.println(" ");
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("Started sucessfully");
+  Display::updateDisplay("('-')", "Started sucessfully");
   delay(250);
 }
 
 void Minigotchi::version() {
   Serial.print("('-') Version: ");
   Serial.println(Config::version.c_str());
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("Version: " + (String)Config::version.c_str());
+  Display::updateDisplay("('-')",
+                         "Version: " + (String)Config::version.c_str());
   delay(250);
 }
 
@@ -108,8 +123,8 @@ void Minigotchi::mem() {
   Serial.print("('-') Heap: ");
   Serial.print(ESP.getFreeHeap());
   Serial.println(" bytes");
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("Heap: " + (String)ESP.getFreeHeap() + " bytes");
+  Display::updateDisplay("('-')",
+                         "Heap: " + (String)ESP.getFreeHeap() + " bytes");
   delay(250);
 }
 
@@ -117,9 +132,8 @@ void Minigotchi::cpu() {
   Serial.print("('-') CPU Frequency: ");
   Serial.print(ESP.getCpuFreqMHz());
   Serial.println(" MHz");
-  Display::cleanDisplayFace("('-')");
-  Display::attachSmallText("CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
-                           " MHz");
+  Display::updateDisplay(
+      "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
   delay(250);
 }
 
@@ -145,7 +159,7 @@ void Minigotchi::monStart() {
   WiFi.disconnect();
 
   // revert to station mode
-  esp_wifi_set_mode(WIFI_MODE_STA);
+  WiFi.mode(WIFI_STA);
   esp_wifi_set_promiscuous(true);
 }
 
@@ -153,7 +167,7 @@ void Minigotchi::monStop() {
   esp_wifi_set_promiscuous(false);
 
   // revert to station mode
-  esp_wifi_set_mode(WIFI_MODE_STA);
+  WiFi.mode(WIFI_STA);
 }
 
 /** developer note:
@@ -176,13 +190,25 @@ void Minigotchi::monStop() {
  */
 
 // channel cycling
-void Minigotchi::cycle() { Channel::cycle(); }
+void Minigotchi::cycle() {
+  Parasite::readData();
+  Channel::cycle();
+}
 
 // pwnagotchi detection
-void Minigotchi::detect() { Pwnagotchi::detect(); }
+void Minigotchi::detect() {
+  Parasite::readData();
+  Pwnagotchi::detect(); 
+}
 
 // deauthing
-void Minigotchi::deauth() { Deauth::deauth(); }
+void Minigotchi::deauth() {
+  Parasite::readData();
+  Deauth::deauth();
+}
 
 // advertising
-void Minigotchi::advertise() { Frame::advertise(); }
+void Minigotchi::advertise() {
+  Parasite::readData();
+  Frame::advertise();
+}
