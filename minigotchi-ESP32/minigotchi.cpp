@@ -66,18 +66,29 @@ if (Config::screen == "M5StickCP") {
   Serial.println(" ");
   Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
   Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
+<<<<<<< HEAD
   delay(1000);
+=======
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
   Serial.println(" ");
   Serial.println(
       "('-') You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
   delay(250);
   Display::updateDisplay("('-')", "Edit my config.cpp!");
+<<<<<<< HEAD
   delay(900);
   Serial.println("(>-<) Starting now...");
   Serial.println(" ");
   Display::updateDisplay("(>-<)", "Starting  now");
   delay(1000);
+=======
+  delay(250);
+  Serial.println("(>-<) Starting now...");
+  Serial.println(" ");
+  Display::updateDisplay("(>-<)", "Starting  now");
+  delay(250);
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
   Serial.println("################################################");
@@ -94,7 +105,10 @@ void Minigotchi::info() {
   Serial.println(" ");
   Serial.println("('-') Current Minigotchi Stats: ");
   Display::updateDisplay("('-')", "Current Minigotchi Stats:");
+<<<<<<< HEAD
   delay(1000);
+=======
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
   version();
   mem();
   cpu();
@@ -109,7 +123,11 @@ void Minigotchi::finish() {
   Serial.println("('-') Started successfully!");
   Serial.println(" ");
   Display::updateDisplay("('-')", "Started sucessfully");
+<<<<<<< HEAD
   delay(900);
+=======
+  delay(250);
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
 }
 
 void Minigotchi::version() {
@@ -117,7 +135,11 @@ void Minigotchi::version() {
   Serial.println(Config::version.c_str());
   Display::updateDisplay("('-')",
                          "Version: " + (String)Config::version.c_str());
+<<<<<<< HEAD
   delay(1000);
+=======
+  delay(250);
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
 }
 
 void Minigotchi::mem() {
@@ -135,7 +157,11 @@ void Minigotchi::cpu() {
   Serial.println(" MHz");
   Display::updateDisplay(
       "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
+<<<<<<< HEAD
   delay(900);
+=======
+  delay(250);
+>>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
 }
 
 /** developer note:
