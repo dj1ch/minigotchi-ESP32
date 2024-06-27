@@ -87,7 +87,7 @@ void Display::startScreen() {
                "CYD") { // Check if the screen configuration is set to "CYD" and
       // execute the corresponding code
       tft_display = &tft;
-      < < < < < < < HEAD tft.begin(); // Initialize TFT_eSPI library
+      tft.begin(); // Initialize TFT_eSPI library
       delay(100);
     } else if (Config::screen == "T_DISPLAY_S3") {
       tft_display = &tft;
@@ -123,49 +123,10 @@ void Display::startScreen() {
                ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
-    } else if (Config::screen == "M5StickCP" ||
-               Config::screen == "M5StickCP2" ||
-               Config::screen ==
-                   "M5Cardputer") { // New condition for M5StickC Plus
-      == == == = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 tft
-                             .begin(); // Initialize TFT_eSPI library
+	  } else if (Config::screen == "M5StickCP" || Config::screen == "M5StickCP2" || Config::screen ==  "M5Cardputer") {  // New condition for M5StickC Plus
+      tft.setRotation(1); // Set display rotation if needed
+      tft.begin(); // Initialize TFT_eSPI library
       delay(100);
-    } else if (Config::screen == "T_DISPLAY_S3") {
-      tft_display = &tft;
-      tft.begin();
-      delay(100);
-    } else {
-      ssd1306_adafruit_display =
-          new Adafruit_SSD1306(WEMOS_OLED_SHIELD_OLED_RESET);
-      delay(100);
-      ssd1306_adafruit_display->begin(
-          SSD1306_SWITCHCAPVCC,
-          0x3C); // initialize with the I2C addr 0x3C (for the 64x48)
-      delay(100);
-    }
-
-    // initialize w/ delays to prevent crash
-    if (Config::screen == "SSD1306" && ssd1306_adafruit_display != nullptr) {
-      ssd1306_adafruit_display->display();
-      delay(100);
-      ssd1306_adafruit_display->clearDisplay();
-      delay(100);
-      ssd1306_adafruit_display->setTextColor(WHITE);
-      delay(100);
-    } else if (Config::screen == "SSD1305" &&
-               ssd1305_adafruit_display != nullptr) {
-      ssd1305_adafruit_display->display();
-      delay(100);
-      ssd1305_adafruit_display->clearDisplay();
-      delay(100);
-      ssd1305_adafruit_display->setTextColor(WHITE);
-      delay(100);
-    } else if (Config::screen == "IDEASPARK_SSD1306" &&
-               ssd1306_ideaspark_display != nullptr) {
-      ssd1306_ideaspark_display->clearBuffer();
-      delay(100);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
-               tft_display != nullptr) {
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
       tft.fillScreen(TFT_BLACK); // Fill screen with black color
@@ -173,16 +134,6 @@ void Display::startScreen() {
       tft.setTextColor(TFT_WHITE); // Set text color to white
       delay(100);
       tft.setTextSize(2); // Set text size)
-      delay(100);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
-               tft_display != nullptr) {
-      tft.setRotation(1); // Set display rotation if needed
-      delay(100);
-      tft.fillScreen(TFT_BLACK); // Fill screen with black color
-      delay(100);
-      tft.setTextColor(TFT_WHITE); // Set text color to white
-      delay(100);
-      tft.setTextSize(2); // Set text size
       delay(100);
     }
   }
@@ -257,11 +208,7 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
-      < < < < < < < HEAD
-    } else if (Config::screen == "M5StickCP" ||
-               Config::screen == "M5StickCP2" ||
-               Config::screen ==
-                   "M5Cardputer") { // New condition for M5 devices
+    } else if (Config::screen == "M5StickCP" || Config::screen == "M5StickCP2" || Config::screen == "M5Cardputer") { // New condition for M5 devices
       bool faceChanged = (face != Display::storedFace);
       bool textChanged = (text != Display::storedText);
 
@@ -280,8 +227,7 @@ void Display::updateDisplay(String face, String text) {
       }
 
       if (textChanged) {
-        tft.fillRect(0, 50, tft.width(), tft.height() - 50,
-                     TFT_BLACK); // Clear text area
+        tft.fillRect(0, 50, tft.width(), tft.height() - 50, TFT_BLACK); // Clear text area
         delay(5);
         tft.setTextColor(TFT_WHITE); // Set text color to white
         delay(5);
@@ -293,7 +239,6 @@ void Display::updateDisplay(String face, String text) {
         delay(5);
         Display::storedText = text; // Store the new text
       }
-      == == == = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
     } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
                tft_display != nullptr) {
       bool faceChanged = (face != Display::storedFace);
@@ -311,11 +256,9 @@ void Display::updateDisplay(String face, String text) {
       }
 
       if (textChanged) {
-        < < < < < < < HEAD int textY = (Config::screen == "CYD") ? 40 : 60;
-        == == == = int textY = (Config::screen == "CYD") ? 40 : 50;
-        >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 tft.fillRect(
-                    0, textY, tft.width(), tft.height() - textY,
-                    TFT_BLACK); // Clear text area
+        int textY = (Config::screen == "CYD") ? 40 : 50;
+        tft.fillRect(0, textY, tft.width(), tft.height() - textY,
+                     TFT_BLACK); // Clear text area
         tft.setCursor(0, textY);
         tft.setTextSize((Config::screen == "CYD") ? 1 : 2);
         tft.setTextColor(TFT_WHITE);

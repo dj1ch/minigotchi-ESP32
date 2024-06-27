@@ -128,14 +128,10 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         Serial.println("(^-^) Pwnagotchi detected!");
         Serial.println(" ");
         Display::updateDisplay("(^-^)", "Pwnagotchi detected!");
-        delay(Config::shortDelay);
-        < < < < < < < HEAD
-            // delay(Config::shortDelay);
-            == == ==
-            = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
-
-              // extract the ESSID from the beacon frame
-              String essid;
+        // delay(Config::shortDelay);
+		
+        // extract the ESSID from the beacon frame
+        String essid;
 
         // "borrowed" from ESP32 Marauder
         for (int i = 38; i < len; i++) {
@@ -198,13 +194,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.println(pwndTot);
           Serial.print(" ");
           Display::updateDisplay("(^-^)", "Pwnagotchi name: " + (String)name);
-          < < < < < < < HEAD delay(Config::shortDelay);
           Display::updateDisplay("(^-^)", "Pwned Networks: " + (String)pwndTot);
-          delay(Config::shortDelay);
-          == == == = Display::updateDisplay("(^-^)", "Pwned Networks: " +
-                                                         (String)pwndTot);
-          >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 Parasite::
-                      sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
+		  delay(Config::shortDelay);
+          Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }
       }
     }

@@ -25,7 +25,6 @@
 
 #include "config.h"
 #include "minigotchi.h"
-#include "mood.h"
 #include "parasite.h"
 #include <Arduino.h>
 #include <WiFi.h>

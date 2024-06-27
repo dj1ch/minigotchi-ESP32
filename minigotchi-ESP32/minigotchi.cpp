@@ -52,41 +52,32 @@ void Minigotchi::epoch() {
 
 // things to do when starting up
 void Minigotchi::boot() {
-  // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
-  // cable
-  if (Config::screen == "M5StickCP") {
-    AXP192 axp192;
-    axp192.begin();           // Use the instance of AXP192
-    axp192.ScreenBreath(100); // Use the instance of AXP192
-  } else if (Config::screen == "M5StickCP2") {
-    pinMode(4, OUTPUT);
-    digitalWrite(4, HIGH);
-  }
+// StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB cable
+if (Config::screen == "M5StickCP") {
+  AXP192 axp192; 
+  axp192.begin(); // Use the instance of AXP192
+  axp192.ScreenBreath(100); // Use the instance of AXP192
+} else if (Config::screen == "M5StickCP2") {
+  pinMode(4, OUTPUT);
+  digitalWrite(4, HIGH);
+} 
 
   Display::startScreen();
   Serial.println(" ");
   Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
   Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
-  < < < < < < < HEAD delay(1000);
-  == == ==
-      = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 Serial.println(" ");
+  Serial.println(" ");
   Serial.println(
       "('-') You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
   delay(250);
   Display::updateDisplay("('-')", "Edit my config.cpp!");
-  < < < < < < < HEAD delay(900);
-  Serial.println("(>-<) Starting now...");
-  Serial.println(" ");
-  Display::updateDisplay("(>-<)", "Starting  now");
-  delay(1000);
-  == == == = delay(250);
+  delay(250);
   Serial.println("(>-<) Starting now...");
   Serial.println(" ");
   Display::updateDisplay("(>-<)", "Starting  now");
   delay(250);
-  >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 Serial.println(
-              "################################################");
+  Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
   Serial.println("################################################");
   Serial.println(" ");
@@ -102,8 +93,7 @@ void Minigotchi::info() {
   Serial.println(" ");
   Serial.println("('-') Current Minigotchi Stats: ");
   Display::updateDisplay("('-')", "Current Minigotchi Stats:");
-  < < < < < < < HEAD delay(1000);
-  == == == = >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5 version();
+  version();
   mem();
   cpu();
   Serial.println(" ");
@@ -117,9 +107,7 @@ void Minigotchi::finish() {
   Serial.println("('-') Started successfully!");
   Serial.println(" ");
   Display::updateDisplay("('-')", "Started sucessfully");
-  < < < < < < < HEAD delay(900);
-  == == == = delay(250);
-  >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
+  delay(250);
 }
 
 void Minigotchi::version() {
@@ -127,9 +115,7 @@ void Minigotchi::version() {
   Serial.println(Config::version.c_str());
   Display::updateDisplay("('-')",
                          "Version: " + (String)Config::version.c_str());
-  < < < < < < < HEAD delay(1000);
-  == == == = delay(250);
-  >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
+  delay(250);
 }
 
 void Minigotchi::mem() {
@@ -147,9 +133,7 @@ void Minigotchi::cpu() {
   Serial.println(" MHz");
   Display::updateDisplay(
       "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
-  < < < < < < < HEAD delay(900);
-  == == == = delay(250);
-  >>>>>>> 7d4cf26d94d85b1e197f97304c5bb62ffd1744d5
+  delay(250);
 }
 
 /** developer note:
@@ -213,7 +197,7 @@ void Minigotchi::cycle() {
 // pwnagotchi detection
 void Minigotchi::detect() {
   Parasite::readData();
-  Pwnagotchi::detect();
+  Pwnagotchi::detect(); 
 }
 
 // deauthing

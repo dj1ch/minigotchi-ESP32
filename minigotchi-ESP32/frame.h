@@ -25,7 +25,6 @@
 
 #include "config.h"
 #include "display.h"
-#include "mood.h"
 #include "parasite.h"
 #include <ArduinoJson.h>
 #include <esp_wifi.h>

@@ -27,7 +27,6 @@
 #include "config.h"
 #include "deauth.h"
 #include "frame.h"
-#include "mood.h"
 #include "pwnagotchi.h"
 #include <Arduino.h>
 #include <ArduinoJson.h>

@@ -24,7 +24,6 @@
 #define CONFIG_H
 
 #include "minigotchi.h"
-#include "mood.h"
 #include "parasite.h"
 #include <Arduino.h>
 #include <esp_wifi.h>
