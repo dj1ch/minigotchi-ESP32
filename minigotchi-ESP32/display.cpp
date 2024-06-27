@@ -123,15 +123,20 @@ void Display::startScreen() {
                ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
-               tft_display != nullptr) {
+    } else if (Config::screen == "M5StickCP" ||
+               Config::screen == "M5StickCP2" ||
+               Config::screen ==
+                   "M5Cardputer") { // New condition for M5StickC Plus
+      tft.setRotation(1);           // Set display rotation if needed
+      tft.begin();                  // Initialize TFT_eSPI library
+      delay(100);
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
       tft.fillScreen(TFT_BLACK); // Fill screen with black color
       delay(100);
       tft.setTextColor(TFT_WHITE); // Set text color to white
       delay(100);
-      tft.setTextSize(2); // Set text size
+      tft.setTextSize(2); // Set text size)
       delay(100);
     }
   }
@@ -206,6 +211,41 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
+    } else if (Config::screen == "M5StickCP" ||
+               Config::screen == "M5StickCP2" ||
+               Config::screen ==
+                   "M5Cardputer") { // New condition for M5 devices
+      bool faceChanged = (face != Display::storedFace);
+      bool textChanged = (text != Display::storedText);
+
+      if (faceChanged) {
+        tft.fillRect(0, 0, tft.width(), 50, TFT_BLACK); // Clear face area
+        delay(5);
+        tft.setTextColor(TFT_WHITE); // Set text color to white
+        delay(5);
+        tft.setCursor(0, 0); // Set cursor to start position
+        delay(5);
+        tft.setTextSize(6); // Set text size for face
+        delay(5);
+        tft.println(face); // Print face
+        delay(5);
+        Display::storedFace = face; // Store the new face
+      }
+
+      if (textChanged) {
+        tft.fillRect(0, 50, tft.width(), tft.height() - 50,
+                     TFT_BLACK); // Clear text area
+        delay(5);
+        tft.setTextColor(TFT_WHITE); // Set text color to white
+        delay(5);
+        tft.setCursor(0, 50); // Set cursor to start position
+        delay(5);
+        tft.setTextSize(2); // Set text size for text
+        delay(5);
+        tft.println(text); // Print text
+        delay(5);
+        Display::storedText = text; // Store the new text
+      }
     } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
                tft_display != nullptr) {
       bool faceChanged = (face != Display::storedFace);

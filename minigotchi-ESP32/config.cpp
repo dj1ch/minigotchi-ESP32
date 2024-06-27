@@ -44,7 +44,7 @@ bool Config::parasite = false;
 
 // screen configuration
 bool Config::display = true;
-std::string Config::screen = "T_DISPLAY_S3";
+std::string Config::screen = "";
 
 // define baud rate
 int Config::baud = 115200;
