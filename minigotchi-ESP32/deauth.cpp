@@ -98,6 +98,7 @@ void Deauth::add(const std::string &bssids) {
     Serial.print(token.c_str());
     Serial.println(" to the whitelist");
     Display::updateDisplay("('-')", "Adding " + (String) + " to the whitelist");
+    delay(Config::shortDelay);
     whitelist.push_back(token.c_str());
   }
 }
@@ -205,6 +206,7 @@ bool Deauth::select() {
       Display::updateDisplay(
           "('-')",
           "Selected AP is not encrypted. Skipping deauthentication...");
+      delay(Config::shortDelay);
       Parasite::sendDeauthStatus(SKIPPING_UNENCRYPTED);
       return false;
     }
@@ -217,7 +219,7 @@ bool Deauth::select() {
       Display::updateDisplay(
           "('-')",
           "Selected AP is in the whitelist. Skipping deauthentication...");
-          delay(1000);
+	  delay(Config::shortDelay);
       Parasite::sendDeauthStatus(SKIPPING_WHITELIST);
       return false;
     }
@@ -381,7 +383,6 @@ void Deauth::deauth() {
             "(>-<) Starting deauthentication attack on the selected AP...");
         Serial.println(" ");
         Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
-        delay(900);
         delay(Config::shortDelay);
         // define the attack
         if (!running) {
@@ -472,6 +473,5 @@ void Deauth::start() {
   Serial.println("(^-^) Attack finished!");
   Serial.println(" ");
   Display::updateDisplay("(^-^)", "Attack finished!");
-  delay(900);
   running = false;
 }

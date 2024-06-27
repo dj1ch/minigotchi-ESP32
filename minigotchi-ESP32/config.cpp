@@ -44,7 +44,7 @@ bool Config::parasite = false;
 
 // screen configuration
 bool Config::display = true;
-std::string Config::screen = "Define_Display_Here";
+std::string Config::screen = "";
 
 // define baud rate
 int Config::baud = 115200;

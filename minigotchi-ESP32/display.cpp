@@ -124,6 +124,7 @@ void Display::startScreen() {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
 	  } else if (Config::screen == "M5StickCP" || Config::screen == "M5StickCP2" || Config::screen ==  "M5Cardputer") {  // New condition for M5StickC Plus
+      tft.setRotation(1); // Set display rotation if needed
       tft.begin(); // Initialize TFT_eSPI library
       delay(100);
       tft.setRotation(1); // Set display rotation if needed
@@ -133,16 +134,6 @@ void Display::startScreen() {
       tft.setTextColor(TFT_WHITE); // Set text color to white
       delay(100);
       tft.setTextSize(2); // Set text size)
-      delay(100);
-    } else if ((Config::screen == "CYD" || Config::screen == "T_DISPLAY_S3") &&
-               tft_display != nullptr) {
-      tft.setRotation(1); // Set display rotation if needed
-      delay(100);
-      tft.fillScreen(TFT_BLACK); // Fill screen with black color
-      delay(100);
-      tft.setTextColor(TFT_WHITE); // Set text color to white
-      delay(100);
-      tft.setTextSize(2); // Set text size
       delay(100);
     }
   }
@@ -265,7 +256,7 @@ void Display::updateDisplay(String face, String text) {
       }
 
       if (textChanged) {
-        int textY = (Config::screen == "CYD") ? 40 : 60;
+        int textY = (Config::screen == "CYD") ? 40 : 50;
         tft.fillRect(0, textY, tft.width(), tft.height() - textY,
                      TFT_BLACK); // Clear text area
         tft.setCursor(0, textY);
