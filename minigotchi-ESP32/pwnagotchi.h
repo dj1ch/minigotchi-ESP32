@@ -23,7 +23,6 @@
 #ifndef PWNAGOTCHI_H
 #define PWNAGOTCHI_H
 
-#include "mood.h"
 #include "config.h"
 #include "frame.h"
 #include "minigotchi.h"
