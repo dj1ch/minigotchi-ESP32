@@ -109,10 +109,8 @@ std::string Config::version = "3.3.2-beta";
  */
 
 // randomize config values
-int Config::random(int min, int max) {
-    return min + rand() % (max - min + 1);
-}
+int Config::random(int min, int max) { return min + rand() % (max - min + 1); }
 
 int Config::time() {
-    return millis() / 1000; // convert to seconds
+  return millis() / 1000; // convert to seconds
 }
