@@ -219,7 +219,7 @@ bool Deauth::select() {
       Display::updateDisplay(
           "('-')",
           "Selected AP is in the whitelist. Skipping deauthentication...");
-      delay(Config::shortDelay);
+	  delay(Config::shortDelay);
       Parasite::sendDeauthStatus(SKIPPING_WHITELIST);
       return false;
     }
