@@ -88,10 +88,12 @@ void Display::startScreen() {
       // execute the corresponding code
       tft_display = &tft;
       tft.begin(); // Initialize TFT_eSPI library
+      tft.setRotation(1); // Set display rotation if needed
       delay(100);
     } else if (Config::screen == "T_DISPLAY_S3") {
       tft_display = &tft;
       tft.begin();
+      tft.setRotation(1); // Set display rotation if needed
       delay(100);
     } else {
       ssd1306_adafruit_display =
