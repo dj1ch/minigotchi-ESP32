@@ -87,11 +87,13 @@ void Display::startScreen() {
                "CYD") { // Check if the screen configuration is set to "CYD" and
       // execute the corresponding code
       tft_display = &tft;
-      tft.begin(); // Initialize TFT_eSPI library
+      tft.begin();        // Initialize TFT_eSPI library
+      tft.setRotation(1); // Set display rotation if needed
       delay(100);
     } else if (Config::screen == "T_DISPLAY_S3") {
       tft_display = &tft;
       tft.begin();
+      tft.setRotation(1); // Set display rotation if needed
       delay(100);
     } else {
       ssd1306_adafruit_display =
@@ -253,11 +255,11 @@ void Display::updateDisplay(String face, String text) {
 
       if (faceChanged) {
         int faceHeight = (Config::screen == "CYD") ? 40 : 50;
-        tft.fillRect(0, 5, tft.width(), faceHeight,
+        tft.fillRect(0, 0, tft.width(), faceHeight,
                      TFT_BLACK); // Clear face area
         tft.setCursor(0, 5);
         tft.setTextSize((Config::screen == "CYD") ? 4 : 6);
-        tft.setTextColor(TFT_WHITE);
+        tft.setTextColor(TFT_VIOLET);
         tft.println(face);
         Display::storedFace = face;
       }
@@ -268,7 +270,7 @@ void Display::updateDisplay(String face, String text) {
                      TFT_BLACK); // Clear text area
         tft.setCursor(0, textY);
         tft.setTextSize((Config::screen == "CYD") ? 1 : 2);
-        tft.setTextColor(TFT_WHITE);
+        tft.setTextColor(TFT_GREEN);
         tft.println(text);
         Display::storedText = text;
       }
