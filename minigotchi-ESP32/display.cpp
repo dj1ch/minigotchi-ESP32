@@ -123,12 +123,9 @@ void Display::startScreen() {
                ssd1306_ideaspark_display != nullptr) {
       ssd1306_ideaspark_display->clearBuffer();
       delay(100);
-    } else if (Config::screen == "M5StickCP" ||
-               Config::screen == "M5StickCP2" ||
-               Config::screen ==
-                   "M5Cardputer") { // New condition for M5StickC Plus
-      tft.setRotation(1);           // Set display rotation if needed
-      tft.begin();                  // Initialize TFT_eSPI library
+	  } else if (Config::screen == "M5StickCP" || Config::screen == "M5StickCP2" || Config::screen ==  "M5Cardputer") {  // New condition for M5StickC Plus
+      tft.setRotation(1); // Set display rotation if needed
+      tft.begin(); // Initialize TFT_eSPI library
       delay(100);
       tft.setRotation(1); // Set display rotation if needed
       delay(100);
@@ -211,10 +208,7 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       ssd1306_ideaspark_display->sendBuffer();
       delay(5);
-    } else if (Config::screen == "M5StickCP" ||
-               Config::screen == "M5StickCP2" ||
-               Config::screen ==
-                   "M5Cardputer") { // New condition for M5 devices
+    } else if (Config::screen == "M5StickCP" || Config::screen == "M5StickCP2" || Config::screen == "M5Cardputer") { // New condition for M5 devices
       bool faceChanged = (face != Display::storedFace);
       bool textChanged = (text != Display::storedText);
 
@@ -233,8 +227,7 @@ void Display::updateDisplay(String face, String text) {
       }
 
       if (textChanged) {
-        tft.fillRect(0, 50, tft.width(), tft.height() - 50,
-                     TFT_BLACK); // Clear text area
+        tft.fillRect(0, 50, tft.width(), tft.height() - 50, TFT_BLACK); // Clear text area
         delay(5);
         tft.setTextColor(TFT_WHITE); // Set text color to white
         delay(5);

@@ -129,7 +129,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         Serial.println(" ");
         Display::updateDisplay("(^-^)", "Pwnagotchi detected!");
         // delay(Config::shortDelay);
-
+		
         // extract the ESSID from the beacon frame
         String essid;
 
@@ -195,7 +195,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.print(" ");
           Display::updateDisplay("(^-^)", "Pwnagotchi name: " + (String)name);
           Display::updateDisplay("(^-^)", "Pwned Networks: " + (String)pwndTot);
-          delay(Config::shortDelay);
+		  delay(Config::shortDelay);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }
       }
