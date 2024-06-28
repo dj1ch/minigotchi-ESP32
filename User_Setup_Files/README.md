@@ -8,6 +8,6 @@ To use the display/device of your choice remove the // infront of the entry. Mak
 
 ## Screenshots
 
-![ttf-lib](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/User_Setup_Files/Screenshots/location.png)
-![user_setup_choices](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/User_Setup_Files/Screenshots/location2.png)
-![user_setup_choices](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/User_Setup_Files/Screenshots/filedefine.png)
+![Location](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/images/location.png)
+![Location2](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/images/location2.png)
+![filedefine](https://github.com/ATOMNFT/MULTI-Minigotchi-ESP32/blob/main/images/filedefine.png)
