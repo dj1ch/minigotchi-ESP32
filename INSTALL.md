@@ -66,11 +66,11 @@ There are multiple different screen types available:
 
 - `T_DISPLAY_S3`
   
-- `M5StickCP`
+- `M5STICKCP`
   
-- `M5StickCP2`
+- `M5STICKCP2`
   
-- `M5Cardputer`
+- `M5CARDPUTER`
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
