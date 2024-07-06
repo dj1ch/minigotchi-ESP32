@@ -126,9 +126,9 @@ uint8_t* Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
+  uint8_t* beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
                                    Frame::essidLength + Frame::headerLength];
-  memcpy(Frame::beaconFrame, Frame::header, Frame::pwngridHeaderLength);
+  memcpy(beaconFrame, Frame::header, Frame::pwngridHeaderLength);
 
   /** developer note:
    *
@@ -137,10 +137,6 @@ uint8_t* Frame::pack() {
    *
    * Serial.println(jsonString);
    */
-
-  int currentByte = pwngridHeaderLength;
-
-  for (int i = 0; i < Frame::essidLength; i++) {
 
   int frameByte = pwngridHeaderLength;
   for (int i = 0; i < essidLength; i++) {
