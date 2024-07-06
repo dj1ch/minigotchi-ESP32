@@ -26,6 +26,7 @@
 #include "config.h"
 #include "display.h"
 #include "parasite.h"
+#include <Wifi.h>
 #include <ArduinoJson.h>
 #include <esp_wifi.h>
 #include <sstream>
@@ -34,7 +35,7 @@
 
 class Frame {
 public:
-  static uint8_t *pack();
+  static uint8_t* pack();
   static bool send();
   static void advertise();
   static const uint8_t header[];
@@ -47,7 +48,6 @@ public:
   static const uint8_t BroadcastAddr[];
   static const uint16_t wpaFlags;
 
-  static uint8_t *beaconFrame;
   static const int pwngridHeaderLength;
   static size_t essidLength;
   static uint8_t headerLength;
