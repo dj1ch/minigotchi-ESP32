@@ -144,7 +144,7 @@ uint8_t* Frame::pack() {
       beaconFrame[frameByte++] = Frame::IDWhisperPayload;
       uint8_t newPayloadLength = 255;
       if (essidLength - i < Frame::chunkSize) {
-        newPayloadLength = essidLength = i;
+        newPayloadLength = essidLength - i;
       }
       beaconFrame[frameByte++] = newPayloadLength;
     }
@@ -176,6 +176,7 @@ bool Frame::send() {
   // we don't use raw80211 since it sends a header (which we don't need), although
   // we do use it for monitoring, etc.
   delay(102);
+  // Channel::switchChannel(1 + rand() % (13 - 1 + 1));
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_AP, frame, frameSize, false);
 
   delete[] frame;
