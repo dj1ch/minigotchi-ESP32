@@ -55,9 +55,7 @@ std::string Config::screen = "";
 There are multiple different screen types available:
 
 - `SSD1306`
-  
 - `SSD1305`
-  
 - `IDEASPARK_SSD1306`
 
 - `WEMOS_OLED_SHIELD`
@@ -65,12 +63,9 @@ There are multiple different screen types available:
 - `CYD`
 
 - `T_DISPLAY_S3`
-  
-- `M5StickCP`
-  
-- `M5StickCP2`
-  
-- `M5Cardputer`
+- `M5STICKCP`
+- `M5STICKCP2`
+- `M5CARDPUTER`
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
@@ -130,9 +125,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
   2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
 
-  3. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
-
-  4. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
+  3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this)
 
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
