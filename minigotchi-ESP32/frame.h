@@ -26,8 +26,8 @@
 #include "config.h"
 #include "display.h"
 #include "parasite.h"
-#include <Wifi.h>
 #include <ArduinoJson.h>
+#include <Wifi.h>
 #include <esp_wifi.h>
 #include <sstream>
 #include <string>
@@ -35,7 +35,7 @@
 
 class Frame {
 public:
-  static uint8_t* pack();
+  static uint8_t *pack();
   static bool send();
   static void advertise();
   static const uint8_t header[];

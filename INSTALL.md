@@ -55,9 +55,7 @@ std::string Config::screen = "";
 There are multiple different screen types available:
 
 - `SSD1306`
-  
 - `SSD1305`
-  
 - `IDEASPARK_SSD1306`
 
 - `WEMOS_OLED_SHIELD`
@@ -65,11 +63,8 @@ There are multiple different screen types available:
 - `CYD`
 
 - `T_DISPLAY_S3`
-  
 - `M5STICKCP`
-  
 - `M5STICKCP2`
-  
 - `M5CARDPUTER`
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.

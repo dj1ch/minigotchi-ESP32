@@ -56,15 +56,42 @@ const uint8_t Frame::BroadcastAddr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 const uint16_t Frame::wpaFlags = 0x0411;
 
 const uint8_t Frame::header[]{
-  /*  0 - 1  */ 0x80, 0x00, // frame control, beacon frame
-  /*  2 - 3  */ 0x00, 0x00, // duration
-  /*  4 - 9  */ 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, // broadcast address
-  /* 10 - 15 */ 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, // source address
-  /* 16 - 21 */ 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, // bssid
-  /* 22 - 23 */ 0x00, 0x00, // fragment and sequence number
-  /* 24 - 32 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // timestamp
-  /* 33 - 34 */ 0x64, 0x00, // interval
-  /* 35 - 36 */ 0x11, 0x04, // capability info
+    /*  0 - 1  */ 0x80,
+    0x00, // frame control, beacon frame
+    /*  2 - 3  */ 0x00,
+    0x00, // duration
+    /*  4 - 9  */ 0xff,
+    0xff,
+    0xff,
+    0xff,
+    0xff,
+    0xff, // broadcast address
+    /* 10 - 15 */ 0xde,
+    0xad,
+    0xbe,
+    0xef,
+    0xde,
+    0xad, // source address
+    /* 16 - 21 */ 0xde,
+    0xad,
+    0xbe,
+    0xef,
+    0xde,
+    0xad, // bssid
+    /* 22 - 23 */ 0x00,
+    0x00, // fragment and sequence number
+    /* 24 - 32 */ 0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00, // timestamp
+    /* 33 - 34 */ 0x64,
+    0x00, // interval
+    /* 35 - 36 */ 0x11,
+    0x04, // capability info
 };
 
 // get header length
@@ -88,7 +115,7 @@ const int Frame::pwngridHeaderLength = sizeof(Frame::header);
  *
  */
 
-uint8_t* Frame::pack() {
+uint8_t *Frame::pack() {
   // make a json doc
   String jsonString = "";
   DynamicJsonDocument doc(2048);
@@ -111,7 +138,8 @@ uint8_t* Frame::pack() {
   doc["policy"]["max_misses_for_recon"] = Config::max_misses_for_recon;
   doc["policy"]["min_recon_time"] = Config::min_rssi;
   doc["policy"]["min_rssi"] = Config::min_rssi;
-  doc["policy"]["recon_inactive_multiplier"] = Config::recon_inactive_multiplier;
+  doc["policy"]["recon_inactive_multiplier"] =
+      Config::recon_inactive_multiplier;
   doc["policy"]["recon_time"] = Config::recon_time;
   doc["policy"]["sad_num_epochs"] = Config::sad_num_epochs;
   doc["policy"]["sta_ttl"] = Config::sta_ttl;
@@ -126,8 +154,8 @@ uint8_t* Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  uint8_t* beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
-                                   Frame::essidLength + Frame::headerLength];
+  uint8_t *beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
+                                     Frame::essidLength + Frame::headerLength];
   memcpy(beaconFrame, Frame::header, Frame::pwngridHeaderLength);
 
   /** developer note:
@@ -160,7 +188,7 @@ uint8_t* Frame::pack() {
   }
 
   Serial.println(" ");
-  
+
   */
 
   return beaconFrame;
@@ -169,12 +197,13 @@ uint8_t* Frame::pack() {
 bool Frame::send() {
   // convert to a pointer because esp-idf is a pain in the ass
   WiFi.mode(WIFI_AP);
-  uint8_t* frame = Frame::pack();
-  size_t frameSize = Frame::pwngridHeaderLength + Frame::essidLength + Frame::headerLength; // actually disgusting but it works
+  uint8_t *frame = Frame::pack();
+  size_t frameSize = Frame::pwngridHeaderLength + Frame::essidLength +
+                     Frame::headerLength; // actually disgusting but it works
 
   // send full frame
-  // we don't use raw80211 since it sends a header (which we don't need), although
-  // we do use it for monitoring, etc.
+  // we don't use raw80211 since it sends a header (which we don't need),
+  // although we do use it for monitoring, etc.
   delay(102);
   // Channel::switchChannel(1 + rand() % (13 - 1 + 1));
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_AP, frame, frameSize, false);
