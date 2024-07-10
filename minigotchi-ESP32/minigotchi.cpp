@@ -37,11 +37,17 @@
 // current epoch val
 int Minigotchi::currentEpoch = 0;
 
+/**
+ * Increment/increase current epoch by one
+ */
 int Minigotchi::addEpoch() {
   Minigotchi::currentEpoch++;
   return Minigotchi::currentEpoch;
 }
 
+/**
+ * Show current Minigotchi epoch
+ */
 void Minigotchi::epoch() {
   Minigotchi::addEpoch();
   Parasite::readData();
@@ -50,7 +56,9 @@ void Minigotchi::epoch() {
   Serial.println(" ");
 }
 
-// things to do when starting up
+/**
+ * Things to do on startup
+ */
 void Minigotchi::boot() {
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
@@ -94,6 +102,9 @@ void Minigotchi::boot() {
   Minigotchi::finish();
 }
 
+/**
+ * Show current Minigotchi info/stats
+ */
 void Minigotchi::info() {
   delay(250);
   Serial.println(" ");
@@ -106,7 +117,9 @@ void Minigotchi::info() {
   delay(250);
 }
 
-// if this can be printed, everything should have gone right...
+/**
+ * This is printed after everything is done in the bootup process
+ */
 void Minigotchi::finish() {
   Serial.println("################################################");
   Serial.println(" ");
@@ -116,6 +129,9 @@ void Minigotchi::finish() {
   delay(250);
 }
 
+/**
+ * Shows current Minigotchi version
+ */
 void Minigotchi::version() {
   Serial.print("('-') Version: ");
   Serial.println(Config::version.c_str());
@@ -124,6 +140,9 @@ void Minigotchi::version() {
   delay(250);
 }
 
+/**
+ * Shows current Minigotchi memory usage
+ */
 void Minigotchi::mem() {
   Serial.print("('-') Heap: ");
   Serial.print(ESP.getFreeHeap());
@@ -133,6 +152,9 @@ void Minigotchi::mem() {
   delay(250);
 }
 
+/**
+ * Shows current Minigotchi Frequency
+ */
 void Minigotchi::cpu() {
   Serial.print("('-') CPU Frequency: ");
   Serial.print(ESP.getCpuFreqMHz());
@@ -159,6 +181,9 @@ void Minigotchi::cpu() {
  *
  */
 
+/**
+ * Puts Minigotchi in promiscuous mode
+ */
 void Minigotchi::monStart() {
   // disconnect from WiFi if we were at all
   WiFi.disconnect();
@@ -168,6 +193,9 @@ void Minigotchi::monStart() {
   esp_wifi_set_promiscuous(true);
 }
 
+/**
+ * Takes Minigotchi out of promiscuous mode
+ */
 void Minigotchi::monStop() {
   esp_wifi_set_promiscuous(false);
 
@@ -194,25 +222,33 @@ void Minigotchi::monStop() {
  *
  */
 
-// channel cycling
+/**
+ * Channel cycling
+ */
 void Minigotchi::cycle() {
   Parasite::readData();
   Channel::cycle();
 }
 
-// pwnagotchi detection
+/**
+ * Pwnagotchi detection
+ */
 void Minigotchi::detect() {
   Parasite::readData();
   Pwnagotchi::detect();
 }
 
-// deauthing
+/**
+ * Deauthing
+ */
 void Minigotchi::deauth() {
   Parasite::readData();
   Deauth::deauth();
 }
 
-// advertising
+/**
+ * Advertising
+ */
 void Minigotchi::advertise() {
   Parasite::readData();
   Frame::advertise();

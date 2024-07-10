@@ -36,6 +36,9 @@ String Display::previousFace = "";
 String Display::storedText = "";
 String Display::previousText = "";
 
+/**
+ * Deletes any pointers if used
+ */
 Display::~Display() {
   if (ssd1306_adafruit_display) {
     delete ssd1306_adafruit_display;
@@ -51,6 +54,9 @@ Display::~Display() {
   }
 }
 
+/**
+ * Function to initialize the screen ONLY.
+ */
 void Display::startScreen() {
   if (Config::display) {
     if (Config::screen == "SSD1306") {
@@ -154,8 +160,17 @@ void Display::startScreen() {
  *
  */
 
+/**
+ * Updates the face ONLY
+ * @param face Face to use
+ */
 void Display::updateDisplay(String face) { Display::updateDisplay(face, ""); }
 
+/**
+ * Updates the display with both face and text
+ * @param face Face to use
+ * @param text Additional text under the face
+ */
 void Display::updateDisplay(String face, String text) {
   if (Config::display) {
     if ((Config::screen == "SSD1306" ||
@@ -281,6 +296,14 @@ void Display::updateDisplay(String face, String text) {
 // If using the U8G2 library, it does not handle wrapping if text is too long to
 // fit on the screen So will print text for screens using that library via this
 // method to handle line-breaking
+
+/**
+ * Handles U8G2 screen formatting.
+ * This will only be used if the UG82 related screens are used and applied within the config
+ * @param x X value to print data
+ * @param y Y value to print data
+ * @param data Text to print
+ */
 void Display::printU8G2Data(int x, int y, const char *data) {
   if (Config::screen == "IDEASPARK_SSD1306") {
     int numCharPerLine = ssd1306_ideaspark_display->getWidth() /

