@@ -31,9 +31,9 @@
  */
 
 // define if features will be used
-bool Config::deauth = false;
+bool Config::deauth = true;
 bool Config::advertise = true;
-bool Config::scan = false;
+bool Config::scan = true;
 
 // define universal delays
 int Config::shortDelay = 500;
@@ -44,8 +44,8 @@ int Config::longDelay = 5000;
 bool Config::parasite = false;
 
 // screen configuration
-bool Config::display = true;
-std::string Config::screen = "T_DISPLAY_S3";
+bool Config::display = false;
+std::string Config::screen = "";
 
 // define baud rate
 int Config::baud = 115200;
