@@ -299,7 +299,8 @@ void Display::updateDisplay(String face, String text) {
 
 /**
  * Handles U8G2 screen formatting.
- * This will only be used if the UG82 related screens are used and applied within the config
+ * This will only be used if the UG82 related screens are used and applied
+ * within the config
  * @param x X value to print data
  * @param y Y value to print data
  * @param data Text to print

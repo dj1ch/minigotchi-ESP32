@@ -108,7 +108,6 @@ void Pwnagotchi::detect() {
       Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
     }
   } else {
-    
   }
 }
 
@@ -119,7 +118,8 @@ void Pwnagotchi::stopCallback() { esp_wifi_set_promiscuous_rx_cb(nullptr); }
 
 /**
  * Pwnagotchi Scanning callback
- * Source: https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
+ * Source:
+ * https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
  */
 void Pwnagotchi::pwnagotchiCallback(void *buf,
                                     wifi_promiscuous_pkt_type_t type) {

