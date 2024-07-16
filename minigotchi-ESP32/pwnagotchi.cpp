@@ -213,6 +213,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.println(pwndTot);
           Serial.print(" ");
           Display::updateDisplay("(^-^)", "Pwnagotchi name: " + (String)name);
+          delay(Config::shortDelay);
           Display::updateDisplay("(^-^)", "Pwned Networks: " + (String)pwndTot);
           delay(Config::shortDelay);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
