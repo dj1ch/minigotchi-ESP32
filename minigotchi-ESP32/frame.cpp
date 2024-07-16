@@ -55,6 +55,7 @@ const uint8_t Frame::SignatureAddr[] = {0xde, 0xad, 0xbe, 0xef, 0xde, 0xad};
 const uint8_t Frame::BroadcastAddr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 const uint16_t Frame::wpaFlags = 0x0411;
 
+// Don't even dare restyle!
 const uint8_t Frame::header[]{
     /*  0 - 1  */ 0x80,
     0x00, // frame control, beacon frame
@@ -115,6 +116,10 @@ const int Frame::pwngridHeaderLength = sizeof(Frame::header);
  *
  */
 
+/**
+ * Replicates pwngrid's pack() function from pack.go
+ * https://github.com/evilsocket/pwngrid/blob/master/wifi/pack.go
+ */
 uint8_t *Frame::pack() {
   // make a json doc
   String jsonString = "";
@@ -194,6 +199,9 @@ uint8_t *Frame::pack() {
   return beaconFrame;
 }
 
+/**
+ * Sends a pwnagotchi packet in AP mode
+ */
 bool Frame::send() {
   // convert to a pointer because esp-idf is a pain in the ass
   WiFi.mode(WIFI_AP);
@@ -212,6 +220,9 @@ bool Frame::send() {
   return (err == ESP_OK);
 }
 
+/**
+ * Full usage of Pwnagotchi's advertisments on the Minigotchi.
+ */
 void Frame::advertise() {
   int packets = 0;
   unsigned long startTime = millis();

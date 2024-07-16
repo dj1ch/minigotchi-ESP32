@@ -30,9 +30,10 @@
  *
  */
 
-// define whether or not deauthing or advertising is turned on
+// define if features will be used
 bool Config::deauth = true;
 bool Config::advertise = true;
+bool Config::scan = true;
 
 // define universal delays
 int Config::shortDelay = 500;
@@ -43,7 +44,7 @@ int Config::longDelay = 5000;
 bool Config::parasite = false;
 
 // screen configuration
-bool Config::display = true;
+bool Config::display = false;
 std::string Config::screen = "";
 
 // define baud rate
@@ -108,9 +109,14 @@ std::string Config::version = "3.3.2-beta";
  *
  */
 
-// randomize config values
+/**
+ * Generate a random integer based on a range of numbers
+ * @param min Lowest number
+ * @param max Highest number
+ */
 int Config::random(int min, int max) { return min + rand() % (max - min + 1); }
 
-int Config::time() {
-  return millis() / 1000; // convert to seconds
-}
+/**
+ * Checks current uptime
+ */
+int Config::time() { return millis() / 1000; }

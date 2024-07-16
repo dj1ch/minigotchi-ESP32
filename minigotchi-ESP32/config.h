@@ -36,6 +36,7 @@ class Config {
 public:
   static bool deauth;
   static bool advertise;
+  static bool scan;
   static int shortDelay;
   static int longDelay;
   static bool parasite;

@@ -37,14 +37,25 @@ String Mood::sleeping = Config::sleeping;
  * these checking procedures will only really be used for faces,
  * since they change often and the minigotchi is intended to be fast...
  *
+ * obviously, this is all a WIP!
+ *
  */
 
-// not only are we returning the current mood,
-// but we are also writing the current mood to the private variable
+/**
+ * Returns the current mood and writes it to a variable
+ * @param face Face to get mood off of
+ */
 String Mood::getFull(String face) { Mood::getFace(Mood::getMood(face)); }
 
+/**
+ * Returns current mood
+ */
 String Mood::getCurrentMood() { return currentMood; }
 
+/**
+ * Gets current mood off of face
+ * @param face Current face
+ */
 String Mood::getMood(String face) {
   if (face == Mood::happy) {
     currentMood = "happy";
@@ -69,8 +80,15 @@ String Mood::getMood(String face) {
   return currentMood;
 }
 
+/**
+ * Returns the current face
+ */
 String Mood::getCurrentFace() { return currentFace; }
 
+/**
+ * Gets face off of the mood
+ * @param mood Mood to use
+ */
 String Mood::getFace(String mood) {
   if (mood == "happy") {
     currentFace = Mood::happy;
@@ -93,6 +111,13 @@ String Mood::getFace(String mood) {
   return currentFace;
 }
 
+/**
+ * Checks if moods match one another.
+ * If they're similar, return true.
+ * If they aren't similar, return false.
+ * @param previous Previous face
+ * @param current Current face
+ */
 bool Mood::checkMood(String previous, String current) {
   if (previous == current) {
     return true;
