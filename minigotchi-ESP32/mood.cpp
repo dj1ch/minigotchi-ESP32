@@ -45,76 +45,70 @@ String Mood::sleeping = Config::sleeping;
  * Returns the current mood and writes it to a variable
  * @param face Face to get mood off of
  */
-String Mood::getFull(String face) {
-    Mood::getFace(Mood::getMood(face));
-}
+String Mood::getFull(String face) { Mood::getFace(Mood::getMood(face)); }
 
 /**
  * Returns current mood
  */
-String Mood::getCurrentMood() {
-    return currentMood;
-}
+String Mood::getCurrentMood() { return currentMood; }
 
 /**
  * Gets current mood off of face
  * @param face Current face
  */
 String Mood::getMood(String face) {
-    if (face == Mood::happy) {
-        currentMood = "happy";
-    } else if (face == Mood::sad) {
-        currentMood = "sad";
-    } else if (face == Mood::broken) {
-        currentMood = "broken";
-    } else if (face == Mood::intense) {
-        currentMood = "intense";
-    } else if (face == Mood::looking1) {
-        currentMood = "looking1";
-    } else if (face == Mood::looking2) {
-        currentMood = "looking2";
-    } else if (face == Mood::neutral) {
-        currentMood = "neutral";
-    } else if (face == Mood::sleeping) {
-        currentMood = "sleeping";
-    } else {
-        currentMood = " ";
-    }
+  if (face == Mood::happy) {
+    currentMood = "happy";
+  } else if (face == Mood::sad) {
+    currentMood = "sad";
+  } else if (face == Mood::broken) {
+    currentMood = "broken";
+  } else if (face == Mood::intense) {
+    currentMood = "intense";
+  } else if (face == Mood::looking1) {
+    currentMood = "looking1";
+  } else if (face == Mood::looking2) {
+    currentMood = "looking2";
+  } else if (face == Mood::neutral) {
+    currentMood = "neutral";
+  } else if (face == Mood::sleeping) {
+    currentMood = "sleeping";
+  } else {
+    currentMood = " ";
+  }
 
-    return currentMood;
+  return currentMood;
 }
 
 /**
  * Returns the current face
  */
-String Mood::getCurrentFace() {
-    return currentFace;
-}
+String Mood::getCurrentFace() { return currentFace; }
 
 /**
  * Gets face off of the mood
  * @param mood Mood to use
  */
 String Mood::getFace(String mood) {
-    if (mood == "happy") {
-        currentFace = Mood::happy;
-    } else if (mood == "sad") {
-        currentFace = Mood::sad;
-    } else if (mood == "broken") {
-        currentFace = Mood::broken;
-    } else if (mood == "looking1") {
-        currentFace = Mood::looking1;
-    } else if (mood == "looking2") {
-        currentFace = Mood::looking2;
-    } else if (mood == "neutral") {
-        currentFace = Mood::neutral;
-    } else if (mood == "sleeping") {
-        currentFace = Mood::sleeping;
-    } else {
-        currentFace = " ";
-    }
+  if (mood == "happy") {
+    currentFace = Mood::happy;
+  } else if (mood == "sad") {
+    currentFace = Mood::sad;
+  } else if (mood == "broken") {
+    currentFace = Mood::broken;
+  } else if (mood == "looking1") {
+    currentFace = Mood::looking1;
+  } else if (mood == "looking2") {
+    currentFace = Mood::looking2;
+  } else if (mood == "neutral") {
+    currentFace = Mood::neutral;
+  } else if (mood == "sleeping") {
+    currentFace = Mood::sleeping;
+  } else {
+    currentFace = " ";
+  }
 
-    return currentFace;
+  return currentFace;
 }
 
 /**
@@ -125,11 +119,11 @@ String Mood::getFace(String mood) {
  * @param current Current face
  */
 bool Mood::checkMood(String previous, String current) {
-    if (previous == current) {
-        return true;
-    } else if (previous != current) {
-        return false;
-    } else {
-        return false;
-    }
+  if (previous == current) {
+    return true;
+  } else if (previous != current) {
+    return false;
+  } else {
+    return false;
+  }
 }
