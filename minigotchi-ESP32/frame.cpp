@@ -171,6 +171,7 @@ uint8_t *Frame::pack() {
 
   return beaconFrame;
 }
+
 /**
  * Sends a pwnagotchi packet in AP mode
  */

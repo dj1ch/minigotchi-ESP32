@@ -88,6 +88,9 @@ void Deauth::add(const std::string &bssids) {
   }
 }
 
+/**
+ * Adds everything to the whitelist
+ */
 void Deauth::list() {
   for (const auto &bssid : Config::whitelist) {
     Deauth::add(bssid);
@@ -101,8 +104,9 @@ void Deauth::list() {
  * @param sys_seq Ignore this, just make it false
  */
 bool Deauth::send(uint8_t *buf, uint16_t len, bool sys_seq) {
-  delay(102);
   esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, buf, len, sys_seq);
+  delay(102);
+  
   return (err == ESP_OK);
 }
 
@@ -400,6 +404,9 @@ void Deauth::deauth() {
   }
 }
 
+/**
+ * Starts deauth attack
+ */
 void Deauth::start() {
   running = true;
   int deauthFrameSize = sizeof(deauthFrame);

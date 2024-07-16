@@ -117,8 +117,10 @@ void Pwnagotchi::detect() {
  */
 void Pwnagotchi::stopCallback() { esp_wifi_set_promiscuous_rx_cb(nullptr); }
 
-// source:
-// https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
+/**
+ * Pwnagotchi Scanning callback
+ * Source: https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
+ */
 void Pwnagotchi::pwnagotchiCallback(void *buf,
                                     wifi_promiscuous_pkt_type_t type) {
   wifi_promiscuous_pkt_t *snifferPacket = (wifi_promiscuous_pkt_t *)buf;
