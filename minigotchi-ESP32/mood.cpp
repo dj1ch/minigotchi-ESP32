@@ -36,7 +36,7 @@ String Mood::sleeping = Config::sleeping;
  *
  * these checking procedures will only really be used for faces,
  * since they change often and the minigotchi is intended to be fast...
- * 
+ *
  * obviously, this is all a WIP!
  *
  */

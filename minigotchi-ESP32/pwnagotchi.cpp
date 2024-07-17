@@ -108,7 +108,6 @@ void Pwnagotchi::detect() {
       Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
     }
   } else {
-    
   }
 }
 
