@@ -56,8 +56,8 @@
 #define SH1106_SCREEN_HEIGHT 64
 #define SH1106_OLED_RESET -1
 
-#define SH1106_SCL 0
-#define SH1106_SDA 2
+#define SH1106_SCL 5
+#define SH1106_SDA 4
 
 /** developer note:
  *
