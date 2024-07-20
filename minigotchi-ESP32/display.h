@@ -52,6 +52,13 @@
 #define IDEASPARK_SSD1306_SCL 14
 #define IDEASPARK_SSD1306_SDA 12
 
+#define SH1106_SCREEN_WIDTH 128
+#define SH1106_SCREEN_HEIGHT 64
+#define SH1106_OLED_RESET -1
+
+#define SH1106_SCL 5
+#define SH1106_SDA 4
+
 /** developer note:
  *
  * the TFT_eSPI library may not require this, but these will be here regardless
@@ -82,6 +89,7 @@ private:
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
   static Adafruit_SSD1305 *ssd1305_adafruit_display;
   static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
+  static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
   static TFT_eSPI *tft_display;
 };
 

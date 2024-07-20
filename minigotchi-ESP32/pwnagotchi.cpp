@@ -120,6 +120,8 @@ void Pwnagotchi::stopCallback() { esp_wifi_set_promiscuous_rx_cb(nullptr); }
  * Pwnagotchi Scanning callback
  * Source:
  * https://github.com/justcallmekoko/ESP32Marauder/blob/master/esp32_marauder/WiFiScan.cpp#L2439
+ * @param buf Packet recieved to use as a buffer
+ * @param len Length of the buffer
  */
 void Pwnagotchi::pwnagotchiCallback(void *buf,
                                     wifi_promiscuous_pkt_type_t type) {
