@@ -2,7 +2,7 @@
 
 Here you can find out how to install Minigotchi on the ESP32. Installing on the Pico is not possible as the code is meant for the ESP32.
 
-**For building on an ESP32, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866.**
+**For building on an ESP8266, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866. The Wio Terminal is still a WIP.**
 
 ## Building using Arduino IDE
 
@@ -19,12 +19,12 @@ Here you can find out how to install Minigotchi on the ESP32. Installing on the 
 - At the set of lines that says:
 
 ```cpp
-// set to true normally
 bool Config::deauth = true;
 bool Config::advertise = true;
+bool Config::scan = true;
 ```
 
-From here, you can turn off deauthing or advertising. Since this is the main feature of the minigotchi, I highly recommend you don't turn either of these off.
+From here, you can turn off deauthing, advertising, or Pwnagotchi scanning. Since these are the main features of the minigotchi, I highly recommend you don't turn any of these off.
 
 - After that, there should be a line that states the baud rate.
 
@@ -55,21 +55,26 @@ std::string Config::screen = "";
 There are multiple different screen types available:
 
 - `SSD1306`
-- `SSD1305`
-- `IDEASPARK_SSD1306`
 
 - `WEMOS_OLED_SHIELD`
 
 - `CYD`
 
 - `T_DISPLAY_S3`
+
 - `M5STICKCP`
+
 - `M5STICKCP2`
+
 - `M5CARDPUTER`
 
-Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
+- `SSD1305`
 
-**Keep in mind when you do enable a screen you are at a higher risk of your Minigotchi crashing...**
+- `IDEASPARK_SSD1306`
+
+- `SH1106`
+
+Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
 - There should also be a line that says:
 
@@ -111,9 +116,9 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 - Install the following dependencies with the library manager: `ArduinoJson`, `Adafruit GFX`, and your screen library(see below), etc with all their dependencies (Please install all of them for them to work correctly).
 
-| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                    |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed | Follow the [CYD documentation](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/SETUP.md), it uses a similar library much like the `T_DISPLAY_S3` | Follow the [T-Display-S3 documentation](https://github.com/Xinyuan-LilyGO/T-Display-S3/tree/main?tab=readme-ov-file#4%EF%B8%8F%E2%83%A3--arduino-ide-manual-installation), it uses a library similar to the `CYD` |
+| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                    | Any `M5`* board | `SSD1305`                  | `IDEASPARK_SSD1306`        | `SH1106`                   |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------- | -------------------------- | -------------------------- | 
+| `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed | Follow the [CYD documentation](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/SETUP.md), it uses a similar library much like the `T_DISPLAY_S3` | Follow the [T-Display-S3 documentation](https://github.com/Xinyuan-LilyGO/T-Display-S3/tree/main?tab=readme-ov-file#4%EF%B8%8F%E2%83%A3--arduino-ide-manual-installation), it uses a library similar to the `CYD` | N/A             | Install `Adafruit SSD1305` | Install the `u8g2` library | Install the `u8g2` library |
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
@@ -129,7 +134,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
-- Click on the upload button(arrow pointing to the left).
+- Click on the upload button(arrow pointing to the left). If you see any errors that you cannot solve, feel free to make an [issue](https://github.com/dj1ch/minigotchi/issues).
 
 **OR**
 
