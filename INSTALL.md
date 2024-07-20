@@ -19,12 +19,31 @@ Here you can find out how to install Minigotchi on the ESP32. Installing on the 
 - At the set of lines that says:
 
 ```cpp
+// define if features will be used
 bool Config::deauth = true;
 bool Config::advertise = true;
 bool Config::scan = true;
 ```
 
 From here, you can turn off deauthing, advertising, or Pwnagotchi scanning. Since these are the main features of the minigotchi, I highly recommend you don't turn any of these off.
+
+- With `Config::shortDelay` and `Config::longDelay`, we can adjust the speed of our Minigotchi.
+
+```cpp
+// define universal delays
+int Config::shortDelay = 500;
+int Config::longDelay = 5000;
+```
+
+A `Config::shortDelay` is a shorter delay used in between doing tasks, though sometimes too many of them can be problematic. A `Config::longDelay` is a longer delay which isn't used as much but it often used before and/or after something major, to allow the user to read serial/screen output. I put down the recommended default values but you can also change them to whatever you like.
+
+- We can also enable parasite mode, which requires the [minigotchi plugin](https://github.com/matrix224/pwnagotchi_plugins/tree/main). This will allow our Minigotchi to communicate with a Pwnagotchi over serial connection to the Pwnagotchi.
+
+```cpp
+bool Config::parasite = false;
+```
+
+It's false by default, but you can enable it by making it `true`.
 
 - After that, there should be a line that states the baud rate.
 
