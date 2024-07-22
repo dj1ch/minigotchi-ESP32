@@ -29,7 +29,7 @@ M5 devices which is Minimal SPIFFS (Large APPS with OTA).
 ## M5 board selection Screenshots
 ![board-choice](images/board-choice.png) ![partition](images/part-scheme.png)
 
-<br>
+---
 
 <b>Below you'll find instructions for certain projects using certain devices</b>
 
