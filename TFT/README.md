@@ -11,14 +11,17 @@ Utilizing these files is straightforward, as each is designed with clear and int
 
 These files need to be integrated into your TFT_eSPI library. The images below illustrate the precise location within the library folder where these files should be placed. Once relocated, locate and open the User_Setup_Select.h file.
 
-Inside this file, identify the specific display you are using (refer to the provided images for guidance). To activate your preferred display device, uncomment the corresponding entry by removing the "//" preceding it. It is crucial to have only one display configuration uncommented at any given time and to verify the accuracy of the display name to avoid errors.
+Inside this file, identify the specific display you are using (refer to the User_Setup file Screenshot for guidance). To activate your preferred display device, uncomment the corresponding entry by removing the "//" preceding it. It is crucial to have only one display configuration uncommented at any given time and to verify the accuracy of the display name to avoid errors.
 
-## User_Setup file Screenshots
+## User_Setup file Screenshot
 ![user_setup_sel](images/user_setup_sel.png) 
 
 ---
 
-## CYD board selection Screenshots
+Board selction in Arduino IDE for the M5 devices, the CYD and the non branded TTGO T-display are shown below. The partition scheme for the CYD is the same as the
+M5 devices which is Minimal SPIFFS (Large APPS with OTA).
+
+## CYD board selection Screenshot
 ![board-choice](images/cyd_screen.png)
 
 ---
