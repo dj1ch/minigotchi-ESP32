@@ -1,4 +1,5 @@
 ## Custom User_Setup Files for Specific Firmwares and Devices
+
 <p>Custom User_Setup files are essential for ensuring proper functionality of certain devices. These files contain crucial information such as GPIO pins, display configurations, and other necessary settings.
 
 Utilizing these files is straightforward, as each is designed with clear and intuitive naming conventions to simplify device configuration.</p>
@@ -14,7 +15,8 @@ These files need to be integrated into your TFT_eSPI library. The images below i
 Inside this file, identify the specific display you are using (refer to the User_Setup file Screenshot for guidance). To activate your preferred display device, uncomment the corresponding entry by removing the "//" preceding it. It is crucial to have only one display configuration uncommented at any given time and to verify the accuracy of the display name to avoid errors.
 
 ## User_Setup file Screenshot
-![user_setup_sel](images/user_setup_sel.png) 
+
+![user_setup_sel](images/user_setup_sel.png)
 
 ---
 
@@ -22,11 +24,13 @@ Board selction in Arduino IDE for the M5 devices, the CYD and the non branded TT
 M5 devices which is Minimal SPIFFS (Large APPS with OTA).
 
 ## CYD board selection Screenshot
+
 ![board-choice](images/cyd_screen.png)
 
 ---
 
 ## M5 board selection Screenshots
+
 ![board-choice](images/board-choice.png) ![partition](images/part-scheme.png)
 
 ---
