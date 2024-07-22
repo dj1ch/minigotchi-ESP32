@@ -40,7 +40,6 @@ size_t Frame::payloadSize = 255; // by default
 const size_t Frame::chunkSize = 0xFF;
 
 // beacon stuff
-uint8_t *Frame::Frame::beaconFrame = nullptr;
 size_t Frame::essidLength = 0;
 uint8_t Frame::headerLength = 0;
 
@@ -56,6 +55,7 @@ const uint8_t Frame::SignatureAddr[] = {0xde, 0xad, 0xbe, 0xef, 0xde, 0xad};
 const uint8_t Frame::BroadcastAddr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 const uint16_t Frame::wpaFlags = 0x0411;
 
+// Don't even dare restyle!
 const uint8_t Frame::header[]{
     /*  0 - 1  */ 0x80,
     0x00, // frame control, beacon frame
@@ -73,14 +73,14 @@ const uint8_t Frame::header[]{
     0xef,
     0xde,
     0xad, // source address
-    /* 16 - 21 */ 0xa1,
-    0x00,
-    0x64,
-    0xe6,
-    0x0b,
-    0x8b, // bssid
-    /* 22 - 23 */ 0x40,
-    0x43, // fragment and sequence number
+    /* 16 - 21 */ 0xde,
+    0xad,
+    0xbe,
+    0xef,
+    0xde,
+    0xad, // bssid
+    /* 22 - 23 */ 0x00,
+    0x00, // fragment and sequence number
     /* 24 - 32 */ 0x00,
     0x00,
     0x00,
@@ -116,6 +116,10 @@ const int Frame::pwngridHeaderLength = sizeof(Frame::header);
  *
  */
 
+/**
+ * Replicates pwngrid's pack() function from pack.go
+ * https://github.com/evilsocket/pwngrid/blob/master/wifi/pack.go
+ */
 uint8_t *Frame::pack() {
   // make a json doc
   String jsonString = "";
@@ -126,30 +130,24 @@ uint8_t *Frame::pack() {
   doc["identity"] = Config::identity;
   doc["name"] = Config::name;
 
-  JsonObject policy = doc.createNestedObject("policy");
-  policy["advertise"] = Config::advertise;
-  policy["ap_ttl"] = Config::ap_ttl;
-  policy["associate"] = Config::associate;
-  policy["bored_num_epochs"] = Config::bored_num_epochs;
+  doc["policy"]["advertise"] = Config::advertise;
+  doc["policy"]["ap_ttl"] = Config::ap_ttl;
+  doc["policy"]["associate"] = Config::associate;
+  doc["policy"]["bored_num_epochs"] = Config::bored_num_epochs;
 
-  JsonArray channels = policy.createNestedArray("channels");
-  for (size_t i = 0; i < sizeof(Config::channels) / sizeof(Config::channels[0]);
-       ++i) {
-    channels.add(Config::channels[i]);
-  }
-
-  policy["deauth"] = Config::deauth;
-  policy["excited_num_epochs"] = Config::excited_num_epochs;
-  policy["hop_recon_time"] = Config::hop_recon_time;
-  policy["max_inactive_scale"] = Config::max_inactive_scale;
-  policy["max_interactions"] = Config::max_interactions;
-  policy["max_misses_for_recon"] = Config::max_misses_for_recon;
-  policy["min_recon_time"] = Config::min_rssi;
-  policy["min_rssi"] = Config::min_rssi;
-  policy["recon_inactive_multiplier"] = Config::recon_inactive_multiplier;
-  policy["recon_time"] = Config::recon_time;
-  policy["sad_num_epochs"] = Config::sad_num_epochs;
-  policy["sta_ttl"] = Config::sta_ttl;
+  doc["policy"]["deauth"] = Config::deauth;
+  doc["policy"]["excited_num_epochs"] = Config::excited_num_epochs;
+  doc["policy"]["hop_recon_time"] = Config::hop_recon_time;
+  doc["policy"]["max_inactive_scale"] = Config::max_inactive_scale;
+  doc["policy"]["max_interactions"] = Config::max_interactions;
+  doc["policy"]["max_misses_for_recon"] = Config::max_misses_for_recon;
+  doc["policy"]["min_recon_time"] = Config::min_rssi;
+  doc["policy"]["min_rssi"] = Config::min_rssi;
+  doc["policy"]["recon_inactive_multiplier"] =
+      Config::recon_inactive_multiplier;
+  doc["policy"]["recon_time"] = Config::recon_time;
+  doc["policy"]["sad_num_epochs"] = Config::sad_num_epochs;
+  doc["policy"]["sta_ttl"] = Config::sta_ttl;
 
   doc["pwnd_run"] = Config::pwnd_run;
   doc["pwnd_tot"] = Config::pwnd_tot;
@@ -161,9 +159,9 @@ uint8_t *Frame::pack() {
   serializeJson(doc, jsonString);
   Frame::essidLength = measureJson(doc);
   Frame::headerLength = 2 + ((uint8_t)(essidLength / 255) * 2);
-  Frame::beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
-                                   Frame::essidLength + Frame::headerLength];
-  memcpy(Frame::beaconFrame, Frame::header, Frame::pwngridHeaderLength);
+  uint8_t *beaconFrame = new uint8_t[Frame::pwngridHeaderLength +
+                                     Frame::essidLength + Frame::headerLength];
+  memcpy(beaconFrame, Frame::header, Frame::pwngridHeaderLength);
 
   /** developer note:
    *
@@ -173,54 +171,58 @@ uint8_t *Frame::pack() {
    * Serial.println(jsonString);
    */
 
-  int currentByte = pwngridHeaderLength;
-
-  for (int i = 0; i < Frame::essidLength; i++) {
+  int frameByte = pwngridHeaderLength;
+  for (int i = 0; i < essidLength; i++) {
     if (i == 0 || i % 255 == 0) {
-      Frame::beaconFrame[currentByte++] = Frame::IDWhisperPayload;
-      if (Frame::essidLength - i < Frame::chunkSize) {
-        Frame::payloadSize = Frame::essidLength - i;
+      beaconFrame[frameByte++] = Frame::IDWhisperPayload;
+      uint8_t newPayloadLength = 255;
+      if (essidLength - i < Frame::chunkSize) {
+        newPayloadLength = essidLength - i;
       }
-      Frame::beaconFrame[currentByte++] = Frame::payloadSize;
+      beaconFrame[frameByte++] = newPayloadLength;
     }
-
-    uint8_t nextByte = (uint8_t)'?';
-    if (isAscii(jsonString[i])) {
-      nextByte = (uint8_t)jsonString[i];
-    }
-
-    Frame::beaconFrame[currentByte++] = nextByte;
+    beaconFrame[frameByte++] = (uint8_t)jsonString[i];
   }
 
-  return Frame::beaconFrame;
-  /** developer note:
-   *
-   * we can print the beacon frame like so...
-   *
-   * Serial.println("('-') Full Beacon Frame:");
-   * for (size_t i = 0; i < Frame::beaconFrame.size(); ++i) {
-   *     Serial.print(Frame::beaconFrame[i], HEX);
-   *     Serial.print(" ");
-   * }
-   * Serial.println(" ");
-   *
-   */
+  /* developer note: we can print the beacon frame like so...
+
+  Serial.println("('-') Full Beacon Frame:");
+  for (size_t i = 0; i < frameSize; ++i) {
+    Serial.print(beaconFrame[i], HEX);
+    Serial.print(" ");
+  }
+
+  Serial.println(" ");
+
+  */
+
+  return beaconFrame;
 }
 
+/**
+ * Sends a pwnagotchi packet in AP mode
+ */
 bool Frame::send() {
-  // build frame
+  // convert to a pointer because esp-idf is a pain in the ass
+  WiFi.mode(WIFI_AP);
   uint8_t *frame = Frame::pack();
+  size_t frameSize = Frame::pwngridHeaderLength + Frame::essidLength +
+                     Frame::headerLength; // actually disgusting but it works
 
   // send full frame
-  // we dont use raw80211 since it sends a header(which we don't need), although
-  // we do use it for monitoring, etc.
+  // we don't use raw80211 since it sends a header (which we don't need),
+  // although we do use it for monitoring, etc.
   delay(102);
-  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_STA, frame, sizeof(frame), false);
+  // Channel::switchChannel(1 + rand() % (13 - 1 + 1));
+  esp_err_t err = esp_wifi_80211_tx(WIFI_IF_AP, frame, frameSize, false);
 
   delete[] frame;
   return (err == ESP_OK);
 }
 
+/**
+ * Full usage of Pwnagotchi's advertisments on the Minigotchi.
+ */
 void Frame::advertise() {
   int packets = 0;
   unsigned long startTime = millis();

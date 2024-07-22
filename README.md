@@ -8,7 +8,7 @@
 
 ## The [Minigotchi](https://github.com/Pwnagotchi-Unofficial/minigotchi) ported to the ESP32
 
-<img src="images/Desktop Screenshot 2024.04.07 - 15.29.59.03.png"></img>
+<img src="images/IMG_1213.jpeg"></img>
 
 ### Intro
 
@@ -30,10 +30,11 @@ Note that the _C++_ in Arduino is slightly modified from what I have heard. See 
 ### Prerequisites
 
 - Arduino IDE
-- A good understanding of coding/programming
-- An ESP32-based MCU(for this fork)
+- A good understanding of coding/programming if you plan on contributing
+- An ESP32-based SoC(for this fork)
 - A reliable and appropriate power source and supply for the hardware
 - Patience (a lot of it)
+- The ability to read
 
 ### How it operates/works
 

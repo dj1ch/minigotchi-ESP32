@@ -27,6 +27,7 @@
 #include "display.h"
 #include "parasite.h"
 #include <ArduinoJson.h>
+#include <Wifi.h>
 #include <esp_wifi.h>
 #include <sstream>
 #include <string>
@@ -47,7 +48,6 @@ public:
   static const uint8_t BroadcastAddr[];
   static const uint16_t wpaFlags;
 
-  static uint8_t *beaconFrame;
   static const int pwngridHeaderLength;
   static size_t essidLength;
   static uint8_t headerLength;

@@ -31,7 +31,9 @@
  *
  */
 
-// same channels in config
+/**
+ * Channels to use, matching the config
+ */
 int Channel::channelList[13] = {
     Config::channels[0], Config::channels[1],  Config::channels[2],
     Config::channels[3], Config::channels[4],  Config::channels[5],
@@ -39,6 +41,10 @@ int Channel::channelList[13] = {
     Config::channels[9], Config::channels[10], Config::channels[11],
     Config::channels[12]};
 
+/**
+ * Here, we choose the channel to initialize on
+ * @param initChannel Channel to initialize on
+ */
 void Channel::init(int initChannel) {
   // start on user specified channel
   delay(250);
@@ -69,6 +75,9 @@ void Channel::init(int initChannel) {
   }
 }
 
+/**
+ * Cycle channels
+ */
 void Channel::cycle() {
   // get channels
   int numChannels = sizeof(channelList) / sizeof(channelList[0]);
@@ -81,6 +90,10 @@ void Channel::cycle() {
   switchChannel(newChannel);
 }
 
+/**
+ * Switch to given channel
+ * @param newChannel New channel to switch to
+ */
 void Channel::switchChannel(int newChannel) {
   // switch to channel
   delay(250);
@@ -108,7 +121,10 @@ void Channel::switchChannel(int newChannel) {
   }
 }
 
-// check if the channel switch was successful
+/**
+ * Check if the channel switch was successful
+ * @param channel Channel to compare with current channel
+ */
 void Channel::checkChannel(int channel) {
   int currentChannel = Channel::getChannel();
   if (channel == currentChannel) {
@@ -132,6 +148,10 @@ void Channel::checkChannel(int channel) {
   }
 }
 
+/**
+ * Checks whether or not channel is valid by indexing channel list
+ * @param channel Channel to check
+ */
 bool Channel::isValidChannel(int channel) {
   bool isValidChannel = false;
   for (int i = 0; i < sizeof(channelList) / sizeof(channelList[0]); i++) {
@@ -143,6 +163,9 @@ bool Channel::isValidChannel(int channel) {
   return isValidChannel;
 }
 
+/**
+ * Returns current channel as an integer
+ */
 int Channel::getChannel() {
   uint8_t primary;
   wifi_second_chan_t second;
