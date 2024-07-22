@@ -45,8 +45,8 @@
 // For ST7789 and ILI9341 ONLY, define the colour order IF the blue and red are swapped on your display
 // Try ONE option at a time to find the correct colour order for your display
 
-  //#define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
-//  #define TFT_RGB_ORDER TFT_BGR  // Colour order Blue-Green-Red 
+//#define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
+//  #define TFT_RGB_ORDER TFT_BGR  // Colour order Blue-Green-Red
 
 // For M5Stack ESP32 module with integrated ILI9341 display ONLY, remove // in line below
 
@@ -54,10 +54,10 @@
 
 // For ST7789, ST7735 and ILI9163 ONLY, define the pixel width and height in portrait orientation
 // #define TFT_WIDTH  80
- #define TFT_WIDTH  135 // Marauder Mini
+#define TFT_WIDTH  135 // Marauder Mini
 // #define TFT_WIDTH  240 // ST7789 240 x 240 and 240 x 320
 // #define TFT_HEIGHT 160
- #define TFT_HEIGHT 240 // Marauder Mini
+#define TFT_HEIGHT 240 // Marauder Mini
 // #define TFT_HEIGHT 240 // ST7789 240 x 240
 // #define TFT_HEIGHT 320 // ST7789 240 x 320
 
@@ -90,7 +90,7 @@
 // driven with a PWM signal or turned OFF/ON then this must be handled by the user
 // sketch. e.g. with digitalWrite(TFT_BL, LOW);
 
- #define TFT_BACKLIGHT_ON HIGH  // HIGH or LOW are options
+#define TFT_BACKLIGHT_ON HIGH  // HIGH or LOW are options
 
 // ##################################################################################
 //
@@ -187,7 +187,7 @@
 // Display VCC       to NodeMCU 5V or 3.3V
 
 /*
-// ESP32 Marauder 
+// ESP32 Marauder
 #define TFT_MISO 19
 #define TFT_MOSI 23
 #define TFT_SCLK 18
@@ -299,7 +299,7 @@
 // #define SPI_FREQUENCY   1000000
 //#define SPI_FREQUENCY   5000000
 // #define SPI_FREQUENCY  10000000
- #define SPI_FREQUENCY  20000000
+#define SPI_FREQUENCY  20000000
 //#define SPI_FREQUENCY  27000000 // Marauder // Actually sets it to 26.67MHz = 80/3
 // #define SPI_FREQUENCY  40000000
 // #define SPI_FREQUENCY  80000000

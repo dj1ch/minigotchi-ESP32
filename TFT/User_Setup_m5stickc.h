@@ -21,7 +21,7 @@
 #define CGRAM_OFFSET
 
 // Only define one driver, the other one must be commented out
-//#define ST7789_DRIVER 
+//#define ST7789_DRIVER
 #define ST7789_2_DRIVER  // M5stick C Plus 1&2 driver, define additional parameters below for this display
 // ##############################################################################################
 
@@ -35,12 +35,12 @@
 // For ST7789 and ILI9341 ONLY, define the colour order IF the blue and red are swapped on your display
 // Try ONE option at a time to find the correct colour order for your display
 
-  #define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
+#define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
 //  #define TFT_RGB_ORDER TFT_BGR  // Colour order Blue-Green-Red
 
 // For M5stick, define the pixel width and height in portrait orientation
- #define TFT_WIDTH  135 // M5Stick CPlus 1&2
- #define TFT_HEIGHT 240 // M5Stick CPlus 1&2
+#define TFT_WIDTH  135 // M5Stick CPlus 1&2
+#define TFT_HEIGHT 240 // M5Stick CPlus 1&2
 // #define TFT_HEIGHT 240 // ST7789 240 x 240
 // #define TFT_HEIGHT 320 // ST7789 240 x 320
 
@@ -58,7 +58,7 @@
 // driven with a PWM signal or turned OFF/ON then this must be handled by the user
 // sketch. e.g. with digitalWrite(TFT_BL, LOW);
 //
- #define TFT_BACKLIGHT_ON LOW  // (LOW For minigotchi) (Normally is LOW)
+#define TFT_BACKLIGHT_ON LOW  // (LOW For minigotchi) (Normally is LOW)
 // ##############################################################################################
 
 
@@ -125,7 +125,7 @@
 // #define SPI_FREQUENCY   1000000
 //#define SPI_FREQUENCY   5000000
 // #define SPI_FREQUENCY  10000000
- #define SPI_FREQUENCY  20000000
+#define SPI_FREQUENCY  20000000
 //#define SPI_FREQUENCY  27000000 // Marauder // Actually sets it to 26.67MHz = 80/3
 // #define SPI_FREQUENCY  40000000
 // #define SPI_FREQUENCY  80000000

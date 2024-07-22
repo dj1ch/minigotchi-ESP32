@@ -35,12 +35,12 @@
 // For ST7735, ST7789 and ILI9341 ONLY, define the colour order IF the blue and red are swapped on your display
 // Try ONE option at a time to find the correct colour order for your display
 
-  #define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
+#define TFT_RGB_ORDER TFT_RGB  // Colour order Red-Green-Blue
 //  #define TFT_RGB_ORDER TFT_BGR  // Colour order Blue-Green-Red
 
 // For M5stick, define the pixel width and height in portrait orientation
- #define TFT_WIDTH  135 // M5Stick CPlus 1&2
- #define TFT_HEIGHT 240 // M5Stick CPlus 1&2
+#define TFT_WIDTH  135 // M5Stick CPlus 1&2
+#define TFT_HEIGHT 240 // M5Stick CPlus 1&2
 
 // ##############################################################################################
 // If colours are inverted (white shows as black) then uncomment one of the next
@@ -56,7 +56,7 @@
 // driven with a PWM signal or turned OFF/ON then this must be handled by the user
 // sketch. e.g. with digitalWrite(TFT_BL, LOW);
 //
- #define TFT_BACKLIGHT_ON HIGH  // (HIGH For minigotchi)
+#define TFT_BACKLIGHT_ON HIGH  // (HIGH For minigotchi)
 // ##############################################################################################
 
 
@@ -126,7 +126,7 @@
 // #define SPI_FREQUENCY  10000000
 // #define SPI_FREQUENCY  20000000
 // #define SPI_FREQUENCY  27000000
- #define SPI_FREQUENCY  40000000
+#define SPI_FREQUENCY  40000000
 // #define SPI_FREQUENCY  55000000 // STM32 SPI1 only (SPI2 maximum is 27MHz)
 // #define SPI_FREQUENCY  80000000
 
