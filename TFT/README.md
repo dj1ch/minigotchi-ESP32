@@ -41,15 +41,15 @@ M5 devices which is Minimal SPIFFS (Large APPS with OTA).
 <summary>Minigotchi Configurations</summary>
 <p align="left">If you intend to flash the minigotchi firmware to an M5 device or a generic ttgo t-display, ensure you select one of the following User_Setup files that corresponds with the device available in the firmware:
 <br>
-- (User_Setup_CYD.h) For use with a ESP32-2432S028R also called a CYD 
+- (User_Setup_CYD.h) For use with a ESP32-2432S028R also called a CYD
 <br>
 - (User_Setup_CYD2USB.h) For use with a CYD that has microUSB & USB-C. Only define in User_Setup_Select.h & not in minigotchi firmware
 <br>
-- (User_Setup_m5stickc.h) For use with a M5Stick C Plus 1.1 
+- (User_Setup_m5stickc.h) For use with a M5Stick C Plus 1.1
 <br>
-- (User_Setup_m5stickcp2.h) For use with a M5Stick C Plus 2 
+- (User_Setup_m5stickcp2.h) For use with a M5Stick C Plus 2
 <br>
-- (User_Setup_m5cardputer.h) For use with a M5Cardputer 
+- (User_Setup_m5cardputer.h) For use with a M5Cardputer
 <br>
 - (User_Setup_TTGO_NoTouch.h) Can be used with a generic (Non branded) TTGO T-Display
 </p>
