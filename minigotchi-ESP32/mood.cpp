@@ -22,15 +22,27 @@
 
 #include "mood.h"
 
-// set moods to be config's
-String Mood::happy = Config::happy;
-String Mood::sad = Config::sad;
-String Mood::broken = Config::broken;
-String Mood::intense = Config::intense;
-String Mood::looking1 = Config::looking1;
-String Mood::looking2 = Config::looking2;
-String Mood::neutral = Config::neutral;
-String Mood::sleeping = Config::sleeping;
+/**
+ * Sets faces according to configuration at least
+ * @param happy Happy face! (not me after making this constructor)
+ * @param sad Sad face (me after making this constructor)
+ * @param broken Broken face (also me after making this constructor)
+ * @param intense Intense face
+ * @param looking1 Face looking left
+ * @param looking2 Face looking right
+ * @param neutral Normal 
+ * @param sleeping Sleeping face (i wish i was sleeping)
+ */
+Mood::Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping) {
+  happy = Mood::happy;
+  sad = Mood::sad;
+  broken = Mood::broken;
+  intense = Mood::intense;
+  looking1 = Mood::looking1;
+  looking2 = Mood::looking2;
+  neutral = Mood::neutral;
+  sleeping = Mood::sleeping;
+}
 
 /** developer note:
  *

@@ -30,6 +30,8 @@
 
 class Mood {
 public:
+  Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping);
+
   static String happy;
   static String sad;
   static String broken;
