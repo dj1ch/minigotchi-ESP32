@@ -12,7 +12,9 @@
 
 ### Intro
 
-Due to a surge in people asking for ESP32 support, I have created this fork. Fundamentally the ESP8266 and ESP32 can perform similar functions, although the ESP32 has more features, memory, computing power, etc. We have more and more ESP32s being supported, feel free to ask me on supporting a device.
+Due to a surge in people asking for ESP32 support, I have created this fork. Fundamentally the ESP8266 and ESP32 can perform similar functions, although the ESP32 has more features, memory, computing power, etc. We have more and more ESP32s being supported, feel free to ask me about supporting a device.
+
+We just made a [discord server](https://discord.gg/EhTAr7PwVP)! Feel free to join!
 
 ### Install guide
 
