@@ -55,6 +55,11 @@ const uint8_t Frame::SignatureAddr[] = {0xde, 0xad, 0xbe, 0xef, 0xde, 0xad};
 const uint8_t Frame::BroadcastAddr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 const uint16_t Frame::wpaFlags = 0x0411;
 
+/**
+ * Dependency injection
+ */
+Frame::Frame(Mood& mood) : mood(mood) {}
+
 // Don't even dare restyle!
 const uint8_t Frame::header[]{
     /*  0 - 1  */ 0x80,

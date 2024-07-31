@@ -60,6 +60,12 @@ void Minigotchi::epoch() {
  * Things to do on startup
  */
 void Minigotchi::boot() {
+  // configure moods
+  Mood mood(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
+  Deauth deauth(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
+  Frame frame(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
+  Pwnagotchi pwnagotchi(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
+  
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
   if (Config::screen == "M5StickCP") {

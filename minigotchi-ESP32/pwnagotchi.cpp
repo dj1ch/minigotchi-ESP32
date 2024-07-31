@@ -39,6 +39,11 @@
 bool Pwnagotchi::pwnagotchiDetected = false;
 
 /**
+ * Dependency injection
+ */
+Pwnagotchi::Pwnagotchi(Mood& mood) : mood(mood) {}
+
+/**
  * Get's the mac based on source address
  * @param addr Address to use
  * @param buff Buffer to use

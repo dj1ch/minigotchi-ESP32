@@ -33,16 +33,8 @@
  * @param neutral Normal 
  * @param sleeping Sleeping face (i wish i was sleeping)
  */
-Mood::Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping) {
-  happy = Mood::happy;
-  sad = Mood::sad;
-  broken = Mood::broken;
-  intense = Mood::intense;
-  looking1 = Mood::looking1;
-  looking2 = Mood::looking2;
-  neutral = Mood::neutral;
-  sleeping = Mood::sleeping;
-}
+Mood::Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping) 
+          : happy(happy), sad(sad), broken(broken), intense(intense), looking1(looking1), looking2(looking2), neutral(neutral), sleeping(sleeping) {}
 
 /** developer note:
  *

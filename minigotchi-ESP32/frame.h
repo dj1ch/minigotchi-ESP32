@@ -35,6 +35,7 @@
 
 class Frame {
 public:
+  Frame(Mood& mood);
   static uint8_t *pack();
   static bool send();
   static void advertise();
@@ -56,6 +57,7 @@ public:
   static const size_t chunkSize;
 
 private:
+  Mood& mood;
 };
 
 #endif // FRAME_H

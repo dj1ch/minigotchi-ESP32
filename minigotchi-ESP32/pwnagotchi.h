@@ -37,11 +37,13 @@
 
 class Pwnagotchi {
 public:
+  Pwnagotchi(Mood& mood);
   static void detect();
   static void pwnagotchiCallback(void *buf, wifi_promiscuous_pkt_type_t type);
   static void stopCallback();
 
 private:
+  Mood& mood;
   static std::string extractMAC(const unsigned char *buff);
   static void getMAC(char *addr, const unsigned char *buff, int offset);
   static std::string essid;

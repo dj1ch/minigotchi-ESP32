@@ -43,6 +43,11 @@ std::vector<String> Deauth::whitelist = {};
 String Deauth::randomAP = "";
 int Deauth::randomIndex;
 
+/**
+ * Dependency injection
+ */
+Deauth::deauth(Mood& mood) : mood(mood) {}
+
 /** developer note:
  *
  * instead of using the deauth frame normally, we append information to the

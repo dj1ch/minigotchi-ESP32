@@ -36,6 +36,7 @@
 
 class Deauth {
 public:
+  Deauth(Mood& mood);
   static void deauth();
   static void list();
   static void add(const std::string &bssids);
@@ -46,6 +47,7 @@ public:
   static int randomIndex;
 
 private:
+  Mood& mood;
   static bool send(uint8_t *buf, uint16_t len, bool sys_seq);
   static bool broadcast(uint8_t *mac);
   static void printMac(uint8_t *mac);

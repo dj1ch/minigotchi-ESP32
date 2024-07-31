@@ -32,6 +32,11 @@
  */
 
 /**
+ * Dependency injection
+ */
+Channel::Channel(Mood& mood) : mood(mood) {}
+
+/**
  * Channels to use, matching the config
  */
 int Channel::channelList[13] = {

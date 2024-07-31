@@ -32,6 +32,8 @@
 
 class Channel {
 public:
+  Channel(Mood& mood);
+
   static void init(int initChannel);
   static void cycle();
   static void switchChannel(int newChannel);
@@ -41,6 +43,8 @@ public:
   static int channelList[13]; // 13 channels
 
 private:
+  Mood& mood;
+
   static int randomIndex;
   static int numChannels;
   static int currentChannel;
