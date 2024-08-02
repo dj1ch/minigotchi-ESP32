@@ -41,7 +41,9 @@ bool Pwnagotchi::pwnagotchiDetected = false;
 /**
  * Dependency injection
  */
-Pwnagotchi::Pwnagotchi(Mood& mood) : mood(mood) {}
+Pwnagotchi::Pwnagotchi() {
+  Mood& mood = Mood::getInstance();
+}
 
 /**
  * Get's the mac based on source address

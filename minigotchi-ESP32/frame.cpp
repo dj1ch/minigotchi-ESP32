@@ -58,7 +58,9 @@ const uint16_t Frame::wpaFlags = 0x0411;
 /**
  * Dependency injection
  */
-Frame::Frame(Mood& mood) : mood(mood) {}
+Frame::Frame() {
+  Mood& mood = Mood::getInstance();
+}
 
 // Don't even dare restyle!
 const uint8_t Frame::header[]{

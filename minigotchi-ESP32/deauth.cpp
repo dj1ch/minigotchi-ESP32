@@ -46,7 +46,9 @@ int Deauth::randomIndex;
 /**
  * Dependency injection
  */
-Deauth::deauth(Mood& mood) : mood(mood) {}
+Deauth::Deauth() {
+  Mood& mood = Mood::getInstance();
+}
 
 /** developer note:
  *

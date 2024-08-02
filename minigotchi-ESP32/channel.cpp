@@ -34,7 +34,9 @@
 /**
  * Dependency injection
  */
-Channel::Channel(Mood& mood) : mood(mood) {}
+Channel::Channel() {
+  Mood& mood = Mood::getInstance();
+}
 
 /**
  * Channels to use, matching the config

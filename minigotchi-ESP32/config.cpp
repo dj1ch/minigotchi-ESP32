@@ -44,8 +44,8 @@ int Config::longDelay = 5000;
 bool Config::parasite = false;
 
 // screen configuration
-bool Config::display = false;
-std::string Config::screen = "";
+bool Config::display = true;
+std::string Config::screen = "T_DISPLAY_S3";
 
 // define baud rate
 int Config::baud = 115200;
