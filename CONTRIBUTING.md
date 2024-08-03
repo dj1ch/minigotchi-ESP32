@@ -47,6 +47,6 @@ Don't worry if you can't code! There's other ways to help!
 ###
 # Code structure
 
-Most of the code is object oriented. I essentially grouped all of the main functions into their own `.cpp` and `.h` files, then inclded those files in the main `.ino` file. I am trying to make this as easy to maintain as possible. It's easier on me and others if each part was seperated and organized. Here's some more info on the [OOP(Object oriented programming)](https://en.wikipedia.org/wiki/Object-oriented_programming).
+Most of the code is object oriented. I essentially grouped all of the main functions into their own `.cpp` and `.h` files, then inclded those files in the main `.ino` file. I am trying to make this as easy to maintain as possible. It's easier on me and others if each part was separated and organized. Here's some more info on the [OOP(Object oriented programming)](https://en.wikipedia.org/wiki/Object-oriented_programming).
 
 #

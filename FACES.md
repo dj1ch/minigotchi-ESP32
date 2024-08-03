@@ -17,7 +17,7 @@ The Minigotchi has multiple faces, similar to that of the Pwnagotchi. I tried my
 - An error while the program was running has occurred
 - Usually, an error will be provided, or it will tell you what the issue is
 
-```
+```sh
 (X-X) An error has occurred!
 (X-X) <The actual error here>
 ```
