@@ -75,7 +75,7 @@ void Mood::init(const String happy, const String sad, const String broken, const
   instance.neutral = neutral;
   instance.sleeping = sleeping;
 
-  // debugging
+  /* debugging
   Serial.println("Faces:");
   Serial.println("Happy: " + instance.happy);
   Serial.println("Sad: " + instance.sad);
@@ -85,6 +85,7 @@ void Mood::init(const String happy, const String sad, const String broken, const
   Serial.println("Looking2: " + instance.looking2);
   Serial.println("Neutral: " + instance.neutral);
   Serial.println("Sleeping: " + instance.sleeping);
+  */
 }
 
 /**

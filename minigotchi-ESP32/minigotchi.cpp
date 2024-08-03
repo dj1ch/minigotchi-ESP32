@@ -34,7 +34,7 @@
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less
 // cluttered!!!
 
-Mood& Minigotchi::mood;
+Mood& Minigotchi::mood = Mood::getInstance(); 
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -65,7 +65,6 @@ void Minigotchi::epoch() {
 void Minigotchi::boot() {
   // configure moods
   Mood::init(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
-  mood = Mood::getInstance(); 
   
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
