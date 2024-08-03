@@ -17,7 +17,7 @@
 */
 
 /**
- * minigotchi.ino: everything implemented here
+ * minigotchi-ESP32.ino: everything implemented here
 */
 
 #include "config.h"

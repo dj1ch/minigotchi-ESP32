@@ -39,7 +39,6 @@
 class Mood;
 class Minigotchi {
 public:
-  Minigotchi();
   static void boot();
   static void finish();
   static void info();

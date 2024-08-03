@@ -60,10 +60,31 @@ Mood* Mood::instance = nullptr;
  * @param neutral Normal 
  * @param sleeping Sleeping face (i wish i was sleeping)
  */
-void Mood::init(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping) {
-    if (instance == nullptr) {
-        instance = new Mood(happy, sad, broken, intense, looking1, looking2, neutral, sleeping);
-    }
+void Mood::init(const String happy, const String sad, const String broken, const String intense, const String looking1, const String looking2, const String neutral,const String sleeping) {
+  if (instance == nullptr) {
+    instance = new Mood(happy, sad, broken, intense, looking1, looking2, neutral, sleeping);
+  }
+
+  Mood& instance = getInstance();
+  instance.happy = happy;
+  instance.sad = sad;
+  instance.broken = broken;
+  instance.intense = intense;
+  instance.looking1 = looking1;
+  instance.looking2 = looking2;
+  instance.neutral = neutral;
+  instance.sleeping = sleeping;
+
+  // debugging
+  Serial.println("Faces:");
+  Serial.println("Happy: " + instance.happy);
+  Serial.println("Sad: " + instance.sad);
+  Serial.println("Broken: " + instance.broken);
+  Serial.println("Intense: " + instance.intense);
+  Serial.println("Looking1: " + instance.looking1);
+  Serial.println("Looking2: " + instance.looking2);
+  Serial.println("Neutral: " + instance.neutral);
+  Serial.println("Sleeping: " + instance.sleeping);
 }
 
 /**

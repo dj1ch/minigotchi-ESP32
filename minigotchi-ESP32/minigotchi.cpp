@@ -34,14 +34,7 @@
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less
 // cluttered!!!
 
-/**
- * Constructor to declare moods on startup
- */
-Minigotchi::Minigotchi() {
-  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
-}
-
-Mood& Minigotchi::mood = Mood::getInstance();
+Mood& Minigotchi::mood;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -70,6 +63,10 @@ void Minigotchi::epoch() {
  * Things to do on startup
  */
 void Minigotchi::boot() {
+  // configure moods
+  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
+  mood = Mood::getInstance(); 
+  
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
   if (Config::screen == "M5StickCP") {
