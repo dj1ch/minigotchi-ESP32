@@ -35,8 +35,11 @@
 #include <WiFi.h>
 #include <esp_wifi.h>
 
+// forward declaration of mood class
+class Mood;
 class Minigotchi {
 public:
+  Minigotchi();
   static void boot();
   static void finish();
   static void info();
@@ -52,6 +55,8 @@ public:
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
+private:
+  static Mood& mood;
 };
 
 #endif // MINIGOTCHI_H

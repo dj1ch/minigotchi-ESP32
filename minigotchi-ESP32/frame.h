@@ -33,9 +33,11 @@
 #include <string>
 #include <vector>
 
+// forward declaration of mood class
+class Mood;
+
 class Frame {
 public:
-  Frame();
   static uint8_t *pack();
   static bool send();
   static void advertise();
@@ -57,7 +59,7 @@ public:
   static const size_t chunkSize;
 
 private:
-
+  static Mood& mood;
 };
 
 #endif // FRAME_H

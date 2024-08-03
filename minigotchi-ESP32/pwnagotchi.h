@@ -35,14 +35,17 @@
 #include <stdint.h>
 #include <string>
 
+// forward declaration of mood class
+class Mood;
+
 class Pwnagotchi {
 public:
-  Pwnagotchi();
   static void detect();
   static void pwnagotchiCallback(void *buf, wifi_promiscuous_pkt_type_t type);
   static void stopCallback();
 
 private:
+  static Mood& mood;
   static std::string extractMAC(const unsigned char *buff);
   static void getMAC(char *addr, const unsigned char *buff, int offset);
   static std::string essid;
