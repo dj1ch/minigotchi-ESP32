@@ -43,6 +43,11 @@ std::vector<String> Deauth::whitelist = {};
 String Deauth::randomAP = "";
 int Deauth::randomIndex;
 
+/**
+ * Gets first instance of mood class
+ */
+Mood &Deauth::mood = Mood::getInstance();
+
 /** developer note:
  *
  * instead of using the deauth frame normally, we append information to the
@@ -98,10 +103,12 @@ void Deauth::add(const std::string &bssids) {
     token.erase(token.find_last_not_of(" \t\r\n") + 1);
 
     // add to whitelist
-    Serial.print("('-') Adding ");
+    Serial.print(mood.getNeutral() + " Adding ");
     Serial.print(token.c_str());
     Serial.println(" to the whitelist");
-    Display::updateDisplay("('-')", "Adding " + (String) + " to the whitelist");
+    Display::updateDisplay(mood.getNeutral(), "Adding " +
+                                                  (String)token.c_str() +
+                                                  " to the whitelist");
     delay(Config::shortDelay);
     whitelist.push_back(token.c_str());
   }
@@ -151,7 +158,7 @@ bool Deauth::broadcast(uint8_t *mac) {
 void Deauth::printMac(uint8_t *mac) {
   String macStr = printMacStr(mac);
   Serial.println(macStr);
-  Display::updateDisplay("('-')", "AP BSSID: " + macStr);
+  Display::updateDisplay(mood.getNeutral(), "AP BSSID: " + macStr);
 }
 
 /**
@@ -179,14 +186,14 @@ bool Deauth::select() {
   // cool animation, skip if parasite mode
   if (!Config::parasite) {
     for (int i = 0; i < 5; ++i) {
-      Serial.println("(0-o) Scanning for APs.");
-      Display::updateDisplay("(0-o)", "Scanning  for APs.");
+      Serial.println(mood.getLooking1() + " Scanning for APs.");
+      Display::updateDisplay(mood.getLooking1(), "Scanning  for APs.");
       delay(Config::shortDelay);
-      Serial.println("(o-0) Scanning for APs..");
-      Display::updateDisplay("(o-0)", "Scanning  for APs..");
+      Serial.println(mood.getLooking2() + " Scanning for APs..");
+      Display::updateDisplay(mood.getLooking2(), "Scanning  for APs..");
       delay(Config::shortDelay);
-      Serial.println("(0-o) Scanning for APs...");
-      Display::updateDisplay("(0-o)", "Scanning  for APs...");
+      Serial.println(mood.getLooking1() + " Scanning for APs...");
+      Display::updateDisplay(mood.getLooking1(), "Scanning  for APs...");
       delay(Config::shortDelay);
       Serial.println(" ");
       delay(Config::shortDelay);
@@ -211,17 +218,19 @@ bool Deauth::select() {
     Deauth::randomAP = WiFi.SSID(Deauth::randomIndex);
     uint8_t encType = WiFi.encryptionType(Deauth::randomIndex);
 
-    Serial.print("('-') Selected random AP: ");
+    Serial.print(mood.getNeutral() + " Selected random AP: ");
     Serial.println(randomAP.c_str());
     Serial.println(" ");
-    Display::updateDisplay("('-')", "Selected random AP: " + randomAP);
+    Display::updateDisplay(mood.getNeutral(),
+                           "Selected random AP: " + randomAP);
     delay(Config::shortDelay);
 
     if (encType == WIFI_AUTH_OPEN || encType == -1) {
       Serial.println(
-          "('-') Selected AP is not encrypted. Skipping deauthentication...");
+          mood.getNeutral() +
+          " Selected AP is not encrypted. Skipping deauthentication...");
       Display::updateDisplay(
-          "('-')",
+          mood.getNeutral(),
           "Selected AP is not encrypted. Skipping deauthentication...");
       delay(Config::shortDelay);
       Parasite::sendDeauthStatus(SKIPPING_UNENCRYPTED);
@@ -231,10 +240,11 @@ bool Deauth::select() {
     // check for ap in whitelist
     if (std::find(whitelist.begin(), whitelist.end(), randomAP) !=
         whitelist.end()) {
-      Serial.println("('-') Selected AP is in the whitelist. Skipping "
+      Serial.println(mood.getNeutral() +
+                     " Selected AP is in the whitelist. Skipping "
                      "deauthentication...");
       Display::updateDisplay(
-          "('-')",
+          mood.getNeutral(),
           "Selected AP is in the whitelist. Skipping deauthentication...");
       delay(Config::shortDelay);
       Parasite::sendDeauthStatus(SKIPPING_WHITELIST);
@@ -332,29 +342,31 @@ bool Deauth::select() {
                 Deauth::disassociateFrame + 16);
     }
 
-    Serial.print("('-') Full AP SSID: ");
+    Serial.print(mood.getNeutral() + " Full AP SSID: ");
     Serial.println(WiFi.SSID(Deauth::randomIndex));
-    Display::updateDisplay("('-')",
+    Display::updateDisplay(mood.getNeutral(),
                            "Full AP SSID: " + WiFi.SSID(Deauth::randomIndex));
 
-    Serial.print("('-') AP Encryption: ");
+    Serial.print(mood.getNeutral() + " AP Encryption: ");
     Serial.println(WiFi.encryptionType(Deauth::randomIndex));
     Display::updateDisplay(
-        "('-')",
+        mood.getNeutral(),
         "AP Encryption: " + (String)WiFi.encryptionType(Deauth::randomIndex));
 
-    Serial.print("('-') AP RSSI: ");
+    Serial.print(mood.getNeutral() + " AP RSSI: ");
     Serial.println(WiFi.RSSI(Deauth::randomIndex));
-    Display::updateDisplay("('-')", "AP RSSI: " +
-                                        (String)WiFi.RSSI(Deauth::randomIndex));
+    Display::updateDisplay(mood.getNeutral(),
+                           "AP RSSI: " +
+                               (String)WiFi.RSSI(Deauth::randomIndex));
 
-    Serial.print("('-') AP BSSID: ");
+    Serial.print(mood.getNeutral() + " AP BSSID: ");
     printMac(apBssid);
 
-    Serial.print("('-') AP Channel: ");
+    Serial.print(mood.getNeutral() + " AP Channel: ");
     Serial.println(WiFi.channel(Deauth::randomIndex));
-    Display::updateDisplay(
-        "('-')", "AP Channel: " + (String)WiFi.channel(Deauth::randomIndex));
+    Display::updateDisplay(mood.getNeutral(),
+                           "AP Channel: " +
+                               (String)WiFi.channel(Deauth::randomIndex));
 
     Serial.println(" ");
     delay(Config::longDelay);
@@ -364,18 +376,19 @@ bool Deauth::select() {
 
     return true;
   } else if (apCount < 0) {
-    Serial.println("(;-;) I don't know what you did, but you screwed up!");
+    Serial.println(mood.getSad() +
+                   " I don't know what you did, but you screwed up!");
     Serial.println(" ");
-    Display::updateDisplay("(;-;)", "You screwed up somehow!");
+    Display::updateDisplay(mood.getSad(), "You screwed up somehow!");
 
     Parasite::sendDeauthStatus(DEAUTH_SCAN_ERROR);
 
     delay(Config::shortDelay);
   } else {
     // well ur fucked.
-    Serial.println("(;-;) No access points found.");
+    Serial.println(mood.getSad() + " No access points found.");
     Serial.println(" ");
-    Display::updateDisplay("(;-;)", "No access points found.");
+    Display::updateDisplay(mood.getSad(), "No access points found.");
 
     Parasite::sendDeauthStatus(NO_APS);
 
@@ -393,29 +406,33 @@ void Deauth::deauth() {
     if (Deauth::select()) {
       if (randomAP.length() > 0) {
         Serial.println(
-            "(>-<) Starting deauthentication attack on the selected AP...");
+            mood.getIntense() +
+            " Starting deauthentication attack on the selected AP...");
         Serial.println(" ");
-        Display::updateDisplay("(>-<)", "Begin deauth-attack on AP...");
+        Display::updateDisplay(mood.getIntense(),
+                               "Begin deauth-attack on AP...");
         delay(Config::shortDelay);
         // define the attack
         if (!running) {
           start();
         } else {
-          Serial.println("('-') Attack is already running.");
+          Serial.println(mood.getNeutral() + " Attack is already running.");
           Serial.println(" ");
-          Display::updateDisplay("('-')", "Attack is already running.");
+          Display::updateDisplay(mood.getNeutral(),
+                                 "Attack is already running.");
           delay(Config::shortDelay);
         }
       } else {
         // ok why did you modify the deauth function? i literally told you to
         // not do that...
-        Serial.println("(X-X) No access point selected. Use select() first.");
-        Serial.println("('-') Told you so!");
+        Serial.println(mood.getBroken() +
+                       " No access point selected. Use select() first.");
+        Serial.println(mood.getNeutral() + " Told you so!");
         Serial.println(" ");
-        Display::updateDisplay("(X-X)",
+        Display::updateDisplay(mood.getBroken(),
                                "No access point selected. Use select() first.");
         delay(Config::shortDelay);
-        Display::updateDisplay("('-')", "Told you so!");
+        Display::updateDisplay(mood.getNeutral(), "Told you so!");
         delay(Config::shortDelay);
         return;
       }
@@ -459,35 +476,35 @@ void Deauth::start() {
 
       // show pps
       if (!isinf(pps)) {
-        Serial.print("(>-<) Packets per second: ");
+        Serial.print(mood.getIntense() + " Packets per second: ");
         Serial.print(pps);
         Serial.print(" pkt/s");
         Serial.println(" (AP:" + randomAP + ")");
-        Display::updateDisplay("(>-<)", "Packets per second: " + (String)pps +
-                                            " pkt/s" + " (AP:" + randomAP +
-                                            ")");
+        Display::updateDisplay(mood.getIntense(),
+                               "Packets per second: " + (String)pps + " pkt/s" +
+                                   " (AP:" + randomAP + ")");
       }
     } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) &&
                !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {
-      Serial.println("(X-X) Both packets failed to send!");
-      Display::updateDisplay("(X-X)", "Both packets failed to send!");
+      Serial.println(mood.getBroken() + " Both packets failed to send!");
+      Display::updateDisplay(mood.getBroken(), "Both packets failed to send!");
     } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) &&
                Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {
-      Serial.println("(X-X) Deauthentication failed to send!");
-      Display::updateDisplay("(X-X)", "Deauth failed to send!");
+      Serial.println(mood.getBroken() + " Deauthentication failed to send!");
+      Display::updateDisplay(mood.getBroken(), "Deauth failed to send!");
     } else if (Deauth::send(deauthFrame, deauthFrameSize, 0) &&
                !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {
-      Serial.println("(X-X) Disassociation failed to send!");
-      Display::updateDisplay("(X-X)", "Disassoc failed to send!");
+      Serial.println(mood.getBroken() + " Disassociation failed to send!");
+      Display::updateDisplay(mood.getBroken(), "Disassoc failed to send!");
     } else {
-      Serial.println("(X-X) Unable to calculate pkt/s!");
-      Display::updateDisplay("(X-X)", "Unable to calculate pkt/s!");
+      Serial.println(mood.getBroken() + " Unable to calculate pkt/s!");
+      Display::updateDisplay(mood.getBroken(), "Unable to calculate pkt/s!");
     }
   }
 
   Serial.println(" ");
-  Serial.println("(^-^) Attack finished!");
+  Serial.println(mood.getHappy() + " Attack finished!");
   Serial.println(" ");
-  Display::updateDisplay("(^-^)", "Attack finished!");
+  Display::updateDisplay(mood.getHappy(), "Attack finished!");
   running = false;
 }

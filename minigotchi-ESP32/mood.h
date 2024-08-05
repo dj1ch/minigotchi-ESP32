@@ -17,11 +17,11 @@
  */
 
 /**
- * mood.cpp: header files for mood.cpp
+ * mood.h: header files for mood.cpp
  */
 
-#ifndef MOOD_CPP
-#define MOOD_CPP
+#ifndef MOOD_H
+#define MOOD_H
 
 #include "config.h"
 #include "display.h"
@@ -30,25 +30,45 @@
 
 class Mood {
 public:
-  static String happy;
-  static String sad;
-  static String broken;
-  static String intense;
-  static String looking1;
-  static String looking2;
-  static String neutral;
-  static String sleeping;
+  static Mood &getInstance();
+  static void init(String happy, String sad, String broken, String intense,
+                   String looking1, String looking2, String neutral,
+                   String sleeping);
+  Mood(const Mood &) = delete;
+  Mood &operator=(const Mood &) = delete;
 
-  static String getFull(String face);
-  static String getCurrentFace();
-  static String getCurrentMood();
-  static String getMood(String face);
-  static String getFace(String mood);
-  static bool checkMood(String previous, String current);
+  String getFull(String face);
+  String getCurrentFace();
+  String getCurrentMood();
+  String getMood(String face);
+  String getFace(String mood);
+  bool checkMood(String previous, String current);
+
+  String getHappy();
+  String getSad();
+  String getBroken();
+  String getIntense();
+  String getLooking1();
+  String getLooking2();
+  String getNeutral();
+  String getSleeping();
 
 private:
-  static String currentMood;
-  static String currentFace;
+  Mood(String happy, String sad, String broken, String intense, String looking1,
+       String looking2, String neutral, String sleeping);
+
+  static Mood *instance;
+  String happy;
+  String sad;
+  String broken;
+  String intense;
+  String looking1;
+  String looking2;
+  String neutral;
+  String sleeping;
+
+  String currentMood;
+  String currentFace;
 };
 
-#endif // MOOD_CPP
+#endif // MOOD_H

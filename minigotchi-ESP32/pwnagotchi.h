@@ -35,6 +35,9 @@
 #include <stdint.h>
 #include <string>
 
+// forward declaration of mood class
+class Mood;
+
 class Pwnagotchi {
 public:
   static void detect();
@@ -42,6 +45,7 @@ public:
   static void stopCallback();
 
 private:
+  static Mood &mood;
   static std::string extractMAC(const unsigned char *buff);
   static void getMAC(char *addr, const unsigned char *buff, int offset);
   static std::string essid;

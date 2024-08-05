@@ -26,9 +26,13 @@
 #include "config.h"
 #include "display.h"
 #include "minigotchi.h"
+#include "mood.h"
 #include "parasite.h"
 #include <WiFi.h>
 #include <esp_wifi.h>
+
+// forward declaration of mood class
+class Mood;
 
 class Channel {
 public:
@@ -41,6 +45,7 @@ public:
   static int channelList[13]; // 13 channels
 
 private:
+  static Mood &mood;
   static int randomIndex;
   static int numChannels;
   static int currentChannel;

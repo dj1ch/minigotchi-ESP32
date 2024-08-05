@@ -32,6 +32,11 @@
  */
 
 /**
+ * Gets first instance of mood class
+ */
+Mood &Channel::mood = Mood::getInstance();
+
+/**
  * Channels to use, matching the config
  */
 int Channel::channelList[13] = {
@@ -47,14 +52,14 @@ int Channel::channelList[13] = {
  */
 void Channel::init(int initChannel) {
   // start on user specified channel
-  delay(250);
+  delay(Config::shortDelay);
   Serial.println(" ");
-  Serial.print("(-.-) Initializing on channel ");
+  Serial.print(mood.getSleeping() + " Initializing on channel ");
   Serial.println(initChannel);
   Serial.println(" ");
-  Display::updateDisplay("(-.-)",
+  Display::updateDisplay(mood.getSleeping(),
                          "Initializing on channel " + (String)initChannel);
-  delay(250);
+  delay(Config::shortDelay);
 
   // switch channel
   Minigotchi::monStop();
@@ -62,16 +67,18 @@ void Channel::init(int initChannel) {
   Minigotchi::monStart();
 
   if (err == ESP_OK && initChannel == getChannel()) {
-    Serial.print("('-') Successfully initialized on channel ");
+    Serial.print(mood.getNeutral() + " Successfully initialized on channel ");
     Serial.println(getChannel());
-    Display::updateDisplay("('-')", "Successfully initialized on channel " +
-                                        (String)getChannel());
-    delay(250);
+    Display::updateDisplay(mood.getNeutral(),
+                           "Successfully initialized on channel " +
+                               (String)getChannel());
+    delay(Config::shortDelay);
   } else {
-    Serial.println("(X-X) Channel initialization failed, try again?");
-    Display::updateDisplay("(X-X)",
+    Serial.println(mood.getBroken() +
+                   " Channel initialization failed, try again?");
+    Display::updateDisplay(mood.getBroken(),
                            "Channel initialization failed, try again?");
-    delay(250);
+    delay(Config::shortDelay);
   }
 }
 
@@ -96,12 +103,13 @@ void Channel::cycle() {
  */
 void Channel::switchChannel(int newChannel) {
   // switch to channel
-  delay(250);
-  Serial.print("(-.-) Switching to channel ");
+  delay(Config::shortDelay);
+  Serial.print(mood.getSleeping() + " Switching to channel ");
   Serial.println(newChannel);
   Serial.println(" ");
-  Display::updateDisplay("(-.-)", "Switching to channel " + (String)newChannel);
-  delay(250);
+  Display::updateDisplay(mood.getSleeping(),
+                         "Switching to channel " + (String)newChannel);
+  delay(Config::shortDelay);
 
   // monitor this one channel
   Minigotchi::monStop();
@@ -113,11 +121,11 @@ void Channel::switchChannel(int newChannel) {
     checkChannel(newChannel);
   } else {
 
-    Serial.println("(X-X) Failed to switch channel.");
+    Serial.println(mood.getBroken() + " Failed to switch channel.");
     Serial.println(" ");
-    Display::updateDisplay("(X-X)", "Failed to switch channel.");
+    Display::updateDisplay(mood.getBroken(), "Failed to switch channel.");
     checkChannel(newChannel);
-    delay(250);
+    delay(Config::shortDelay);
   }
 }
 
@@ -128,23 +136,24 @@ void Channel::switchChannel(int newChannel) {
 void Channel::checkChannel(int channel) {
   int currentChannel = Channel::getChannel();
   if (channel == currentChannel) {
-    Serial.print("('-') Currently on channel ");
+    Serial.print(mood.getNeutral() + " Currently on channel ");
     Serial.println(currentChannel);
-    Display::updateDisplay("('-')",
+    Display::updateDisplay(mood.getNeutral(),
                            "Currently on channel " + (String)getChannel());
     Serial.println(" ");
-    delay(250);
+    delay(Config::shortDelay);
   } else {
-    Serial.print("(X-X) Channel switch to channel ");
+    Serial.print(mood.getBroken() + " Channel switch to channel ");
     Serial.print(channel);
     Serial.println(" has failed");
-    Serial.print("(X-X) Currently on channel ");
+    Serial.print(mood.getBroken() + " Currently on channel ");
     Serial.print(currentChannel);
     Serial.println(" instead");
     Serial.println(" ");
-    Display::updateDisplay("(X-X)", "Channel switch to " + (String)channel +
-                                        " has failed");
-    delay(250);
+    Display::updateDisplay(mood.getBroken(), "Channel switch to " +
+                                                 (String)channel +
+                                                 " has failed");
+    delay(Config::shortDelay);
   }
 }
 

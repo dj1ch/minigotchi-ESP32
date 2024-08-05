@@ -34,6 +34,8 @@
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less
 // cluttered!!!
 
+Mood &Minigotchi::mood = Mood::getInstance();
+
 // current epoch val
 int Minigotchi::currentEpoch = 0;
 
@@ -51,15 +53,22 @@ int Minigotchi::addEpoch() {
 void Minigotchi::epoch() {
   Minigotchi::addEpoch();
   Parasite::readData();
-  Serial.print("('-') Current Epoch: ");
+  Serial.print(mood.getNeutral() + " Current Epoch: ");
   Serial.println(Minigotchi::currentEpoch);
   Serial.println(" ");
+  Display::updateDisplay(mood.getNeutral(),
+                         "Current Epoch: " + Minigotchi::currentEpoch);
 }
 
 /**
  * Things to do on startup
  */
 void Minigotchi::boot() {
+  // configure moods
+  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
+             Config::looking1, Config::looking2, Config::neutral,
+             Config::sleeping);
+
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
   if (Config::screen == "M5StickCP") {
@@ -73,19 +82,20 @@ void Minigotchi::boot() {
 
   Display::startScreen();
   Serial.println(" ");
-  Serial.println("(^-^) Hi, I'm Minigotchi, your pwnagotchi's best friend!");
-  Display::updateDisplay("(^-^)", "Hi,       I'm Minigotchi");
+  Serial.println(mood.getHappy() +
+                 " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
+  Display::updateDisplay(mood.getHappy(), "Hi,       I'm Minigotchi");
   Serial.println(" ");
-  Serial.println(
-      "('-') You can edit my configuration parameters in config.cpp!");
+  Serial.println(mood.getNeutral() +
+                 " You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
-  delay(250);
-  Display::updateDisplay("('-')", "Edit my config.cpp!");
-  delay(250);
-  Serial.println("(>-<) Starting now...");
+  delay(Config::shortDelay);
+  Display::updateDisplay(mood.getNeutral(), "Edit my config.cpp!");
+  delay(Config::shortDelay);
+  Serial.println(mood.getIntense() + " Starting now...");
   Serial.println(" ");
-  Display::updateDisplay("(>-<)", "Starting  now");
-  delay(250);
+  Display::updateDisplay(mood.getIntense(), "Starting  now");
+  delay(Config::shortDelay);
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
   Serial.println("################################################");
@@ -105,15 +115,15 @@ void Minigotchi::boot() {
  * Show current Minigotchi info/stats
  */
 void Minigotchi::info() {
-  delay(250);
+  delay(Config::shortDelay);
   Serial.println(" ");
-  Serial.println("('-') Current Minigotchi Stats: ");
-  Display::updateDisplay("('-')", "Current Minigotchi Stats:");
+  Serial.println(mood.getNeutral() + " Current Minigotchi Stats: ");
+  Display::updateDisplay(mood.getNeutral(), "Current Minigotchi Stats:");
   version();
   mem();
   cpu();
   Serial.println(" ");
-  delay(250);
+  delay(Config::shortDelay);
 }
 
 /**
@@ -122,45 +132,46 @@ void Minigotchi::info() {
 void Minigotchi::finish() {
   Serial.println("################################################");
   Serial.println(" ");
-  Serial.println("('-') Started successfully!");
+  Serial.println(mood.getNeutral() + " Started successfully!");
   Serial.println(" ");
-  Display::updateDisplay("('-')", "Started sucessfully");
-  delay(250);
+  Display::updateDisplay(mood.getNeutral(), "Started sucessfully");
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi version
  */
 void Minigotchi::version() {
-  Serial.print("('-') Version: ");
+  Serial.print(mood.getNeutral() + " Version: ");
   Serial.println(Config::version.c_str());
-  Display::updateDisplay("('-')",
+  Display::updateDisplay(mood.getNeutral(),
                          "Version: " + (String)Config::version.c_str());
-  delay(250);
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi memory usage
  */
 void Minigotchi::mem() {
-  Serial.print("('-') Heap: ");
+  Serial.print(mood.getNeutral() + " Heap: ");
   Serial.print(ESP.getFreeHeap());
   Serial.println(" bytes");
-  Display::updateDisplay("('-')",
+  Display::updateDisplay(mood.getNeutral(),
                          "Heap: " + (String)ESP.getFreeHeap() + " bytes");
-  delay(250);
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi Frequency
  */
 void Minigotchi::cpu() {
-  Serial.print("('-') CPU Frequency: ");
+  Serial.print(mood.getNeutral() + " CPU Frequency: ");
   Serial.print(ESP.getCpuFreqMHz());
   Serial.println(" MHz");
-  Display::updateDisplay(
-      "('-')", "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
-  delay(250);
+  Display::updateDisplay(mood.getNeutral(),
+                         "CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
+                             " MHz");
+  delay(Config::shortDelay);
 }
 
 /** developer note:

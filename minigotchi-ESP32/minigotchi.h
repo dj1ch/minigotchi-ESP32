@@ -28,12 +28,15 @@
 #include "deauth.h"
 #include "display.h"
 #include "frame.h"
+#include "mood.h"
 #include "parasite.h"
 #include "pwnagotchi.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
 
+// forward declaration of mood class
+class Mood;
 class Minigotchi {
 public:
   static void boot();
@@ -51,6 +54,9 @@ public:
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
+
+private:
+  static Mood &mood;
 };
 
 #endif // MINIGOTCHI_H
