@@ -38,7 +38,7 @@ Go to your forked repository on GitHub, switch to the branch you just pushed, an
 
 Don't worry if you can't code! There's other ways to help!
 
-1. You can also suggest features by communicating with me, see *Communication* section of the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communication). Or, you can make an issue and suggest a feature to me. 
+1. You can also suggest features by communicating with me, see _Communication_ section of the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communication). Or, you can make an issue and suggest a feature to me.
 
 2. Donations may be given to me through Social Media as well, although I am yet to get a better way to donate money. Here's [how](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communication#communication) you can get ahold of me.
 
