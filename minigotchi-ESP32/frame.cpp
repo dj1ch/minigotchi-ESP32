@@ -58,7 +58,7 @@ const uint16_t Frame::wpaFlags = 0x0411;
 /**
  * Gets first instance of mood class
  */
-Mood& Frame::mood = Mood::getInstance();
+Mood &Frame::mood = Mood::getInstance();
 
 // Don't even dare restyle!
 const uint8_t Frame::header[]{
@@ -253,12 +253,14 @@ void Frame::advertise() {
           Serial.print(Channel::getChannel());
           Serial.println(")");
           Display::updateDisplay(
-              mood.getIntense(), "Packets per second: " + (String)pps + " pkt/s" +
-                           " (Channel: " + (String)Channel::getChannel() + ")");
+              mood.getIntense(),
+              "Packets per second: " + (String)pps + " pkt/s" +
+                  " (Channel: " + (String)Channel::getChannel() + ")");
         }
       } else {
         Serial.println(mood.getBroken() + " Advertisment failed to send!");
-        Display::updateDisplay(mood.getBroken(), "Advertisment failed to send!");
+        Display::updateDisplay(mood.getBroken(),
+                               "Advertisment failed to send!");
       }
     }
 

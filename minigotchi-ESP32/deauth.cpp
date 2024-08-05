@@ -46,7 +46,7 @@ int Deauth::randomIndex;
 /**
  * Gets first instance of mood class
  */
-Mood& Deauth::mood = Mood::getInstance();
+Mood &Deauth::mood = Mood::getInstance();
 
 /** developer note:
  *
@@ -106,7 +106,9 @@ void Deauth::add(const std::string &bssids) {
     Serial.print(mood.getNeutral() + " Adding ");
     Serial.print(token.c_str());
     Serial.println(" to the whitelist");
-    Display::updateDisplay(mood.getNeutral(), "Adding " + (String)token.c_str() + " to the whitelist");
+    Display::updateDisplay(mood.getNeutral(), "Adding " +
+                                                  (String)token.c_str() +
+                                                  " to the whitelist");
     delay(Config::shortDelay);
     whitelist.push_back(token.c_str());
   }
@@ -219,12 +221,14 @@ bool Deauth::select() {
     Serial.print(mood.getNeutral() + " Selected random AP: ");
     Serial.println(randomAP.c_str());
     Serial.println(" ");
-    Display::updateDisplay(mood.getNeutral(), "Selected random AP: " + randomAP);
+    Display::updateDisplay(mood.getNeutral(),
+                           "Selected random AP: " + randomAP);
     delay(Config::shortDelay);
 
     if (encType == WIFI_AUTH_OPEN || encType == -1) {
       Serial.println(
-          mood.getNeutral() + " Selected AP is not encrypted. Skipping deauthentication...");
+          mood.getNeutral() +
+          " Selected AP is not encrypted. Skipping deauthentication...");
       Display::updateDisplay(
           mood.getNeutral(),
           "Selected AP is not encrypted. Skipping deauthentication...");
@@ -236,7 +240,8 @@ bool Deauth::select() {
     // check for ap in whitelist
     if (std::find(whitelist.begin(), whitelist.end(), randomAP) !=
         whitelist.end()) {
-      Serial.println(mood.getNeutral() + " Selected AP is in the whitelist. Skipping "
+      Serial.println(mood.getNeutral() +
+                     " Selected AP is in the whitelist. Skipping "
                      "deauthentication...");
       Display::updateDisplay(
           mood.getNeutral(),
@@ -350,16 +355,18 @@ bool Deauth::select() {
 
     Serial.print(mood.getNeutral() + " AP RSSI: ");
     Serial.println(WiFi.RSSI(Deauth::randomIndex));
-    Display::updateDisplay(mood.getNeutral(), "AP RSSI: " +
-                                        (String)WiFi.RSSI(Deauth::randomIndex));
+    Display::updateDisplay(mood.getNeutral(),
+                           "AP RSSI: " +
+                               (String)WiFi.RSSI(Deauth::randomIndex));
 
     Serial.print(mood.getNeutral() + " AP BSSID: ");
     printMac(apBssid);
 
     Serial.print(mood.getNeutral() + " AP Channel: ");
     Serial.println(WiFi.channel(Deauth::randomIndex));
-    Display::updateDisplay(
-        mood.getNeutral(), "AP Channel: " + (String)WiFi.channel(Deauth::randomIndex));
+    Display::updateDisplay(mood.getNeutral(),
+                           "AP Channel: " +
+                               (String)WiFi.channel(Deauth::randomIndex));
 
     Serial.println(" ");
     delay(Config::longDelay);
@@ -369,7 +376,8 @@ bool Deauth::select() {
 
     return true;
   } else if (apCount < 0) {
-    Serial.println(mood.getSad() + " I don't know what you did, but you screwed up!");
+    Serial.println(mood.getSad() +
+                   " I don't know what you did, but you screwed up!");
     Serial.println(" ");
     Display::updateDisplay(mood.getSad(), "You screwed up somehow!");
 
@@ -398,9 +406,11 @@ void Deauth::deauth() {
     if (Deauth::select()) {
       if (randomAP.length() > 0) {
         Serial.println(
-            mood.getIntense() + " Starting deauthentication attack on the selected AP...");
+            mood.getIntense() +
+            " Starting deauthentication attack on the selected AP...");
         Serial.println(" ");
-        Display::updateDisplay(mood.getIntense(), "Begin deauth-attack on AP...");
+        Display::updateDisplay(mood.getIntense(),
+                               "Begin deauth-attack on AP...");
         delay(Config::shortDelay);
         // define the attack
         if (!running) {
@@ -408,13 +418,15 @@ void Deauth::deauth() {
         } else {
           Serial.println(mood.getNeutral() + " Attack is already running.");
           Serial.println(" ");
-          Display::updateDisplay(mood.getNeutral(), "Attack is already running.");
+          Display::updateDisplay(mood.getNeutral(),
+                                 "Attack is already running.");
           delay(Config::shortDelay);
         }
       } else {
         // ok why did you modify the deauth function? i literally told you to
         // not do that...
-        Serial.println(mood.getBroken() + " No access point selected. Use select() first.");
+        Serial.println(mood.getBroken() +
+                       " No access point selected. Use select() first.");
         Serial.println(mood.getNeutral() + " Told you so!");
         Serial.println(" ");
         Display::updateDisplay(mood.getBroken(),
@@ -468,9 +480,9 @@ void Deauth::start() {
         Serial.print(pps);
         Serial.print(" pkt/s");
         Serial.println(" (AP:" + randomAP + ")");
-        Display::updateDisplay(mood.getIntense(), "Packets per second: " + (String)pps +
-                                            " pkt/s" + " (AP:" + randomAP +
-                                            ")");
+        Display::updateDisplay(mood.getIntense(),
+                               "Packets per second: " + (String)pps + " pkt/s" +
+                                   " (AP:" + randomAP + ")");
       }
     } else if (!Deauth::send(deauthFrame, deauthFrameSize, 0) &&
                !Deauth::send(disassociateFrame, disassociateFrameSize, 0)) {

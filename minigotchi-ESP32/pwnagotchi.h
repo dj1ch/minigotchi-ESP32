@@ -45,7 +45,7 @@ public:
   static void stopCallback();
 
 private:
-  static Mood& mood;
+  static Mood &mood;
   static std::string extractMAC(const unsigned char *buff);
   static void getMAC(char *addr, const unsigned char *buff, int offset);
   static std::string essid;

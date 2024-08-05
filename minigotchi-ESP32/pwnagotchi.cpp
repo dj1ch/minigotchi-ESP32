@@ -41,7 +41,7 @@ bool Pwnagotchi::pwnagotchiDetected = false;
 /**
  * Gets first instance of mood class
  */
-Mood& Pwnagotchi::mood = Mood::getInstance();
+Mood &Pwnagotchi::mood = Mood::getInstance();
 
 /**
  * Get's the mac based on source address
@@ -191,11 +191,13 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
 
         // check if json parsing is successful
         if (error) {
-          Serial.println(mood.getBroken() + " Could not parse Pwnagotchi json: ");
+          Serial.println(mood.getBroken() +
+                         " Could not parse Pwnagotchi json: ");
           Serial.print(mood.getBroken() + " ");
           Serial.println(error.c_str());
-          Display::updateDisplay(mood.getBroken(), "Could not parse Pwnagotchi json: " +
-                                              (String)error.c_str());
+          Display::updateDisplay(mood.getBroken(),
+                                 "Could not parse Pwnagotchi json: " +
+                                     (String)error.c_str());
           Serial.println(" ");
         } else {
           Serial.println(mood.getHappy() + " Successfully parsed json!");
@@ -221,9 +223,11 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.print(mood.getHappy() + " Pwned Networks: ");
           Serial.println(pwndTot);
           Serial.print(" ");
-          Display::updateDisplay(mood.getHappy(), "Pwnagotchi name: " + (String)name);
+          Display::updateDisplay(mood.getHappy(),
+                                 "Pwnagotchi name: " + (String)name);
           delay(Config::shortDelay);
-          Display::updateDisplay(mood.getHappy(), "Pwned Networks: " + (String)pwndTot);
+          Display::updateDisplay(mood.getHappy(),
+                                 "Pwned Networks: " + (String)pwndTot);
           delay(Config::shortDelay);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }

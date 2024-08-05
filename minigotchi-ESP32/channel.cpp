@@ -34,7 +34,7 @@
 /**
  * Gets first instance of mood class
  */
-Mood& Channel::mood = Mood::getInstance();
+Mood &Channel::mood = Mood::getInstance();
 
 /**
  * Channels to use, matching the config
@@ -69,11 +69,13 @@ void Channel::init(int initChannel) {
   if (err == ESP_OK && initChannel == getChannel()) {
     Serial.print(mood.getNeutral() + " Successfully initialized on channel ");
     Serial.println(getChannel());
-    Display::updateDisplay(mood.getNeutral(), "Successfully initialized on channel " +
-                                        (String)getChannel());
+    Display::updateDisplay(mood.getNeutral(),
+                           "Successfully initialized on channel " +
+                               (String)getChannel());
     delay(Config::shortDelay);
   } else {
-    Serial.println(mood.getBroken() + " Channel initialization failed, try again?");
+    Serial.println(mood.getBroken() +
+                   " Channel initialization failed, try again?");
     Display::updateDisplay(mood.getBroken(),
                            "Channel initialization failed, try again?");
     delay(Config::shortDelay);
@@ -105,7 +107,8 @@ void Channel::switchChannel(int newChannel) {
   Serial.print(mood.getSleeping() + " Switching to channel ");
   Serial.println(newChannel);
   Serial.println(" ");
-  Display::updateDisplay(mood.getSleeping(), "Switching to channel " + (String)newChannel);
+  Display::updateDisplay(mood.getSleeping(),
+                         "Switching to channel " + (String)newChannel);
   delay(Config::shortDelay);
 
   // monitor this one channel
@@ -147,8 +150,9 @@ void Channel::checkChannel(int channel) {
     Serial.print(currentChannel);
     Serial.println(" instead");
     Serial.println(" ");
-    Display::updateDisplay(mood.getBroken(), "Channel switch to " + (String)channel +
-                                        " has failed");
+    Display::updateDisplay(mood.getBroken(), "Channel switch to " +
+                                                 (String)channel +
+                                                 " has failed");
     delay(Config::shortDelay);
   }
 }

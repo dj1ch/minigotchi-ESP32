@@ -59,7 +59,7 @@ public:
   static const size_t chunkSize;
 
 private:
-  static Mood& mood;
+  static Mood &mood;
 };
 
 #endif // FRAME_H

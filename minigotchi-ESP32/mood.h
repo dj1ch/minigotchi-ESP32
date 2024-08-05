@@ -30,10 +30,12 @@
 
 class Mood {
 public:
-  static Mood& getInstance();
-  static void init(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping);
-  Mood(const Mood&) = delete;
-  Mood& operator=(const Mood&) = delete;
+  static Mood &getInstance();
+  static void init(String happy, String sad, String broken, String intense,
+                   String looking1, String looking2, String neutral,
+                   String sleeping);
+  Mood(const Mood &) = delete;
+  Mood &operator=(const Mood &) = delete;
 
   String getFull(String face);
   String getCurrentFace();
@@ -41,7 +43,7 @@ public:
   String getMood(String face);
   String getFace(String mood);
   bool checkMood(String previous, String current);
-    
+
   String getHappy();
   String getSad();
   String getBroken();
@@ -50,10 +52,12 @@ public:
   String getLooking2();
   String getNeutral();
   String getSleeping();
-private:
-  Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping);
 
-  static Mood* instance;
+private:
+  Mood(String happy, String sad, String broken, String intense, String looking1,
+       String looking2, String neutral, String sleeping);
+
+  static Mood *instance;
   String happy;
   String sad;
   String broken;

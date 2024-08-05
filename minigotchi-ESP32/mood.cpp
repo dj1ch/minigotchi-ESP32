@@ -33,7 +33,7 @@ String Mood::neutral = "";
 String Mood::sleeping = "";
 */
 
-Mood* Mood::instance = nullptr;
+Mood *Mood::instance = nullptr;
 
 /**
  * Sets faces according to configuration at least
@@ -43,11 +43,14 @@ Mood* Mood::instance = nullptr;
  * @param intense Intense face
  * @param looking1 Face looking left
  * @param looking2 Face looking right
- * @param neutral Normal 
+ * @param neutral Normal
  * @param sleeping Sleeping face (i wish i was sleeping)
  */
-  Mood::Mood(String happy, String sad, String broken, String intense, String looking1, String looking2, String neutral, String sleeping)
-    : happy(happy), sad(sad), broken(broken), intense(intense), looking1(looking1), looking2(looking2), neutral(neutral), sleeping(sleeping) {}
+Mood::Mood(String happy, String sad, String broken, String intense,
+           String looking1, String looking2, String neutral, String sleeping)
+    : happy(happy), sad(sad), broken(broken), intense(intense),
+      looking1(looking1), looking2(looking2), neutral(neutral),
+      sleeping(sleeping) {}
 
 /**
  * Initializes class in the singleton pattern thingy
@@ -57,15 +60,19 @@ Mood* Mood::instance = nullptr;
  * @param intense Intense face
  * @param looking1 Face looking left
  * @param looking2 Face looking right
- * @param neutral Normal 
+ * @param neutral Normal
  * @param sleeping Sleeping face (i wish i was sleeping)
  */
-void Mood::init(const String happy, const String sad, const String broken, const String intense, const String looking1, const String looking2, const String neutral,const String sleeping) {
+void Mood::init(const String happy, const String sad, const String broken,
+                const String intense, const String looking1,
+                const String looking2, const String neutral,
+                const String sleeping) {
   if (instance == nullptr) {
-    instance = new Mood(happy, sad, broken, intense, looking1, looking2, neutral, sleeping);
+    instance = new Mood(happy, sad, broken, intense, looking1, looking2,
+                        neutral, sleeping);
   }
 
-  Mood& instance = getInstance();
+  Mood &instance = getInstance();
   instance.happy = happy;
   instance.sad = sad;
   instance.broken = broken;
@@ -91,9 +98,7 @@ void Mood::init(const String happy, const String sad, const String broken, const
 /**
  * Gets instance of class so it is only used once
  */
-Mood& Mood::getInstance() {
-    return *instance;
-}
+Mood &Mood::getInstance() { return *instance; }
 
 /** developer note:
  *
@@ -194,55 +199,39 @@ bool Mood::checkMood(String previous, String current) {
 /**
  * Getter for happy mood
  */
-String Mood::getHappy() {
-  return instance->happy;
-}
+String Mood::getHappy() { return instance->happy; }
 
 /**
  * Getter for sad mood
  */
-String Mood::getSad() {
-  return instance->sad;
-}
+String Mood::getSad() { return instance->sad; }
 
 /**
  * Getter for broken mood
  */
-String Mood::getBroken() {
-  return instance->broken;
-}
+String Mood::getBroken() { return instance->broken; }
 
 /**
  * Getter for intense mood
  */
-String Mood::getIntense() {
-  return instance->intense;
-}
+String Mood::getIntense() { return instance->intense; }
 
 /**
  * Getter for looking1 mood
  */
-String Mood::getLooking1() {
-  return instance->looking1;
-}
+String Mood::getLooking1() { return instance->looking1; }
 
 /**
  * Getter for looking2 mood
  */
-String Mood::getLooking2() {
-  return instance->looking2;
-}
+String Mood::getLooking2() { return instance->looking2; }
 
 /**
  * Getter for neutral mood
  */
-String Mood::getNeutral() {
-  return instance->neutral;
-}
+String Mood::getNeutral() { return instance->neutral; }
 
 /**
  * Getter for sleeping mood
  */
-String Mood::getSleeping() {
-  return instance->sleeping;
-}
+String Mood::getSleeping() { return instance->sleeping; }

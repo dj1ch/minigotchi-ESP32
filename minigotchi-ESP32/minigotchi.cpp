@@ -34,7 +34,7 @@
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less
 // cluttered!!!
 
-Mood& Minigotchi::mood = Mood::getInstance(); 
+Mood &Minigotchi::mood = Mood::getInstance();
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -56,7 +56,8 @@ void Minigotchi::epoch() {
   Serial.print(mood.getNeutral() + " Current Epoch: ");
   Serial.println(Minigotchi::currentEpoch);
   Serial.println(" ");
-  Display::updateDisplay(mood.getNeutral(), "Current Epoch: " + Minigotchi::currentEpoch);
+  Display::updateDisplay(mood.getNeutral(),
+                         "Current Epoch: " + Minigotchi::currentEpoch);
 }
 
 /**
@@ -64,8 +65,10 @@ void Minigotchi::epoch() {
  */
 void Minigotchi::boot() {
   // configure moods
-  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense, Config::looking1, Config::looking2, Config::neutral, Config::sleeping);
-  
+  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
+             Config::looking1, Config::looking2, Config::neutral,
+             Config::sleeping);
+
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
   if (Config::screen == "M5StickCP") {
@@ -79,11 +82,12 @@ void Minigotchi::boot() {
 
   Display::startScreen();
   Serial.println(" ");
-  Serial.println(mood.getHappy() + " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
+  Serial.println(mood.getHappy() +
+                 " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
   Display::updateDisplay(mood.getHappy(), "Hi,       I'm Minigotchi");
   Serial.println(" ");
-  Serial.println(
-      mood.getNeutral() + " You can edit my configuration parameters in config.cpp!");
+  Serial.println(mood.getNeutral() +
+                 " You can edit my configuration parameters in config.cpp!");
   Serial.println(" ");
   delay(Config::shortDelay);
   Display::updateDisplay(mood.getNeutral(), "Edit my config.cpp!");
@@ -164,8 +168,9 @@ void Minigotchi::cpu() {
   Serial.print(mood.getNeutral() + " CPU Frequency: ");
   Serial.print(ESP.getCpuFreqMHz());
   Serial.println(" MHz");
-  Display::updateDisplay(
-      mood.getNeutral(), "CPU Frequency: " + (String)ESP.getCpuFreqMHz() + " MHz");
+  Display::updateDisplay(mood.getNeutral(),
+                         "CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
+                             " MHz");
   delay(Config::shortDelay);
 }
 

@@ -28,9 +28,9 @@
 #include "deauth.h"
 #include "display.h"
 #include "frame.h"
+#include "mood.h"
 #include "parasite.h"
 #include "pwnagotchi.h"
-#include "mood.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -54,8 +54,9 @@ public:
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
+
 private:
-  static Mood& mood;
+  static Mood &mood;
 };
 
 #endif // MINIGOTCHI_H
