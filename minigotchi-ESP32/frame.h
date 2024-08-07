@@ -27,7 +27,7 @@
 #include "display.h"
 #include "parasite.h"
 #include <ArduinoJson.h>
-#include <Wifi.h>
+#include <WiFi.h>
 #include <esp_wifi.h>
 #include <sstream>
 #include <string>
