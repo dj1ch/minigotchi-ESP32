@@ -37,6 +37,8 @@ public:
   static bool deauth;
   static bool advertise;
   static bool scan;
+  static const char* ssid;
+  static const char* pass;
   static int shortDelay;
   static int longDelay;
   static bool parasite;
@@ -78,6 +80,7 @@ public:
   static int uptime;
   static std::string version;
   static wifi_init_config_t config;
+  static bool configured;
 
 private:
   static int random(int min, int max);

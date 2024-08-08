@@ -34,7 +34,9 @@
 // this code is pretty disgusting and shitty but it makes minigotchi.ino less
 // cluttered!!!
 
+// initializing values
 Mood &Minigotchi::mood = Mood::getInstance();
+bool Minigotchi::firstBoot;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -64,6 +66,14 @@ void Minigotchi::epoch() {
  * Things to do on startup
  */
 void Minigotchi::boot() {
+  // setup web server
+  if (!configured) {
+    firstBoot = true
+    WebUI web;
+  } else {
+    firstBoot = false;
+  }
+
   // configure moods
   Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
              Config::looking1, Config::looking2, Config::neutral,
@@ -109,6 +119,9 @@ void Minigotchi::boot() {
   Minigotchi::info();
   Parasite::sendName();
   Minigotchi::finish();
+
+  // set to false if not already
+  firstBoot = false;
 }
 
 /**

@@ -35,6 +35,10 @@ bool Config::deauth = true;
 bool Config::advertise = true;
 bool Config::scan = true;
 
+// define access point ssid and password
+const char* Config::ssid = "minigotchi";
+const char* Config::pass = "dj1ch-minigotchi"
+
 // define universal delays
 int Config::shortDelay = 500;
 int Config::longDelay = 5000;
@@ -98,6 +102,9 @@ int Config::uptime = Config::time();
 
 // wifi settings
 wifi_init_config_t Config::config = WIFI_INIT_CONFIG_DEFAULT();
+
+// configured flag which only the WebUI changes
+Config::configured = false;
 
 // define version(please do not change, this should not be changed)
 std::string Config::version = "3.3.2-beta";

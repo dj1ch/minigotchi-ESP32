@@ -56,6 +56,7 @@ public:
   static int currentEpoch;
 
 private:
+  static bool firstBoot;
   static Mood &mood;
 };
 
