@@ -54,9 +54,9 @@ public:
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
+  static bool firstBoot;
 
 private:
-  static bool firstBoot;
   static Mood &mood;
 };
 

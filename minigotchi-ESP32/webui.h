@@ -21,7 +21,7 @@ public:
 private:
   static const char html[] PROGMEM;
   static bool canHandle(AsyncWebServerRequest *request);
-  static void handleRequest(AsyncWebServerRequest *request)
-}
+  static void handleRequest(AsyncWebServerRequest *request);
+};
 
 #endif // WEBUI_H

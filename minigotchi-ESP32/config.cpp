@@ -104,7 +104,7 @@ int Config::uptime = Config::time();
 wifi_init_config_t Config::config = WIFI_INIT_CONFIG_DEFAULT();
 
 // configured flag which only the WebUI changes
-Config::configured = false;
+bool Config::configured = false;
 
 // define version(please do not change, this should not be changed)
 std::string Config::version = "3.3.2-beta";

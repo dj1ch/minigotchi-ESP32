@@ -4,7 +4,7 @@
 
 #include "webui.h"
 
-static bool WebUI::running = false;
+bool WebUI::running = false;
 
 // create instances of functions here
 DNSServer dnsServer;

@@ -68,7 +68,7 @@ void Minigotchi::epoch() {
 void Minigotchi::boot() {
   // setup web server
   if (!configured) {
-    firstBoot = true
+    firstBoot = true;
     WebUI web;
   } else {
     firstBoot = false;
