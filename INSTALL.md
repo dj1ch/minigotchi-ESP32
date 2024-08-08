@@ -150,7 +150,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
 - Go to `Tools` > `Board` and use one of the boards in the `esp32` section. (Example: `Adafruit Feather ESP32-S3 TFT`)
-
+#### Pre-requisite for ESP32 boards <=2.0.10
 - Open the following with your text editor `C:\Users\<YOUR USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10\platform.txt` and add the following:
 
   1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
@@ -158,7 +158,20 @@ Make sure you install the correct library, they aren't the same library and if y
   2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
 
   3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this). See an example `platform.txt` [here](/misc/platform.txt).
+#### Pre-requisite for ESP32 boards > 3.0.1
+- Look for the file `%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags` (the file doesn't have extension) 
+- Add "-zmuldefs " at the beginning of the file
+- do the same in the following files:
+```
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags"
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32c3\flags\ld_flags"
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32c6\flags\ld_flags"
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32h2\flags\ld_flags"
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32s2\flags\ld_flags"
+"%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32s3\flags\ld_flags"
+```
 
+#### Compile and upload
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
 - Click on the upload button(arrow pointing to the left). If you see any errors that you cannot solve, feel free to make an [issue](https://github.com/dj1ch/minigotchi/issues).
