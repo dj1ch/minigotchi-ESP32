@@ -23,6 +23,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "webui.h"
 #include "minigotchi.h"
 #include "parasite.h"
 #include <Arduino.h>

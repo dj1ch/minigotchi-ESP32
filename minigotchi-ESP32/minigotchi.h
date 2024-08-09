@@ -23,6 +23,7 @@
 #ifndef MINIGOTCHI_H
 #define MINIGOTCHI_H
 
+#include "webui.h"
 #include "channel.h"
 #include "config.h"
 #include "deauth.h"
@@ -34,6 +35,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
+#include "AXP192.h"
 
 // forward declaration of mood class
 class Mood;

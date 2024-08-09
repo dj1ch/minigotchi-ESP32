@@ -37,7 +37,7 @@ bool Config::scan = true;
 
 // define access point ssid and password
 const char* Config::ssid = "minigotchi";
-const char* Config::pass = "dj1ch-minigotchi"
+const char* Config::pass = "dj1ch-minigotchi";
 
 // define universal delays
 int Config::shortDelay = 500;

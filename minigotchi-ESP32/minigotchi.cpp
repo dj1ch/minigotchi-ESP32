@@ -21,7 +21,6 @@
  */
 
 #include "minigotchi.h"
-#include "AXP192.h"
 
 /** developer note:
  *
@@ -67,7 +66,7 @@ void Minigotchi::epoch() {
  */
 void Minigotchi::boot() {
   // setup web server
-  if (!configured) {
+  if (!Config::configured) {
     firstBoot = true;
     WebUI web;
   } else {
