@@ -164,7 +164,7 @@ Make sure you install the correct library, they aren't the same library and if y
 #### Pre-requisite for ESP32 boards > 3.0.1
 
 - Look for the file `%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags` (the file doesn't have extension)
-- Add "-zmuldefs " at the beginning of the file
+- Add `-zmuldefs` at the beginning of the file
 - do the same in the following files:
 
 ```
