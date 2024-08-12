@@ -82,6 +82,24 @@ const char WebUI::html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
+class CaptivePortalHandler : public AsyncWebHandler {
+public:
+  CaptivePortalHandler() {}
+  virtual ~CaptivePortalHandler() {}
+
+  bool canHandle(AsyncWebServerRequest *request){
+    return request->url() == "/";
+  }
+
+  void handleRequest(AsyncWebServerRequest *request) {
+    if (request->method() == HTTP_GET && request->url() == "/") {
+      request->send(200, "text/html", WebUI::html);
+    } else {
+      request->send(200, "text/html", WebUI::html);
+    }
+  }
+};
+
 /**
  * Starts and constructs Web Server
  */
@@ -104,28 +122,20 @@ WebUI::WebUI() {
     while(running) {
       dnsServer.processNextRequest();
     }
-  }
-}
-
-/**
- * Handles request, redirects to main HTML page
- * @param request Request to use
- */
-void WebUI::handleRequest(AsyncWebServerRequest *request) {
-  if (request->method() == HTTP_GET && request->url() == "/") {
-    request->send(200, "text/html", html);
   } else {
-    request->send(200, "text/html", html);
   }
 }
 
-/**
- * Makes sure that the request can be sent to page
- * @param request Request to use
- */
-bool WebUI::canHandle(AsyncWebServerRequest *request) {
-  return request->url() == "/";
+WebUI::~WebUI() {
+  if (running) {
+    dnsServer.stop();
+    server.end();
+    WiFi.softAPdisconnect(true);
+    
+    running = false;
+  }
 }
+
 
 /**
  * Sets up Web Server

@@ -9,20 +9,17 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
-#include <AsyncWebSocket.h>
-#include "ESPAsyncWebServer.h"
+#include <ESPAsyncWebServer.h> // using https://github.com/blackhack/ESPAsyncWebServer
 #include <DNSServer.h>
 
-class WebUI : public AsyncWebHandler {
+class WebUI {
 public:
   WebUI();
-  virtual ~WebUI();
+  ~WebUI();
   static void setupServer();
+  static const char html[] PROGMEM;
   static bool running;
 private:
-  static const char html[] PROGMEM;
-  static bool canHandle(AsyncWebServerRequest *request);
-  static void handleRequest(AsyncWebServerRequest *request);
 };
 
 #endif // WEBUI_H
