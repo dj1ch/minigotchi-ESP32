@@ -65,14 +65,6 @@ void Minigotchi::epoch() {
  * Things to do on startup
  */
 void Minigotchi::boot() {
-  // setup web server
-  if (!Config::configured) {
-    firstBoot = true;
-    WebUI web;
-  } else {
-    firstBoot = false;
-  }
-
   // configure moods
   Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
              Config::looking1, Config::looking2, Config::neutral,
@@ -113,6 +105,13 @@ void Minigotchi::boot() {
   ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
   ESP_ERROR_CHECK(esp_wifi_start());
+  // setup web server
+  if (!Config::configured) {
+    firstBoot = true;
+    WebUI web;
+  } else {
+    firstBoot = false;
+  }
   Deauth::list();
   Channel::init(Config::channel);
   Minigotchi::info();
