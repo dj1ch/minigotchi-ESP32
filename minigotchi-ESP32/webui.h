@@ -12,6 +12,10 @@
 #include <ESPAsyncWebServer.h> // using https://github.com/bmorcelli/ESPAsyncWebServer pirata is the GOAT!!!
 #include <DNSServer.h>
 
+// forward declaration of mood class
+class Mood;
+
+// this is the actual class we use
 class WebUI {
 public:
   WebUI();
@@ -20,6 +24,7 @@ public:
   static const char html[] PROGMEM;
   static bool running;
 private:
+  static Mood &mood;
 };
 
 #endif // WEBUI_H

@@ -10,6 +10,11 @@ bool WebUI::running = false;
 DNSServer dnsServer;
 AsyncWebServer server(80);
 
+/**
+ * Gets first instance of mood class
+ */
+Mood &WebUI::mood = Mood::getInstance();
+
 // oh the memories this brings, not very good.
 const char WebUI::html[] PROGMEM = R"rawliteral(
 <!DOCTYPE html>
@@ -82,6 +87,7 @@ const char WebUI::html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
+// captive portal class, this isn't the main class though
 class CaptivePortalHandler : public AsyncWebHandler {
 public:
   CaptivePortalHandler() {}
@@ -105,6 +111,9 @@ public:
  */
 WebUI::WebUI() {
   if(Minigotchi::firstBoot) {
+    Serial.println(mood.getIntense() + " Starting Web Server...");
+    Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
+
     dnsServer.start(53, "*", WiFi.softAPIP());
 
     WiFi.mode(WIFI_AP);
