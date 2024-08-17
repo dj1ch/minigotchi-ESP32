@@ -126,28 +126,23 @@ public:
  * Starts and constructs Web Server
  */
 WebUI::WebUI() {
-  if(Minigotchi::firstBoot) {
-    Serial.println(mood.getIntense() + " Starting Web Server...");
-    Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
+  Serial.println(mood.getIntense() + " Starting Web Server...");
+  Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
 
-    dnsServer.start(53, "*", WiFi.softAPIP());
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(Config::ssid);
 
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP(Config::ssid);
+  setupServer();
 
-    setupServer();
+  dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
+  dnsServer.setTTL(300);
+  dnsServer.start(53, "*", WiFi.softAPIP());
 
-    dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
-    dnsServer.setTTL(300);
-    dnsServer.start(53, "*", WiFi.softAPIP());
+  server.begin();
+  WebUI::running = true;
 
-    server.begin();
-    WebUI::running = true;
-
-    while(running) {
-      dnsServer.processNextRequest();
-    }
-  } else {
+  while(running) {
+    dnsServer.processNextRequest();
   }
 }
 
@@ -173,13 +168,25 @@ void WebUI::setupServer() {
     if (request->hasParam("input1")) {
       String newWhitelist = request->getParam("input1")->value();
       updateWhitelist(newWhitelist);
-      request->send(200, "text/html", mood.getHappy() + "Whitelist updated successfully!<br><a href=\"/\">Return to Home Page</a>");
+      request->send(200, "text/html", mood.getHappy() + " Whitelist updated successfully!<br><a href=\"/\">Return to Home Page</a>");
     } else if (request->hasParam("config")) {
       String configValue = request->getParam("config")->value();
-      Config::configured = (configValue == "true");
-      request->send(200, "text/html", mood.getHappy() + "Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
+      // double check
+      if (configValue == "true") {
+        Config::configured = true;
+      } else {
+        Config::configured = false;
+      }
+      String test;
+      if (Config::configured) {
+        test = "true";
+      } else {
+        test = "false";
+      }
+      Serial.println("Config check: " + test);
+      request->send(200, "text/html", mood.getHappy() + " Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
     } else {
-      request->send(200, "text/html", mood.getBroken() + "No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
+      request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
     }
   });
 
