@@ -26,7 +26,7 @@ const char WebUI::html[] PROGMEM = R"rawliteral(
           font-family: Arial, Helvetica, sans-serif;
           color: white;
       }
-      h1 {
+      h1, h2 {
           font-family: Arial, Helvetica, sans-serif;
       }
       html {
@@ -80,6 +80,22 @@ const char WebUI::html[] PROGMEM = R"rawliteral(
     <h1 class="title">Welcome to the Captive Portal for the Minigotchi!</h1>
     <div class="textbox">
       <p>This must be done on the first boot to ensure that the Minigotchi runs correctly!</p>
+    </div>
+    <div class="textbox">
+        <h2>Config.cpp configuration</h2>
+        <p>Edit the following values here online then set <i>Config::configured</i> to <i>true</i></p>
+        <p></p>
+        <p>For now, the only value you can edit besides the boolean mentioned above is your whitelist</p>
+        <p>Input the SSIDs like this(10 max): <i>SSID1,SSID2,SSID3</i></p>
+        <form action="/get">
+            Config::whitelist <input type="text" name="input1">
+            <input type="submit" value="Submit">
+        <p>Make sure to type <i>true</i> in this box when you're done!</p>
+        </form><br>
+            <form action="/get">
+            Config::configured <input type="text" name="config">
+            <input type="submit" value="Submit">
+        </form><br>
     </div>
   </div>
   <footer>Made by <a href="https://github.com/dj1ch">@dj1ch</a></footer>
@@ -152,7 +168,46 @@ WebUI::~WebUI() {
 void WebUI::setupServer() {
   server.addHandler(new CaptivePortalHandler()).setFilter(ON_AP_FILTER);
 
+  // handle whitelist
+  server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("input1")) {
+      String newWhitelist = request->getParam("input1")->value();
+      updateWhitelist(newWhitelist);
+      request->send(200, "text/html", mood.getHappy() + "Whitelist updated successfully!<br><a href=\"/\">Return to Home Page</a>");
+    } else if (request->hasParam("config")) {
+      String configValue = request->getParam("config")->value();
+      Config::configured = (configValue == "true");
+      request->send(200, "text/html", mood.getHappy() + "Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
+    } else {
+      request->send(200, "text/html", mood.getBroken() + "No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
+    }
+  });
+
   server.onNotFound([&](AsyncWebServerRequest *request){
     request->send(200, "text/html", html);
   });
+}
+
+/**
+ * Update the whitelist with the new values
+ * @param newWhiteList new whitelist to use
+ */
+void WebUI::updateWhitelist(String newWhitelist) {
+  Config::whitelist.clear(); // clear existing values
+  int start = 0;
+  int end = newWhitelist.indexOf(',');
+
+  while (end != -1) {
+    Config::whitelist.push_back(newWhitelist.substring(start, end).c_str());
+    start = end + 1;
+    end = newWhitelist.indexOf(',', start);
+  }
+
+  // add last element after last comma
+  Config::whitelist.push_back(newWhitelist.substring(start).c_str());
+
+  Serial.println(mood.getNeutral() + " Updated whitelist:");
+  for (const auto &entry : Config::whitelist) {
+    Serial.println(entry.c_str());
+  }
 }

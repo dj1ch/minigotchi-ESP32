@@ -21,6 +21,7 @@ public:
   WebUI();
   ~WebUI();
   static void setupServer();
+  static void updateWhitelist();
   static const char html[] PROGMEM;
   static bool running;
 private:
