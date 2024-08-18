@@ -88,7 +88,7 @@ const char WebUI::html[] PROGMEM = R"rawliteral(
         <p>For now, the only value you can edit besides the boolean mentioned above is your whitelist</p>
         <p>Input the SSIDs like this(10 max): <i>SSID1,SSID2,SSID3</i></p>
         <form action="/get">
-            Config::whitelist <input type="text" name="input1">
+            Config::whitelist <input type="text" name="whitelist">
             <input type="submit" value="Submit">
         <p>Make sure to type <i>true</i> in this box when you're done!</p>
         </form><br>
@@ -141,19 +141,21 @@ WebUI::WebUI() {
   server.begin();
   WebUI::running = true;
 
-  while(running) {
+  while (running) {
     dnsServer.processNextRequest();
   }
 }
 
 WebUI::~WebUI() {
-  if (running) {
-    dnsServer.stop();
-    server.end();
-    WiFi.softAPdisconnect(true);
+  // debugging
+  Serial.println("WebUI Destructor called");
+  
+  // nah fuck it
+  dnsServer.stop();
+  server.end();
+  WiFi.softAPdisconnect(true);
     
-    running = false;
-  }
+  running = false;
 }
 
 
@@ -165,25 +167,14 @@ void WebUI::setupServer() {
 
   // handle whitelist
   server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request) {
-    if (request->hasParam("input1")) {
-      String newWhitelist = request->getParam("input1")->value();
+    if (request->hasParam("whitelist")) {
+      String newWhitelist = request->getParam("whitelist")->value();
       updateWhitelist(newWhitelist);
       request->send(200, "text/html", mood.getHappy() + " Whitelist updated successfully!<br><a href=\"/\">Return to Home Page</a>");
     } else if (request->hasParam("config")) {
       String configValue = request->getParam("config")->value();
-      // double check
-      if (configValue == "true") {
-        Config::configured = true;
-      } else {
-        Config::configured = false;
-      }
-      String test;
-      if (Config::configured) {
-        test = "true";
-      } else {
-        test = "false";
-      }
-      Serial.println("Config check: " + test);
+      Config::configured = (configValue == "true");
+      // Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
       request->send(200, "text/html", mood.getHappy() + " Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
     } else {
       request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");

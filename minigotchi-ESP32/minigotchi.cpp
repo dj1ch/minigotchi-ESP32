@@ -36,9 +36,28 @@
 // initializing values
 Mood &Minigotchi::mood = Mood::getInstance();
 bool Minigotchi::firstBoot;
+WebUI* Minigotchi::web = nullptr;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
+
+/**
+ * Wait for WebUI to get input that the configuration is done
+ */
+void Minigotchi::waitForInput() {
+  if (!Config::configured) {
+    web = new WebUI();
+  }
+
+  // hang until something cool happens (this is not cool trust me)
+  while (!Config::configured) {
+    taskYIELD();
+  }
+
+  // im going to place another stupid condition here to make sure it runs right
+  delete web;
+  web = nullptr; // crowdstrike!!!
+}
 
 /**
  * Increment/increase current epoch by one
@@ -105,13 +124,10 @@ void Minigotchi::boot() {
   ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
   ESP_ERROR_CHECK(esp_wifi_start());
-  // setup web server
-  while (!Config::configured) {
-      WebUI web;
-      while (!Config::configured) {
-        delay(100);
-      }
-  }
+
+  // wait for the webui configuration
+  waitForInput();
+
   Deauth::list();
   Channel::init(Config::channel);
   Minigotchi::info();

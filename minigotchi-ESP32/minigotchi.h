@@ -37,8 +37,10 @@
 #include <esp_wifi.h>
 #include "AXP192.h"
 
-// forward declaration of mood class
+// forward declaration of classes
 class Mood;
+class WebUI;
+
 class Minigotchi {
 public:
   static void boot();
@@ -59,7 +61,9 @@ public:
   static bool firstBoot;
 
 private:
+  static void waitForInput();
   static Mood &mood;
+  static WebUI* web;
 };
 
 #endif // MINIGOTCHI_H
