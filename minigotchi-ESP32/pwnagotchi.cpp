@@ -230,7 +230,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             }
 
             if (pal) {
-              deviceType = "Palnagotchi"
+              deviceType = "Palnagotchi";
             }
 
             // show corresponding type
