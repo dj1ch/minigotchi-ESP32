@@ -45,18 +45,24 @@ int Minigotchi::currentEpoch = 0;
  * Wait for WebUI to get input that the configuration is done
  */
 void Minigotchi::waitForInput() {
+  // setup web server
   if (!Config::configured) {
     web = new WebUI();
   }
 
   // hang until something cool happens (this is not cool trust me)
   while (!Config::configured) {
-    taskYIELD();
+    delay(1);
+    if (Config::configured) {
+      Serial.println("Configured");
+    } else {
+      Serial.println("Not configured for some reason");
+    }
   }
 
-  // im going to place another stupid condition here to make sure it runs right
+  // deconstructor for WebUI should be called somewhere around here...
   delete web;
-  web = nullptr; // crowdstrike!!!
+  web = nullptr; // crowdstrike forgot about this one lol
 }
 
 /**

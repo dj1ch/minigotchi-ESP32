@@ -16,7 +16,7 @@ AsyncWebServer server(80);
 Mood &WebUI::mood = Mood::getInstance();
 
 // oh the memories this brings, not very good.
-const char WebUI::html[] PROGMEM = R"rawliteral(
+const char WebUI::html[] = R"rawliteral(
 <!DOCTYPE html>
 <html>
 <head>
@@ -174,7 +174,7 @@ void WebUI::setupServer() {
     } else if (request->hasParam("config")) {
       String configValue = request->getParam("config")->value();
       Config::configured = (configValue == "true");
-      // Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
+      Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
       request->send(200, "text/html", mood.getHappy() + " Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
     } else {
       request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
