@@ -130,6 +130,7 @@ uint8_t *Frame::pack() {
   String jsonString = "";
   DynamicJsonDocument doc(2048);
 
+  doc["minigotchi"] = true;
   doc["epoch"] = Config::epoch;
   doc["face"] = Config::face;
   doc["identity"] = Config::identity;
