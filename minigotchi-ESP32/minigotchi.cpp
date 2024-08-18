@@ -35,34 +35,45 @@
 
 // initializing values
 Mood &Minigotchi::mood = Mood::getInstance();
-bool Minigotchi::firstBoot;
 WebUI* Minigotchi::web = nullptr;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
 
 /**
+ * WebUI task for freeRTOS
+ */
+void Minigotchi::WebUITask(void* pvParameters) {
+  // setup web server
+  WebUI* web = new WebUI();
+
+    // hang until something cool happens (this is not cool trust me)
+  while (!Config::configured) {
+    taskYIELD(); // wait
+  }
+
+  // clean up when done
+  delete web;
+  web = nullptr; // crowdstrike forgot about this one lol
+
+  // delete task
+  vTaskDelete(NULL);
+}
+
+
+/**
  * Wait for WebUI to get input that the configuration is done
  */
 void Minigotchi::waitForInput() {
-  // setup web server
+  // on core one
   if (!Config::configured) {
-    web = new WebUI();
+    xTaskCreatePinnedToCore(WebUITask, "WebUI Task", 8192, NULL, 1, NULL, 1);
   }
 
-  // hang until something cool happens (this is not cool trust me)
+  // wait until it's done
   while (!Config::configured) {
     delay(1);
-    if (Config::configured) {
-      Serial.println("Configured");
-    } else {
-      Serial.println("Not configured for some reason");
-    }
   }
-
-  // deconstructor for WebUI should be called somewhere around here...
-  delete web;
-  web = nullptr; // crowdstrike forgot about this one lol
 }
 
 /**
@@ -132,13 +143,16 @@ void Minigotchi::boot() {
   ESP_ERROR_CHECK(esp_wifi_start());
 
   // wait for the webui configuration
-  waitForInput();
+  if (!Config::configured) {
+    waitForInput();
+  }
 
   Deauth::list();
   Channel::init(Config::channel);
   Minigotchi::info();
   Parasite::sendName();
   Minigotchi::finish();
+
 }
 
 /**

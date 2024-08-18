@@ -32,6 +32,9 @@
 #include "mood.h"
 #include "parasite.h"
 #include "pwnagotchi.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -58,9 +61,9 @@ public:
   static void epoch();
   static int addEpoch();
   static int currentEpoch;
-  static bool firstBoot;
 
 private:
+  static void WebUITask(void *pvParameters);
   static void waitForInput();
   static Mood &mood;
   static WebUI* web;
