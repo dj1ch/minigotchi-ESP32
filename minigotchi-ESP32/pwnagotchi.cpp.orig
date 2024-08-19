@@ -220,7 +220,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           if (pwndTot == "null") {
             pwndTot = "N/A";
           }
-
+          
           String deviceType = "";
 
           // minigotchi or palnagotchi stuff
@@ -240,10 +240,10 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.println(pwndTot);
             Serial.print(" ");
             Display::updateDisplay(mood.getHappy(),
-                                   deviceType + " name: " + (String)name);
+                                  deviceType + " name: " + (String)name);
             delay(Config::shortDelay);
             Display::updateDisplay(mood.getHappy(),
-                                   "Pwned Networks: " + (String)pwndTot);
+                                  "Pwned Networks: " + (String)pwndTot);
             // reset
             deviceType = "";
           } else {
@@ -254,10 +254,10 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.println(pwndTot);
             Serial.print(" ");
             Display::updateDisplay(mood.getHappy(),
-                                   "Pwnagotchi name: " + (String)name);
+                                  "Pwnagotchi name: " + (String)name);
             delay(Config::shortDelay);
             Display::updateDisplay(mood.getHappy(),
-                                   "Pwned Networks: " + (String)pwndTot);
+                                  "Pwned Networks: " + (String)pwndTot);
           }
 
           delay(Config::shortDelay);

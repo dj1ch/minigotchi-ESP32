@@ -23,9 +23,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "webui.h"
 #include "minigotchi.h"
 #include "parasite.h"
-#include "webui.h"
 #include <Arduino.h>
 #include <esp_wifi.h>
 #include <iostream>
@@ -38,8 +38,8 @@ public:
   static bool deauth;
   static bool advertise;
   static bool scan;
-  static const char *ssid;
-  static const char *pass;
+  static const char* ssid;
+  static const char* pass;
   static int shortDelay;
   static int longDelay;
   static bool parasite;
