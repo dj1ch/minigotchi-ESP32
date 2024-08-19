@@ -33,22 +33,20 @@
 // by JustCallMeKoKo)
 //----------------------------------------------------------------------------------------
 
-// #include <User_Setup_CYD.h>                      // (For CYD) Use with
-// minigotchi #include <User_Setup_CYD2USB.h>                  // (For CYD2USB)
-// Use with minigotchi #include <User_Setup_CYD_LVGL.h>                 // (For
-// CYD with LVGL)
+#include <User_Setup_CYD.h> // (For CYD)
+// #include <User_Setup_CYD2USB.h>                  // (For CYD2USB)
+// #include <User_Setup_CYD_LVGL.h>                 // (For CYD with LVGL)
 //----------------------------------------------------------------------------------------
 
-// #include <User_Setup_m5stickc.h>                 // (For M5Stick CPlus 1.1)
-// Use with minigotchi #include <User_Setup_m5stickcp2.h>               // (For
-// M5Stick CPlus 2) Use with minigotchi #include <User_Setup_m5cardputer.h> //
-// (For M5Cardputer) Use with minigotchi
+// #include <User_Setup_m5stickcp.h>                 // (For M5Stick CPlus 1.1)
+// #include <User_Setup_m5stickcp2.h>               // (For M5Stick CPlus 2)
+// #include <User_Setup_m5cardputer.h>              // (For M5Cardputer)
 //----------------------------------------------------------------------------------------
 
-// #include <User_Setup_TTGO_NoTouch.h>             // (For TTGO T-Display) Can
-// be used with minigotchi #include <User_Setup_TTGO_Touch.h>               //
-// (For TTGO T-Display Touch) #include <User_Setup_TTGO_marauder.h> // (For
-// Marauder TTGO T-Display)
+// #include <User_Setup_TTGO_NoTouch.h>             // (For TTGO T-Display)
+// #include <User_Setup_TTGO_Touch.h>               // (For TTGO T-Display
+// Touch) #include <User_Setup_TTGO_marauder.h>            // (For Marauder TTGO
+// T-Display)
 //----------------------------------------------------------------------------------------
 
 ////////////////////////////////////

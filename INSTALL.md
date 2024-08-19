@@ -2,7 +2,7 @@
 
 Here you can find out how to install Minigotchi on the ESP32. Installing on the Pico is not possible as the code is meant for the ESP32.
 
-**For building on an ESP8266, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866. The Wio Terminal is still a WIP.**
+**For building on an ESP8266, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866.**
 
 ## Building using Arduino IDE
 
@@ -121,7 +121,7 @@ Usually, this shouldn't be changed as these are the only channels we can access 
 
 - In the IDE, go to `File` > `Preferences`, then in the popup by clicking the box icon next to `Additional board manager URLS`, paste the following:
 
-```
+```sh
 https://dl.espressif.com/dl/package_esp32_index.json
 https://espressif.github.io/arduino-esp32/package_esp32_index.json
 https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json
@@ -164,10 +164,10 @@ Make sure you install the correct library, they aren't the same library and if y
 #### Pre-requisite for ESP32 boards > 3.0.1
 
 - Look for the file `%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags` (the file doesn't have extension)
-- Add "-zmuldefs " at the beginning of the file
+- Add `-zmuldefs` at the beginning of the file
 - do the same in the following files:
 
-```
+```powershell
 "%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags"
 "%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32c3\flags\ld_flags"
 "%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32c6\flags\ld_flags"
@@ -182,7 +182,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
 - Click on the upload button(arrow pointing to the left). If you see any errors that you cannot solve, feel free to make an [issue](https://github.com/dj1ch/minigotchi/issues).
 
-**OR**
+##### OR
 
 - Go to `Sketch` > `Export Compiled Binary` to generate a `.bin` file to flash to the board, which also works. This can also be done with `Alt+Ctrl+S`.
 
@@ -190,7 +190,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
 ### Step 3: Post Install
 
-- You can click the _Serial Monitor_ button on the top bar to see the serial monitor output. Make sure the baud rate is `115200`. You can also use https://serial.huhn.me/ as a serial monitor, I also recommend using this!
+- You can click the _Serial Monitor_ button on the top bar to see the serial monitor output. Make sure the baud rate is `115200`. You can also use [Spacehuhn's Serial Terminal](https://serial.huhn.me/) as a serial monitor, I also recommend using this!
 
 - I also highly recommend doing the following:
 
