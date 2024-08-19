@@ -35,6 +35,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
+#include "nvs_flash.h"
+#include "nvs.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_wifi.h>
@@ -60,6 +62,8 @@ public:
   static void advertise();
   static void epoch();
   static int addEpoch();
+  static void loadConfig();
+  static void saveConfig();
   static int currentEpoch;
 
 private:

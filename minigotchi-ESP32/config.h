@@ -80,8 +80,11 @@ public:
   static std::string session_id;
   static int uptime;
   static std::string version;
-  static wifi_init_config_t config;
+  static wifi_init_config_t wifiCfg;
+  static wifi_country_t ctryCfg;
   static bool configured;
+  static void loadConfig();
+  static void saveConfig();
 
 private:
   static int random(int min, int max);

@@ -174,6 +174,7 @@ void WebUI::setupServer() {
     } else if (request->hasParam("config")) {
       String configValue = request->getParam("config")->value();
       Config::configured = (configValue == "true");
+      Config::saveConfig();
       Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
       request->send(200, "text/html", mood.getHappy() + " Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
     } else {

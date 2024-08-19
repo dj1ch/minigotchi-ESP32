@@ -101,13 +101,81 @@ std::string Config::session_id = "84:f3:eb:58:95:bd";
 int Config::uptime = Config::time();
 
 // wifi settings
-wifi_init_config_t Config::config = WIFI_INIT_CONFIG_DEFAULT();
+wifi_init_config_t Config::wifiCfg = WIFI_INIT_CONFIG_DEFAULT();
+wifi_country_t Config::ctryCfg = {.cc="US", .schan = 1, .nchan = 13};
 
 // configured flag which only the WebUI changes
 bool Config::configured = false;
 
 // define version(please do not change, this should not be changed)
 std::string Config::version = "3.3.2-beta";
+
+/**
+ * Loads configuration values from NVS
+ */
+void Config::loadConfig() {
+    nvs_handle_t cfgHandle;
+    esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
+    if (err == ESP_OK) {
+        // load Config::configured
+        uint8_t configured = 0;
+        err = nvs_get_u8(cfgHandle, "configured", &configured);
+        if (err == ESP_OK) {
+            Config::configured = (configured == 1);
+        }
+
+        // load Config::whitelist
+        size_t required_size = 0;
+        err = nvs_get_str(cfgHandle, "whitelist", NULL, &required_size);
+        if (err == ESP_OK && required_size > 0) {
+            char* whitelistStr = (char*) malloc(required_size);
+            err = nvs_get_str(cfgHandle, "whitelist", whitelistStr, &required_size);
+            if (err == ESP_OK) {
+                // convert back into a vector
+                Config::whitelist.clear();
+                std::stringstream ss(whitelistStr);
+                std::string item;
+                while (std::getline(ss, item, ',')) {
+                    Config::whitelist.push_back(item);
+                }
+            }
+            free(whitelistStr);
+        }
+
+        nvs_close(cfgHandle);
+    }
+}
+
+
+/**
+ * Saves configuration to NVS
+ */
+void Config::saveConfig() {
+    nvs_handle_t cfgHandle;
+    esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
+    if (err == ESP_OK) {
+        // save Config::configured
+        uint8_t configured = Config::configured ? 1 : 0;
+        err = nvs_set_u8(cfgHandle, "configured", configured);
+        ESP_ERROR_CHECK(err);
+
+        // save Config::whitelist
+        std::string whitelistStr;
+        for (size_t i = 0; i < Config::whitelist.size(); ++i) {
+            whitelistStr += Config::whitelist[i];
+            if (i < Config::whitelist.size() - 1) {
+                whitelistStr += ",";
+            }
+        }
+        err = nvs_set_str(cfgHandle, "whitelist", whitelistStr.c_str());
+        ESP_ERROR_CHECK(err);
+
+        err = nvs_commit(cfgHandle);
+        ESP_ERROR_CHECK(err);
+        nvs_close(cfgHandle);
+    }
+}
+
 
 /** developer note:
  *

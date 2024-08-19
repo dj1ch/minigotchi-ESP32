@@ -137,8 +137,17 @@ void Minigotchi::boot() {
   Serial.println("#                BOOTUP PROCESS                #");
   Serial.println("################################################");
   Serial.println(" ");
-  ESP_ERROR_CHECK(esp_wifi_init(&Config::config));
+  ESP_ERROR_CHECK(esp_wifi_init(&Config::wifiCfg));
+  esp_err_t err = nvs_flash_init();
+  if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    err = nvs_flash_init();
+  }
+
+  Config::loadConfig();
+  ESP_ERROR_CHECK(err);
   ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+  ESP_ERROR_CHECK(esp_wifi_set_country(&ctryCfg));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
   ESP_ERROR_CHECK(esp_wifi_start());
 

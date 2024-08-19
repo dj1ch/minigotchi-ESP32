@@ -5,6 +5,7 @@
 #ifndef WEBUI_H
 #define WEBUI_H
 
+#include "minigotchi.h"
 #include "config.h"
 #include <Arduino.h>
 #include <WiFi.h>
