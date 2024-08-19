@@ -149,6 +149,12 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
+- You'll also need to install this fork of [`ESPAsyncWebServer`](https://github.com/bmorcelli/ESPAsyncWebServer) by downloading a ZIP of that repository through `<img> Code` > `Download ZIP`. If you already have `ESPAsyncWebServer` installed please **remove it** and follow this guide.
+
+<img src="images/download (20).png"> </img>
+
+- After doing that you'll need to go back to Arduino IDE then add the library by going to `Sketch` > `Include Library` > `Add .ZIP library...`, then selecting the `.ZIP` file of the repository that was just downloaded. This will add the library to Arduino IDE.
+
 - Go to `Tools` > `Board` and use one of the boards in the `esp32` section. (Example: `Adafruit Feather ESP32-S3 TFT`)
 
 #### Pre-requisite for ESP32 boards <=2.0.10
@@ -162,6 +168,16 @@ Make sure you install the correct library, they aren't the same library and if y
   3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this). See an example `platform.txt` [here](/misc/platform.txt).
 
 #### Pre-requisite for ESP32 boards > 3.0.1
+
+Please note that that is a WIP and may not work correctly. Users may get this error seen in [#80](https://github.com/dj1ch/minigotchi-ESP32/issues/80)
+
+```sh
+C:\Users\USERNAME\AppData\Local\Arduino15\packages\esp32\tools\esp32-arduino-libs\idf-release_v5.1-dc859c1e67\esp32c6/include/esp_wifi/include/esp_private/wifi_os_adapter.h:84:29: error: operator '||' has no left operand
+   84 | #if CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S2
+      |                             ^~
+C:\Users\USERNAME\AppData\Local\Arduino15\packages\esp32\tools\esp32-arduino-libs\idf-release_v5.1-dc859c1e67\esp32c6/include/esp_wifi/include/esp_private/wifi_os_adapter.h:116:29: error: operator '!' has no right operand
+  116 | #if !CONFIG_IDF_TARGET_ESP32
+```
 
 - Look for the file `%localappdata%\Arduino15\packages\esp32\tools\esp32-arduino-libs\<idf-release_v5.x-version>\esp32\flags\ld_flags` (the file doesn't have extension)
 - Add `-zmuldefs` at the beginning of the file
@@ -180,6 +196,8 @@ Make sure you install the correct library, they aren't the same library and if y
 
 - Select your COM port/Serial port through `Tools` > `Port` where the ESP32 is plugged in
 
+- Enable the erasing of your entire flash by going to `Tools` > `Erase All Flash Before Sketch Upload` then enabling that setting
+
 - Click on the upload button(arrow pointing to the left). If you see any errors that you cannot solve, feel free to make an [issue](https://github.com/dj1ch/minigotchi/issues).
 
 ##### OR
@@ -190,7 +208,20 @@ Make sure you install the correct library, they aren't the same library and if y
 
 ### Step 3: Post Install
 
-- You can click the _Serial Monitor_ button on the top bar to see the serial monitor output. Make sure the baud rate is `115200`. You can also use [Spacehuhn's Serial Terminal](https://serial.huhn.me/) as a serial monitor, I also recommend using this!
+- After plugging in your Minigotchi, it should tell you that it's starting a Web Server. In order to use it, you have to:
+
+1. Connect to the access point `minigotchi` or `minigotchi 2` (sometimes `minigotchi 2` pops up)
+2. Go to the website http://192.168.4.1
+3. Add your whitelist in the first input box in a format like this. Click `Submit` after you're done
+
+```sh
+SSID,SSID,SSID
+```
+
+4. Make sure to turn off the WebUI going to the last text box and typing `true` so that your Minigotchi knows your configuration is done.
+5. Exit the tab and disconnect from the `minigotchi` AP if it hasn't been done for you already.
+
+- You can click the _Serial Monitor_ button on the top bar of Arduino IDE to see the serial monitor output. Make sure the baud rate is `115200`. You can also use [Spacehuhn's Serial Terminal](https://serial.huhn.me/) as a serial monitor, I also recommend using this!
 
 - I also highly recommend doing the following:
 
