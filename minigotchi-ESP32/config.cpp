@@ -189,9 +189,13 @@ void Config::saveConfig() {
  * @param min Lowest number
  * @param max Highest number
  */
-int Config::random(int min, int max) { return min + rand() % (max - min + 1); }
+int Config::random(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
 
 /**
  * Checks current uptime
  */
-int Config::time() { return millis() / 1000; }
+int Config::time() {
+    return millis() / 1000;
+}
