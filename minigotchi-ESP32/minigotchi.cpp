@@ -35,7 +35,7 @@
 
 // initializing values
 Mood &Minigotchi::mood = Mood::getInstance();
-WebUI* Minigotchi::web = nullptr;
+WebUI *Minigotchi::web = nullptr;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -43,188 +43,187 @@ int Minigotchi::currentEpoch = 0;
 /**
  * WebUI task for freeRTOS
  */
-void Minigotchi::WebUITask(void* pvParameters) {
-    // setup web server
-    WebUI* web = new WebUI();
+void Minigotchi::WebUITask(void *pvParameters) {
+  // setup web server
+  WebUI *web = new WebUI();
 
-    // hang until something cool happens (this is not cool trust me)
-    while (!Config::configured) {
-        taskYIELD(); // wait
-    }
+  // hang until something cool happens (this is not cool trust me)
+  while (!Config::configured) {
+    taskYIELD(); // wait
+  }
 
-    // clean up when done
-    delete web;
-    web = nullptr; // crowdstrike forgot about this one lol
+  // clean up when done
+  delete web;
+  web = nullptr; // crowdstrike forgot about this one lol
 
-    // delete task
-    vTaskDelete(NULL);
+  // delete task
+  vTaskDelete(NULL);
 }
-
 
 /**
  * Wait for WebUI to get input that the configuration is done
  */
 void Minigotchi::waitForInput() {
-    // on core one
-    if (!Config::configured) {
-        xTaskCreatePinnedToCore(WebUITask, "WebUI Task", 8192, NULL, 1, NULL, 1);
-    }
+  // on core one
+  if (!Config::configured) {
+    xTaskCreatePinnedToCore(WebUITask, "WebUI Task", 8192, NULL, 1, NULL, 1);
+  }
 
-    // wait until it's done
-    while (!Config::configured) {
-        delay(1);
-    }
+  // wait until it's done
+  while (!Config::configured) {
+    delay(1);
+  }
 }
 
 /**
  * Increment/increase current epoch by one
  */
 int Minigotchi::addEpoch() {
-    Minigotchi::currentEpoch++;
-    return Minigotchi::currentEpoch;
+  Minigotchi::currentEpoch++;
+  return Minigotchi::currentEpoch;
 }
 
 /**
  * Show current Minigotchi epoch
  */
 void Minigotchi::epoch() {
-    Minigotchi::addEpoch();
-    Parasite::readData();
-    Serial.print(mood.getNeutral() + " Current Epoch: ");
-    Serial.println(Minigotchi::currentEpoch);
-    Serial.println(" ");
-    Display::updateDisplay(mood.getNeutral(),
-                           "Current Epoch: " + Minigotchi::currentEpoch);
+  Minigotchi::addEpoch();
+  Parasite::readData();
+  Serial.print(mood.getNeutral() + " Current Epoch: ");
+  Serial.println(Minigotchi::currentEpoch);
+  Serial.println(" ");
+  Display::updateDisplay(mood.getNeutral(),
+                         "Current Epoch: " + Minigotchi::currentEpoch);
 }
 
 /**
  * Things to do on startup
  */
 void Minigotchi::boot() {
-    // configure moods
-    Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
-               Config::looking1, Config::looking2, Config::neutral,
-               Config::sleeping);
+  // configure moods
+  Mood::init(Config::happy, Config::sad, Config::broken, Config::intense,
+             Config::looking1, Config::looking2, Config::neutral,
+             Config::sleeping);
 
-    // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
-    // cable
-    if (Config::screen == "M5StickCP") {
-        AXP192 axp192;
-        axp192.begin();           // Use the instance of AXP192
-        axp192.ScreenBreath(100); // Use the instance of AXP192
-    } else if (Config::screen == "M5StickCP2") {
-        pinMode(4, OUTPUT);
-        digitalWrite(4, HIGH);
-    }
+  // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
+  // cable
+  if (Config::screen == "M5StickCP") {
+    AXP192 axp192;
+    axp192.begin();           // Use the instance of AXP192
+    axp192.ScreenBreath(100); // Use the instance of AXP192
+  } else if (Config::screen == "M5StickCP2") {
+    pinMode(4, OUTPUT);
+    digitalWrite(4, HIGH);
+  }
 
-    Display::startScreen();
-    Serial.println(" ");
-    Serial.println(mood.getHappy() +
-                   " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
-    Display::updateDisplay(mood.getHappy(), "Hi, I'm Minigotchi");
-    Serial.println(" ");
-    Serial.println(mood.getNeutral() +
-                   " You can edit my configuration parameters in config.cpp!");
-    Serial.println(" ");
-    delay(Config::shortDelay);
-    Display::updateDisplay(mood.getNeutral(), "Edit my config.cpp!");
-    delay(Config::shortDelay);
-    Serial.println(mood.getIntense() + " Starting now...");
-    Serial.println(" ");
-    Display::updateDisplay(mood.getIntense(), "Starting  now");
-    delay(Config::shortDelay);
-    Serial.println("################################################");
-    Serial.println("#                BOOTUP PROCESS                #");
-    Serial.println("################################################");
-    Serial.println(" ");
-    ESP_ERROR_CHECK(esp_wifi_init(&Config::wifiCfg));
-    esp_err_t err = nvs_flash_init();
-    if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        ESP_ERROR_CHECK(nvs_flash_erase());
-        err = nvs_flash_init();
-    }
+  Display::startScreen();
+  Serial.println(" ");
+  Serial.println(mood.getHappy() +
+                 " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
+  Display::updateDisplay(mood.getHappy(), "Hi, I'm Minigotchi");
+  Serial.println(" ");
+  Serial.println(mood.getNeutral() +
+                 " You can edit my configuration parameters in config.cpp!");
+  Serial.println(" ");
+  delay(Config::shortDelay);
+  Display::updateDisplay(mood.getNeutral(), "Edit my config.cpp!");
+  delay(Config::shortDelay);
+  Serial.println(mood.getIntense() + " Starting now...");
+  Serial.println(" ");
+  Display::updateDisplay(mood.getIntense(), "Starting  now");
+  delay(Config::shortDelay);
+  Serial.println("################################################");
+  Serial.println("#                BOOTUP PROCESS                #");
+  Serial.println("################################################");
+  Serial.println(" ");
+  ESP_ERROR_CHECK(esp_wifi_init(&Config::wifiCfg));
+  esp_err_t err = nvs_flash_init();
+  if (err == ESP_ERR_NVS_NO_FREE_PAGES ||
+      err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    err = nvs_flash_init();
+  }
 
-    Config::loadConfig();
-    ESP_ERROR_CHECK(err);
-    ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-    ESP_ERROR_CHECK(esp_wifi_set_country(&Config::ctryCfg));
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_start());
+  Config::loadConfig();
+  ESP_ERROR_CHECK(err);
+  ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+  ESP_ERROR_CHECK(esp_wifi_set_country(&Config::ctryCfg));
+  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+  ESP_ERROR_CHECK(esp_wifi_start());
 
-    // wait for the webui configuration
-    if (!Config::configured) {
-        waitForInput();
-    }
+  // wait for the webui configuration
+  if (!Config::configured) {
+    waitForInput();
+  }
 
-    Deauth::list();
-    Channel::init(Config::channel);
-    Minigotchi::info();
-    Parasite::sendName();
-    Minigotchi::finish();
-
+  Deauth::list();
+  Channel::init(Config::channel);
+  Minigotchi::info();
+  Parasite::sendName();
+  Minigotchi::finish();
 }
 
 /**
  * Show current Minigotchi info/stats
  */
 void Minigotchi::info() {
-    delay(Config::shortDelay);
-    Serial.println(" ");
-    Serial.println(mood.getNeutral() + " Current Minigotchi Stats: ");
-    Display::updateDisplay(mood.getNeutral(), "Current Minigotchi Stats:");
-    version();
-    mem();
-    cpu();
-    Serial.println(" ");
-    delay(Config::shortDelay);
+  delay(Config::shortDelay);
+  Serial.println(" ");
+  Serial.println(mood.getNeutral() + " Current Minigotchi Stats: ");
+  Display::updateDisplay(mood.getNeutral(), "Current Minigotchi Stats:");
+  version();
+  mem();
+  cpu();
+  Serial.println(" ");
+  delay(Config::shortDelay);
 }
 
 /**
  * This is printed after everything is done in the bootup process
  */
 void Minigotchi::finish() {
-    Serial.println("################################################");
-    Serial.println(" ");
-    Serial.println(mood.getNeutral() + " Started successfully!");
-    Serial.println(" ");
-    Display::updateDisplay(mood.getNeutral(), "Started sucessfully");
-    delay(Config::shortDelay);
+  Serial.println("################################################");
+  Serial.println(" ");
+  Serial.println(mood.getNeutral() + " Started successfully!");
+  Serial.println(" ");
+  Display::updateDisplay(mood.getNeutral(), "Started sucessfully");
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi version
  */
 void Minigotchi::version() {
-    Serial.print(mood.getNeutral() + " Version: ");
-    Serial.println(Config::version.c_str());
-    Display::updateDisplay(mood.getNeutral(),
-                           "Version: " + (String)Config::version.c_str());
-    delay(Config::shortDelay);
+  Serial.print(mood.getNeutral() + " Version: ");
+  Serial.println(Config::version.c_str());
+  Display::updateDisplay(mood.getNeutral(),
+                         "Version: " + (String)Config::version.c_str());
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi memory usage
  */
 void Minigotchi::mem() {
-    Serial.print(mood.getNeutral() + " Heap: ");
-    Serial.print(ESP.getFreeHeap());
-    Serial.println(" bytes");
-    Display::updateDisplay(mood.getNeutral(),
-                           "Heap: " + (String)ESP.getFreeHeap() + " bytes");
-    delay(Config::shortDelay);
+  Serial.print(mood.getNeutral() + " Heap: ");
+  Serial.print(ESP.getFreeHeap());
+  Serial.println(" bytes");
+  Display::updateDisplay(mood.getNeutral(),
+                         "Heap: " + (String)ESP.getFreeHeap() + " bytes");
+  delay(Config::shortDelay);
 }
 
 /**
  * Shows current Minigotchi Frequency
  */
 void Minigotchi::cpu() {
-    Serial.print(mood.getNeutral() + " CPU Frequency: ");
-    Serial.print(ESP.getCpuFreqMHz());
-    Serial.println(" MHz");
-    Display::updateDisplay(mood.getNeutral(),
-                           "CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
-                           " MHz");
-    delay(Config::shortDelay);
+  Serial.print(mood.getNeutral() + " CPU Frequency: ");
+  Serial.print(ESP.getCpuFreqMHz());
+  Serial.println(" MHz");
+  Display::updateDisplay(mood.getNeutral(),
+                         "CPU Frequency: " + (String)ESP.getCpuFreqMHz() +
+                             " MHz");
+  delay(Config::shortDelay);
 }
 
 /** developer note:
@@ -248,22 +247,22 @@ void Minigotchi::cpu() {
  * Puts Minigotchi in promiscuous mode
  */
 void Minigotchi::monStart() {
-    // disconnect from WiFi if we were at all
-    WiFi.disconnect();
+  // disconnect from WiFi if we were at all
+  WiFi.disconnect();
 
-    // revert to station mode
-    WiFi.mode(WIFI_STA);
-    esp_wifi_set_promiscuous(true);
+  // revert to station mode
+  WiFi.mode(WIFI_STA);
+  esp_wifi_set_promiscuous(true);
 }
 
 /**
  * Takes Minigotchi out of promiscuous mode
  */
 void Minigotchi::monStop() {
-    esp_wifi_set_promiscuous(false);
+  esp_wifi_set_promiscuous(false);
 
-    // revert to station mode
-    WiFi.mode(WIFI_STA);
+  // revert to station mode
+  WiFi.mode(WIFI_STA);
 }
 
 /** developer note:
@@ -289,30 +288,30 @@ void Minigotchi::monStop() {
  * Channel cycling
  */
 void Minigotchi::cycle() {
-    Parasite::readData();
-    Channel::cycle();
+  Parasite::readData();
+  Channel::cycle();
 }
 
 /**
  * Pwnagotchi detection
  */
 void Minigotchi::detect() {
-    Parasite::readData();
-    Pwnagotchi::detect();
+  Parasite::readData();
+  Pwnagotchi::detect();
 }
 
 /**
  * Deauthing
  */
 void Minigotchi::deauth() {
-    Parasite::readData();
-    Deauth::deauth();
+  Parasite::readData();
+  Deauth::deauth();
 }
 
 /**
  * Advertising
  */
 void Minigotchi::advertise() {
-    Parasite::readData();
-    Frame::advertise();
+  Parasite::readData();
+  Frame::advertise();
 }

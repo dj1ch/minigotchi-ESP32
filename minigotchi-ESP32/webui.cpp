@@ -109,7 +109,7 @@ public:
   CaptivePortalHandler() {}
   virtual ~CaptivePortalHandler() {}
 
-  bool canHandle(AsyncWebServerRequest *request){
+  bool canHandle(AsyncWebServerRequest *request) {
     return request->url() == "/";
   }
 
@@ -149,15 +149,14 @@ WebUI::WebUI() {
 WebUI::~WebUI() {
   // debugging
   Serial.println("WebUI Destructor called");
-  
+
   // nah fuck it
   dnsServer.stop();
   server.end();
   WiFi.softAPdisconnect(true);
-    
+
   running = false;
 }
-
 
 /**
  * Sets up Web Server
@@ -170,19 +169,27 @@ void WebUI::setupServer() {
     if (request->hasParam("whitelist")) {
       String newWhitelist = request->getParam("whitelist")->value();
       updateWhitelist(newWhitelist);
-      request->send(200, "text/html", mood.getHappy() + " Whitelist updated successfully!<br><a href=\"/\">Return to Home Page</a>");
+      request->send(200, "text/html",
+                    mood.getHappy() + " Whitelist updated successfully!<br><a "
+                                      "href=\"/\">Return to Home Page</a>");
     } else if (request->hasParam("config")) {
       String configValue = request->getParam("config")->value();
       Config::configured = (configValue == "true");
       Config::saveConfig();
-      // Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
-      request->send(200, "text/html", mood.getHappy() + " Configuration updated! You may exit this tab and disconnect from the Wifi AP.<br>");
+      // Serial.println("Config check: " + String(Config::configured ? "true" :
+      // "false"));
+      request->send(200, "text/html",
+                    mood.getHappy() +
+                        " Configuration updated! You may exit this tab and "
+                        "disconnect from the Wifi AP.<br>");
     } else {
-      request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
+      request->send(200, "text/html",
+                    mood.getBroken() + " No <b>valid</b> input received.<br><a "
+                                       "href=\"/\">Return to Home Page</a>");
     }
   });
 
-  server.onNotFound([&](AsyncWebServerRequest *request){
+  server.onNotFound([&](AsyncWebServerRequest *request) {
     request->send(200, "text/html", html);
   });
 }
