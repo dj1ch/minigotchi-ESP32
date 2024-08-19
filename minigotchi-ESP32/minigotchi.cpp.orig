@@ -35,7 +35,7 @@
 
 // initializing values
 Mood &Minigotchi::mood = Mood::getInstance();
-WebUI* Minigotchi::web = nullptr;
+WebUI *Minigotchi::web = nullptr;
 
 // current epoch val
 int Minigotchi::currentEpoch = 0;
@@ -43,11 +43,11 @@ int Minigotchi::currentEpoch = 0;
 /**
  * WebUI task for freeRTOS
  */
-void Minigotchi::WebUITask(void* pvParameters) {
+void Minigotchi::WebUITask(void *pvParameters) {
   // setup web server
-  WebUI* web = new WebUI();
+  WebUI *web = new WebUI();
 
-    // hang until something cool happens (this is not cool trust me)
+  // hang until something cool happens (this is not cool trust me)
   while (!Config::configured) {
     taskYIELD(); // wait
   }
@@ -59,7 +59,6 @@ void Minigotchi::WebUITask(void* pvParameters) {
   // delete task
   vTaskDelete(NULL);
 }
-
 
 /**
  * Wait for WebUI to get input that the configuration is done
@@ -139,7 +138,8 @@ void Minigotchi::boot() {
   Serial.println(" ");
   ESP_ERROR_CHECK(esp_wifi_init(&Config::wifiCfg));
   esp_err_t err = nvs_flash_init();
-  if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+  if (err == ESP_ERR_NVS_NO_FREE_PAGES ||
+      err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
     ESP_ERROR_CHECK(nvs_flash_erase());
     err = nvs_flash_init();
   }
@@ -161,7 +161,6 @@ void Minigotchi::boot() {
   Minigotchi::info();
   Parasite::sendName();
   Minigotchi::finish();
-
 }
 
 /**
