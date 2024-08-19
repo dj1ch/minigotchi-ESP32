@@ -121,7 +121,7 @@ void Minigotchi::boot() {
   Serial.println(" ");
   Serial.println(mood.getHappy() +
                  " Hi, I'm Minigotchi, your pwnagotchi's best friend!");
-  Display::updateDisplay(mood.getHappy(), "Hi,       I'm Minigotchi");
+  Display::updateDisplay(mood.getHappy(), "Hi, I'm Minigotchi");
   Serial.println(" ");
   Serial.println(mood.getNeutral() +
                  " You can edit my configuration parameters in config.cpp!");

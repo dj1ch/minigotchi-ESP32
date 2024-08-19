@@ -77,13 +77,13 @@ void Pwnagotchi::detect() {
     // cool animation
     for (int i = 0; i < 5; ++i) {
       Serial.println(mood.getLooking1() + " Scanning for Pwnagotchi.");
-      Display::updateDisplay(mood.getLooking1(), "Scanning  for Pwnagotchi.");
+      Display::updateDisplay(mood.getLooking1(), "Scanning for Pwnagotchi.");
       delay(Config::shortDelay);
       Serial.println(mood.getLooking2() + " Scanning for Pwnagotchi..");
-      Display::updateDisplay(mood.getLooking2(), "Scanning  for Pwnagotchi..");
+      Display::updateDisplay(mood.getLooking2(), "Scanning for Pwnagotchi..");
       delay(Config::shortDelay);
       Serial.println(mood.getLooking1() + " Scanning for Pwnagotchi...");
-      Display::updateDisplay(mood.getLooking1(), "Scanning  for Pwnagotchi...");
+      Display::updateDisplay(mood.getLooking1(), "Scanning for Pwnagotchi...");
       delay(Config::shortDelay);
       Serial.println(" ");
       delay(Config::shortDelay);
