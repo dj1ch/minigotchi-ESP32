@@ -175,7 +175,7 @@ void WebUI::setupServer() {
       String configValue = request->getParam("config")->value();
       Config::configured = (configValue == "true");
       Config::saveConfig();
-      Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
+      // Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
       request->send(200, "text/html", mood.getHappy() + " Configuration updated! You may exit this tab and disconnect from the Wifi AP.<br>");
     } else {
       request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
@@ -205,8 +205,10 @@ void WebUI::updateWhitelist(String newWhitelist) {
   // add last element after last comma
   Config::whitelist.push_back(newWhitelist.substring(start).c_str());
 
+  /*
   Serial.println(mood.getNeutral() + " Updated whitelist:");
   for (const auto &entry : Config::whitelist) {
     Serial.println(entry.c_str());
   }
+  */
 }
