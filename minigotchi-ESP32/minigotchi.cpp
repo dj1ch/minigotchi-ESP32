@@ -147,7 +147,7 @@ void Minigotchi::boot() {
   Config::loadConfig();
   ESP_ERROR_CHECK(err);
   ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-  ESP_ERROR_CHECK(esp_wifi_set_country(&ctryCfg));
+  ESP_ERROR_CHECK(esp_wifi_set_country(&Config::ctryCfg));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
   ESP_ERROR_CHECK(esp_wifi_start());
 
