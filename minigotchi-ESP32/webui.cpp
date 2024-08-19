@@ -176,7 +176,7 @@ void WebUI::setupServer() {
       Config::configured = (configValue == "true");
       Config::saveConfig();
       Serial.println("Config check: " + String(Config::configured ? "true" : "false"));
-      request->send(200, "text/html", mood.getHappy() + " Configuration updated!<br><a href=\"/\">Return to Home Page</a>");
+      request->send(200, "text/html", mood.getHappy() + " Configuration updated! You may exit this tab and disconnect from the Wifi AP.<br>");
     } else {
       request->send(200, "text/html", mood.getBroken() + " No <b>valid</b> input received.<br><a href=\"/\">Return to Home Page</a>");
     }
