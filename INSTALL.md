@@ -165,7 +165,7 @@ Make sure you install the correct library, they aren't the same library and if y
 
   2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
 
-  3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this). See an example `platform.txt` [here](/misc/platform.txt).
+  3. More may be added [here](https://github.com/justcallmekoko/ESP32Marauder/wiki/arduino-ide-setup#if-you-are-following-these-instructions-you-do-not-need-to-do-this). See an example `platform.txt` [here](/misc/2.0.10/platform.txt).
 
 #### Pre-requisite for ESP32 boards > 3.0.1
 
