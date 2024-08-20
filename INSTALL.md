@@ -140,6 +140,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
   - `TFT_eSPI`
   - `Adafruit SSD1305`
   - `u8g2`
+  - `AsyncTCP`
   - Remove/uninstall/modify your screen library depending on your display for `Config::screen` below, some of these dependencies may have already been installed previously.
   - Sometimes the repository owner of certain libraries may require you to install it a certain way, be sure to follow their guides if needed/included.
 
