@@ -229,11 +229,5 @@ void WebUI::updateWhitelist(String newWhitelist) {
 
   // add last element after last comma
   Config::whitelist.push_back(newWhitelist.substring(start).c_str());
-
-  /*
-        Serial.println(mood.getNeutral() + " Updated whitelist:");
-        for (const auto &entry : Config::whitelist) {
-          Serial.println(entry.c_str());
-        }
-        */
+  
 }
