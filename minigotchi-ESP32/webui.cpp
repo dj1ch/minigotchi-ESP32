@@ -229,5 +229,4 @@ void WebUI::updateWhitelist(String newWhitelist) {
 
   // add last element after last comma
   Config::whitelist.push_back(newWhitelist.substring(start).c_str());
-  
 }
