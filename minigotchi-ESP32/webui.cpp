@@ -124,92 +124,92 @@ const char WebUI::html[] = R"rawliteral(
 // captive portal class, this isn't the main class though
 class CaptivePortalHandler : public AsyncWebHandler {
 public:
-  CaptivePortalHandler() {}
-  virtual ~CaptivePortalHandler() {}
+    CaptivePortalHandler() {}
+    virtual ~CaptivePortalHandler() {}
 
-  bool canHandle(AsyncWebServerRequest *request) {
-    return request->url() == "/";
-  }
-
-  void handleRequest(AsyncWebServerRequest *request) {
-    if (request->method() == HTTP_GET && request->url() == "/") {
-      request->send(200, "text/html", WebUI::html);
-    } else {
-      request->send(200, "text/html", WebUI::html);
+    bool canHandle(AsyncWebServerRequest *request) {
+        return request->url() == "/";
     }
-  }
+
+    void handleRequest(AsyncWebServerRequest *request) {
+        if (request->method() == HTTP_GET && request->url() == "/") {
+            request->send(200, "text/html", WebUI::html);
+        } else {
+            request->send(200, "text/html", WebUI::html);
+        }
+    }
 };
 
 /**
  * Starts and constructs Web Server
  */
 WebUI::WebUI() {
-  Serial.println(mood.getIntense() + " Starting Web Server...");
-  Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
+    Serial.println(mood.getIntense() + " Starting Web Server...");
+    Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
 
-  WiFi.mode(WIFI_AP);
-  WiFi.softAP(Config::ssid);
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP(Config::ssid);
 
-  setupServer();
+    setupServer();
 
-  dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
-  dnsServer.setTTL(300);
-  dnsServer.start(53, "*", WiFi.softAPIP());
+    dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
+    dnsServer.setTTL(300);
+    dnsServer.start(53, "*", WiFi.softAPIP());
 
-  server.begin();
-  WebUI::running = true;
+    server.begin();
+    WebUI::running = true;
 
-  while (running) {
-    dnsServer.processNextRequest();
-  }
+    while (running) {
+        dnsServer.processNextRequest();
+    }
 }
 
 WebUI::~WebUI() {
-  // debugging
-  Serial.println("WebUI Destructor called");
+    // debugging
+    Serial.println("WebUI Destructor called");
 
-  // nah fuck it
-  dnsServer.stop();
-  server.end();
-  WiFi.softAPdisconnect(true);
+    // nah fuck it
+    dnsServer.stop();
+    server.end();
+    WiFi.softAPdisconnect(true);
 
-  running = false;
+    running = false;
 }
 
 /**
  * Sets up Web Server
  */
 void WebUI::setupServer() {
-  server.addHandler(new CaptivePortalHandler()).setFilter(ON_AP_FILTER);
+    server.addHandler(new CaptivePortalHandler()).setFilter(ON_AP_FILTER);
 
-  // handle whitelist
-  server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request) {
-    if (request->hasParam("whitelist")) {
-      String newWhitelist = request->getParam("whitelist")->value();
-      updateWhitelist(newWhitelist);
-      request->send(200, "text/html",
-                    mood.getHappy() + " Whitelist updated successfully!<br><a "
-                                      "href=\"/\">Return to Home Page</a>");
-    } else if (request->hasParam("config")) {
-      String configValue = request->getParam("config")->value();
-      Config::configured = (configValue == "true");
-      Config::saveConfig();
-      // Serial.println("Config check: " + String(Config::configured ? "true" :
-      // "false"));
-      request->send(200, "text/html",
-                    mood.getHappy() +
-                        " Configuration updated! You may exit this tab and "
-                        "disconnect from the Wifi AP.<br>");
-    } else {
-      request->send(200, "text/html",
-                    mood.getBroken() + " No <b>valid</b> input received.<br><a "
-                                       "href=\"/\">Return to Home Page</a>");
-    }
-  });
+    // handle whitelist
+    server.on("/get", HTTP_GET, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("whitelist")) {
+            String newWhitelist = request->getParam("whitelist")->value();
+            updateWhitelist(newWhitelist);
+            request->send(200, "text/html",
+                          mood.getHappy() + " Whitelist updated successfully!<br><a "
+                          "href=\"/\">Return to Home Page</a>");
+        } else if (request->hasParam("config")) {
+            String configValue = request->getParam("config")->value();
+            Config::configured = (configValue == "true");
+            Config::saveConfig();
+            // Serial.println("Config check: " + String(Config::configured ? "true" :
+            // "false"));
+            request->send(200, "text/html",
+                          mood.getHappy() +
+                          " Configuration updated! You may exit this tab and "
+                          "disconnect from the Wifi AP.<br>");
+        } else {
+            request->send(200, "text/html",
+                          mood.getBroken() + " No <b>valid</b> input received.<br><a "
+                          "href=\"/\">Return to Home Page</a>");
+        }
+    });
 
-  server.onNotFound([&](AsyncWebServerRequest *request) {
-    request->send(200, "text/html", html);
-  });
+    server.onNotFound([&](AsyncWebServerRequest *request) {
+        request->send(200, "text/html", html);
+    });
 }
 
 /**
@@ -217,23 +217,23 @@ void WebUI::setupServer() {
  * @param newWhiteList new whitelist to use
  */
 void WebUI::updateWhitelist(String newWhitelist) {
-  Config::whitelist.clear(); // clear existing values
-  int start = 0;
-  int end = newWhitelist.indexOf(',');
+    Config::whitelist.clear(); // clear existing values
+    int start = 0;
+    int end = newWhitelist.indexOf(',');
 
-  while (end != -1) {
-    Config::whitelist.push_back(newWhitelist.substring(start, end).c_str());
-    start = end + 1;
-    end = newWhitelist.indexOf(',', start);
-  }
-
-  // add last element after last comma
-  Config::whitelist.push_back(newWhitelist.substring(start).c_str());
-
-  /*
-    Serial.println(mood.getNeutral() + " Updated whitelist:");
-    for (const auto &entry : Config::whitelist) {
-      Serial.println(entry.c_str());
+    while (end != -1) {
+        Config::whitelist.push_back(newWhitelist.substring(start, end).c_str());
+        start = end + 1;
+        end = newWhitelist.indexOf(',', start);
     }
-    */
+
+    // add last element after last comma
+    Config::whitelist.push_back(newWhitelist.substring(start).c_str());
+
+    /*
+        Serial.println(mood.getNeutral() + " Updated whitelist:");
+        for (const auto &entry : Config::whitelist) {
+          Serial.println(entry.c_str());
+        }
+        */
 }
