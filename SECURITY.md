@@ -6,7 +6,8 @@ When it comes to installing any version of the project, I highly recommend you i
 
 | Version | Supported          |
 | ------- | ------------------ |
-| < 2.0.0-beta   | :white_check_mark: Works |
+| > 3.2.2 | :white_check_mark: Highly recommended! |
+| > 2.0.0-beta   | :white_check_mark: Works. |
 | 1.3.0-beta   | :white_check_mark: Not recommended! |
 | 1.2.0-beta   | :white_check_mark: Not recommended!              |
 | =< 1.1.1-beta   | :x: Broken...               |

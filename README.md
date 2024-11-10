@@ -78,4 +78,6 @@ See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communic
 
 - [arduino-ESP32](https://github.com/espressif/arduino-esp32), the core Arduino libraries for the.
 
+- I'd also like to thank [PiSugar](https://www.pisugar.com/) for the partnership with Pwnagotchi-Unofficial! Your batteries are amazing and have contributed heavily in the creation of this project.
+
 **Made with ❤️ by [@dj1ch](https://github.com/dj1ch) and the rest of the Pwnagotchi-Unofficial team!**
