@@ -107,11 +107,11 @@ void Minigotchi::boot() {
 
   // StickC Plus 1.1 and 2 power management, to keep turned On after unplug USB
   // cable
-  if (Config::screen == "M5StickCP") {
+  if (Config::screen == "M5STICKCP") {
     AXP192 axp192;
     axp192.begin();           // Use the instance of AXP192
     axp192.ScreenBreath(100); // Use the instance of AXP192
-  } else if (Config::screen == "M5StickCP2") {
+  } else if (Config::screen == "M5STICKCP2") {
     pinMode(4, OUTPUT);
     digitalWrite(4, HIGH);
   }
