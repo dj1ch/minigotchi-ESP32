@@ -42,7 +42,7 @@ void loop() {
     // current epoch
     minigotchi.epoch();
     delay(config.shortDelay);
-    
+
     // cycle channels at start of loop
     minigotchi.cycle();
     delay(config.shortDelay);
