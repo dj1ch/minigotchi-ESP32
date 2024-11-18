@@ -34,6 +34,7 @@
 bool Config::deauth = true;
 bool Config::advertise = true;
 bool Config::scan = true;
+bool Config::spam = true;
 
 // define access point ssid and password
 const char *Config::ssid = "minigotchi";
@@ -108,7 +109,7 @@ wifi_country_t Config::ctryCfg = {.cc = "US", .schan = 1, .nchan = 13};
 bool Config::configured = false;
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.4.2-beta";
+std::string Config::version = "3.5.2-beta";
 
 /**
  * Loads configuration values from NVS

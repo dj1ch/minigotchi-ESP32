@@ -315,3 +315,11 @@ void Minigotchi::advertise() {
   Parasite::readData();
   Frame::advertise();
 }
+
+/**
+ * BLE Spamming
+ */
+void Minigotchi::spam() {
+  Parasite::readData();
+  Ble::spam();
+}

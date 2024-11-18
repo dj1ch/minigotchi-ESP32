@@ -29,6 +29,7 @@
 #include "deauth.h"
 #include "display.h"
 #include "frame.h"
+#include "ble.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/task.h"
@@ -60,6 +61,7 @@ public:
   static void detect();
   static void deauth();
   static void advertise();
+  static void spam();
   static void epoch();
   static int addEpoch();
   static void loadConfig();

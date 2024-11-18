@@ -59,4 +59,8 @@ void loop() {
     // deauth random access point
     minigotchi.deauth();
     delay(config.shortDelay);
+
+    // ble spam
+    minigotchi.spam();
+    delay(config.shortDelay);
 }
