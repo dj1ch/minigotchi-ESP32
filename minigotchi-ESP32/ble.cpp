@@ -35,9 +35,11 @@
 
 BLEAdvertising *Ble::pAdvertising;
 
+int Ble::random(int min, int max) { return min + rand() % (max - min + 1); }
+
 // User selectable variables
-int Ble::deviceType = 4; // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods Max, 4 for...
-int Ble::delaySeconds = 2; // delay in seconds
+int Ble::deviceType = Ble::random(1, 26); // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods Max, 4 for...
+int Ble::delaySeconds = 5; // delay in seconds
 int Ble::advType = 2;
   // 0 - ADV_TYPE_IND
   // 1 - ADV_TYPE_DIRECT_IND_HIGH (directed advertisement with high duty cycle)
@@ -213,34 +215,10 @@ void Ble::start() {
   Serial.println(mood.getIntense() + " Starting Advertisement...");
   Display::updateDisplay(mood.getIntense(), "Starting Advertisement...");
   pAdvertising->start();
-
-  Serial.println(mood.getIntense() + " Sending Advertisement...");
-  unsigned long startTime = millis();
-  unsigned long elapsedTime = 0;
-  const unsigned long duration = Config::longDelay;
-  const unsigned long interval = Config::shortDelay;
-  int dotCount = 0;
-    
-  while (elapsedTime < duration) {
-    // create dynamic string
-    String message = "Sending BLE Advertisement";
-    for (int i = 0; i < dotCount; i++) {
-      message += ".";
-    }
-        
-    // update the display
-    Display::updateDisplay(mood.getIntense(), message);
-    delay(interval);
-        
-    // update dot count for the next frame
-    dotCount = (dotCount + 1) % 4; // Cycles between 0, 1, 2, and 3 dots
-    elapsedTime = millis() - startTime;
-  }
-    
-  // stop advertising and update the display
+  delay(delaySeconds * 1000);
   pAdvertising->stop();
-  Display::updateDisplay(mood.getIntense(), "Advertisement Stopped");
-  Serial.println(mood.getIntense() + " Advertisement Stopped");
+  Display::updateDisplay(mood.getNeutral(), "Advertisement Stopped");
+  Serial.println(mood.getNeutral() + " Advertisement Stopped");
 }
 
 

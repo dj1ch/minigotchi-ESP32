@@ -37,6 +37,7 @@ class Ble {
 public:
   static void spam();
 private:
+  static int random(int min, int max);
   static void init();
   static void start();
   static void stop();
