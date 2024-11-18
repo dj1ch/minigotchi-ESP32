@@ -148,7 +148,7 @@ WebUI::WebUI() {
   Display::updateDisplay(mood.getIntense(), "Starting Web Server...");
 
   WiFi.mode(WIFI_AP);
-  WiFi.softAP(Config::ssid);
+  WiFi.softAP(Config::ssid, Config::pass);
 
   setupServer();
 
