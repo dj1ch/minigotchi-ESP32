@@ -33,7 +33,7 @@ Note that the _C++_ in Arduino is slightly modified from what I have heard. See 
 
 - Arduino IDE
 - A good understanding of coding/programming if you plan on contributing
-- An ESP32-based SoC(for this fork)
+- Any ESP32\* based microcontroller
 - A reliable and appropriate power source and supply for the hardware
 - Patience (a lot of it)
 - The ability to read

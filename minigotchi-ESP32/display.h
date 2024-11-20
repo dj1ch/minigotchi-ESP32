@@ -25,6 +25,9 @@
 
 #include "config.h"
 #include "mood.h"
+
+// words cannot describe how much space this has saved me
+#if disp
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
@@ -32,7 +35,7 @@
 #include <TFT_eSPI.h> // Defines the TFT_eSPI library for CYD
 #include <U8g2lib.h>
 #include <Wire.h>
-#include <string>
+#endif
 
 #define SSD1306_SCREEN_WIDTH 128
 #define SSD1306_SCREEN_HEIGHT 64
@@ -86,11 +89,13 @@ public:
   ~Display();
 
 private:
+#if disp
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
   static Adafruit_SSD1305 *ssd1305_adafruit_display;
   static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
   static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
   static TFT_eSPI *tft_display;
+#endif
 };
 
 #endif // DISPLAY_H

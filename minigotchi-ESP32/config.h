@@ -38,6 +38,7 @@ public:
   static bool deauth;
   static bool advertise;
   static bool scan;
+  static bool spam;
   static const char *ssid;
   static const char *pass;
   static int shortDelay;
