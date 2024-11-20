@@ -95,6 +95,15 @@ There are multiple different screen types available:
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
+- This next line is also imporant, whether or not you use a screen.
+
+```cpp
+// quick and dirty way to save space if you're not using a display
+#define disp 0
+```
+
+Here, we define whether or not we use a display (at least for the libraries). The reason we need this is because it determines whether or not your screen libraries will be included in the final sketch. It saves a lot of space because libraries tend to take up most of the program memory. If you're not using a display, keep this setting at `0`. If you are, set it to `1`.
+
 - There should also be a line that says:
 
 ```cpp

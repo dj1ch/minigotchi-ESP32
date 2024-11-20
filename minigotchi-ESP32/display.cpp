@@ -22,7 +22,7 @@
 
 #include "display.h"
 
-#if display
+#if disp
 TFT_eSPI tft; // Define TFT_eSPI object
 
 Adafruit_SSD1306 *Display::ssd1306_adafruit_display = nullptr;
@@ -43,7 +43,7 @@ String Display::previousText = "";
  * Deletes any pointers if used
  */
 Display::~Display() {
-  #if display
+  #if disp
   if (ssd1306_adafruit_display) {
     delete ssd1306_adafruit_display;
   }
@@ -66,7 +66,7 @@ Display::~Display() {
  * Function to initialize the screen ONLY.
  */
 void Display::startScreen() {
-  #if display
+  #if disp
   if (Config::display) {
     if (Config::screen == "SSD1306") {
       ssd1306_adafruit_display =
@@ -185,7 +185,7 @@ void Display::startScreen() {
  * @param face Face to use
  */
 void Display::updateDisplay(String face) { 
-  #if display
+  #if disp
   Display::updateDisplay(face, "");
   #endif 
 }
@@ -196,7 +196,7 @@ void Display::updateDisplay(String face) {
  * @param text Additional text under the face
  */
 void Display::updateDisplay(String face, String text) {
-  #if display
+  #if disp
   if (Config::display) {
     if ((Config::screen == "SSD1306" ||
          Config::screen == "WEMOS_OLED_SHIELD") &&
@@ -350,7 +350,7 @@ void Display::updateDisplay(String face, String text) {
  * @param data Text to print
  */
 void Display::printU8G2Data(int x, int y, const char *data) {
-  #if display
+  #if disp
   if (Config::screen == "IDEASPARK_SSD1306") {
     auto *screen = static_cast<U8G2_SSD1306_128X64_NONAME_F_SW_I2C *>(
         ssd1306_ideaspark_display);

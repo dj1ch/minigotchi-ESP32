@@ -27,7 +27,7 @@
 #include "mood.h"
 
 // words cannot describe how much space this has saved me
-#if display
+#if disp
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
@@ -89,7 +89,7 @@ public:
   ~Display();
 
 private:
-  #if display
+  #if disp
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
   static Adafruit_SSD1305 *ssd1305_adafruit_display;
   static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
