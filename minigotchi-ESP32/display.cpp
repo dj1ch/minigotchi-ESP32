@@ -43,7 +43,7 @@ String Display::previousText = "";
  * Deletes any pointers if used
  */
 Display::~Display() {
-  #if disp
+#if disp
   if (ssd1306_adafruit_display) {
     delete ssd1306_adafruit_display;
   }
@@ -59,14 +59,14 @@ Display::~Display() {
   if (tft_display) {
     delete tft_display;
   }
-  #endif
+#endif
 }
 
 /**
  * Function to initialize the screen ONLY.
  */
 void Display::startScreen() {
-  #if disp
+#if disp
   if (Config::display) {
     if (Config::screen == "SSD1306") {
       ssd1306_adafruit_display =
@@ -167,7 +167,7 @@ void Display::startScreen() {
       delay(100);
     }
   }
-  #endif
+#endif
 }
 
 /** developer note:
@@ -184,10 +184,10 @@ void Display::startScreen() {
  * Updates the face ONLY
  * @param face Face to use
  */
-void Display::updateDisplay(String face) { 
-  #if disp
+void Display::updateDisplay(String face) {
+#if disp
   Display::updateDisplay(face, "");
-  #endif 
+#endif
 }
 
 /**
@@ -196,7 +196,7 @@ void Display::updateDisplay(String face) {
  * @param text Additional text under the face
  */
 void Display::updateDisplay(String face, String text) {
-  #if disp
+#if disp
   if (Config::display) {
     if ((Config::screen == "SSD1306" ||
          Config::screen == "WEMOS_OLED_SHIELD") &&
@@ -334,7 +334,7 @@ void Display::updateDisplay(String face, String text) {
       }
     }
   }
-  #endif
+#endif
 }
 
 // If using the U8G2 library, it does not handle wrapping if text is too long to
@@ -350,7 +350,7 @@ void Display::updateDisplay(String face, String text) {
  * @param data Text to print
  */
 void Display::printU8G2Data(int x, int y, const char *data) {
-  #if disp
+#if disp
   if (Config::screen == "IDEASPARK_SSD1306") {
     auto *screen = static_cast<U8G2_SSD1306_128X64_NONAME_F_SW_I2C *>(
         ssd1306_ideaspark_display);
@@ -436,5 +436,5 @@ void Display::printU8G2Data(int x, int y, const char *data) {
       }
     }
   }
-  #endif
+#endif
 }

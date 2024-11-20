@@ -89,13 +89,13 @@ public:
   ~Display();
 
 private:
-  #if disp
+#if disp
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
   static Adafruit_SSD1305 *ssd1305_adafruit_display;
   static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
   static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
   static TFT_eSPI *tft_display;
-  #endif
+#endif
 };
 
 #endif // DISPLAY_H

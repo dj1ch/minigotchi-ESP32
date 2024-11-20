@@ -24,12 +24,12 @@
 #define MINIGOTCHI_H
 
 #include "AXP192.h"
+#include "ble.h"
 #include "channel.h"
 #include "config.h"
 #include "deauth.h"
 #include "display.h"
 #include "frame.h"
-#include "ble.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/task.h"
