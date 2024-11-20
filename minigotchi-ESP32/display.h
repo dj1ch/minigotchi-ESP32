@@ -27,7 +27,7 @@
 #include "mood.h"
 
 // words cannot describe how much space this has saved me
-#if disp
+#if display
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
