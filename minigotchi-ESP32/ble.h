@@ -23,30 +23,31 @@
 #ifndef BLE_H
 #define BLE_H
 
-#include "mood.h"
 #include "config.h"
+#include "mood.h"
 #include <Arduino.h>
 #include <BLEDevice.h>
-#include <BLEUtils.h>
 #include <BLEServer.h>
+#include <BLEUtils.h>
 
 // forward declaration of mood class
 class Mood;
 
 class Ble {
 public:
-    static void spam();
-private:
-    static int random(int min, int max);
-    static void init();
-    static void start();
-    static void stop();
+  static void spam();
 
-    static Mood &mood;
-    static BLEAdvertising *pAdvertising;
-    static int deviceType;
-    static int delaySeconds;
-    static int advType;
+private:
+  static int random(int min, int max);
+  static void init();
+  static void start();
+  static void stop();
+
+  static Mood &mood;
+  static BLEAdvertising *pAdvertising;
+  static int deviceType;
+  static int delaySeconds;
+  static int advType;
 };
 
 #endif // BLE_H
