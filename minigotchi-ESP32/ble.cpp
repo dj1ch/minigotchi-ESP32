@@ -254,7 +254,7 @@ void Ble::init() {
     break;
   default:
     data = dataAirpods; // default to dataAirpods if no valid deviceType is
-                        // provided
+    // provided
     break;
   }
   // This flag does not seem to be needed for ESP32 BLE
