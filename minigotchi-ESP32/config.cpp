@@ -118,65 +118,65 @@ std::string Config::version = "3.5.2-beta";
  * Loads configuration values from NVS
  */
 void Config::loadConfig() {
-  nvs_handle_t cfgHandle;
-  esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
-  if (err == ESP_OK) {
-    // load Config::configured
-    uint8_t configured = 0;
-    err = nvs_get_u8(cfgHandle, "configured", &configured);
+    nvs_handle_t cfgHandle;
+    esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
     if (err == ESP_OK) {
-      Config::configured = (configured == 1);
-    }
-
-    // load Config::whitelist
-    size_t required_size = 0;
-    err = nvs_get_str(cfgHandle, "whitelist", NULL, &required_size);
-    if (err == ESP_OK && required_size > 0) {
-      char *whitelistStr = (char *)malloc(required_size);
-      err = nvs_get_str(cfgHandle, "whitelist", whitelistStr, &required_size);
-      if (err == ESP_OK) {
-        // convert back into a vector
-        Config::whitelist.clear();
-        std::stringstream ss(whitelistStr);
-        std::string item;
-        while (std::getline(ss, item, ',')) {
-          Config::whitelist.push_back(item);
+        // load Config::configured
+        uint8_t configured = 0;
+        err = nvs_get_u8(cfgHandle, "configured", &configured);
+        if (err == ESP_OK) {
+            Config::configured = (configured == 1);
         }
-      }
-      free(whitelistStr);
-    }
 
-    nvs_close(cfgHandle);
-  }
+        // load Config::whitelist
+        size_t required_size = 0;
+        err = nvs_get_str(cfgHandle, "whitelist", NULL, &required_size);
+        if (err == ESP_OK && required_size > 0) {
+            char *whitelistStr = (char *)malloc(required_size);
+            err = nvs_get_str(cfgHandle, "whitelist", whitelistStr, &required_size);
+            if (err == ESP_OK) {
+                // convert back into a vector
+                Config::whitelist.clear();
+                std::stringstream ss(whitelistStr);
+                std::string item;
+                while (std::getline(ss, item, ',')) {
+                    Config::whitelist.push_back(item);
+                }
+            }
+            free(whitelistStr);
+        }
+
+        nvs_close(cfgHandle);
+    }
 }
 
 /**
  * Saves configuration to NVS
  */
 void Config::saveConfig() {
-  nvs_handle_t cfgHandle;
-  esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
-  if (err == ESP_OK) {
-    // save Config::configured
-    uint8_t configured = Config::configured ? 1 : 0;
-    err = nvs_set_u8(cfgHandle, "configured", configured);
-    ESP_ERROR_CHECK(err);
+    nvs_handle_t cfgHandle;
+    esp_err_t err = nvs_open("storage", NVS_READWRITE, &cfgHandle);
+    if (err == ESP_OK) {
+        // save Config::configured
+        uint8_t configured = Config::configured ? 1 : 0;
+        err = nvs_set_u8(cfgHandle, "configured", configured);
+        ESP_ERROR_CHECK(err);
 
-    // save Config::whitelist
-    std::string whitelistStr;
-    for (size_t i = 0; i < Config::whitelist.size(); ++i) {
-      whitelistStr += Config::whitelist[i];
-      if (i < Config::whitelist.size() - 1) {
-        whitelistStr += ",";
-      }
+        // save Config::whitelist
+        std::string whitelistStr;
+        for (size_t i = 0; i < Config::whitelist.size(); ++i) {
+            whitelistStr += Config::whitelist[i];
+            if (i < Config::whitelist.size() - 1) {
+                whitelistStr += ",";
+            }
+        }
+        err = nvs_set_str(cfgHandle, "whitelist", whitelistStr.c_str());
+        ESP_ERROR_CHECK(err);
+
+        err = nvs_commit(cfgHandle);
+        ESP_ERROR_CHECK(err);
+        nvs_close(cfgHandle);
     }
-    err = nvs_set_str(cfgHandle, "whitelist", whitelistStr.c_str());
-    ESP_ERROR_CHECK(err);
-
-    err = nvs_commit(cfgHandle);
-    ESP_ERROR_CHECK(err);
-    nvs_close(cfgHandle);
-  }
 }
 
 /** developer note:
@@ -191,9 +191,13 @@ void Config::saveConfig() {
  * @param min Lowest number
  * @param max Highest number
  */
-int Config::random(int min, int max) { return min + rand() % (max - min + 1); }
+int Config::random(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
 
 /**
  * Checks current uptime
  */
-int Config::time() { return millis() / 1000; }
+int Config::time() {
+    return millis() / 1000;
+}
