@@ -52,9 +52,6 @@ bool Config::parasite = false;
 bool Config::display = false;
 std::string Config::screen = "";
 
-// quick and dirty way to save space if you're not using a display
-#define disp 0
-
 // define baud rate
 int Config::baud = 115200;
 
