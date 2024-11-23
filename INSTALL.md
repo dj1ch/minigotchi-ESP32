@@ -95,15 +95,6 @@ There are multiple different screen types available:
 
 Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
-- This next line is also imporant, whether or not you use a screen.
-
-```cpp
-// quick and dirty way to save space if you're not using a display
-#define disp 0
-```
-
-Here, we define whether or not we use a display (at least for the libraries). The reason we need this is because it determines whether or not your screen libraries will be included in the final sketch. It saves a lot of space because libraries tend to take up most of the program memory. If you're not using a display, keep this setting at `0`. If you are, set it to `1`.
-
 - There should also be a line that says:
 
 ```cpp
@@ -122,7 +113,20 @@ int Config::channels[13] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
 Usually, this shouldn't be changed as these are the only channels we can access on the ESP32. Some ESP32s may be able to access 5ghz channels but not all of them. These are only 2.4 ghz channels.
 
-- Save and exit the file when you have configured everything to your liking. Note you cannot change this after it is flashed onto the board.
+- Save and exit this file when you have configured everything to your liking. Note you cannot change this after it is flashed onto the board.
+
+- Additionally, you will need to change the file `config.h`
+
+- This line is also imporant, whether or not you use a screen.
+
+```cpp
+// quick and dirty way to save space if you're not using a display
+#define disp 0
+```
+
+Here, we define whether or not we use a display (at least for the libraries). The reason we need this is because it determines whether or not your screen libraries will be included in the final sketch. It saves a lot of space because libraries tend to take up most of the program memory. If you're not using a display, keep this setting at `0`. If you are, set it to `1`.
+
+- After you're done with that, save all your files and proceed to the next steps. Once you flash, you will not be able to change your settings unless you flash again. (The only exception of this is the whitelist)
 
 ### Step 2: Building and flashing
 
@@ -142,7 +146,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 - Open up the Minigotchi folder through the IDE by pushing `Ctrl+O`, or by going to `File` > `Open`, then selecting the folder the .ino is in. If other tabs don't show up, along with `minigotchi-ESP32.ino`, make sure to copy and paste the files into the same directory/folder as that lone `.ino` file. It won't be able to compile if that happens.
 
-- Install the following dependencies (with their dependencies as well) with the library manager:
+- Install the following dependencies (with their dependencies as well) with the library manager.:
   - `ArduinoJson`
   - `Adafruit GFX`
   - `Adafruit SSD1306`
@@ -152,6 +156,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
   - `AsyncTCP`
   - Remove/uninstall/modify your screen library depending on your display for `Config::screen` below, some of these dependencies may have already been installed previously.
   - Sometimes the repository owner of certain libraries may require you to install it a certain way, be sure to follow their guides if needed/included.
+  - Keep in mind if `disp` is set to `0` in `config.h` then you won't need to install screen libraries at the cost of no screen being used
 
 | `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                                                                                                               | Any `M5`\* board                                 | `SSD1305`                  | `IDEASPARK_SSD1306`        | `SH1106`                   |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | -------------------------- | -------------------------- | -------------------------- |
