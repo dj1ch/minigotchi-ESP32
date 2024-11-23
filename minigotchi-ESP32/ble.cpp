@@ -288,13 +288,13 @@ void Ble::init() {
  * Starts BLE
  */
 void Ble::start() {
-  Serial.println(mood.getIntense() + " Starting Advertisement...");
-  Display::updateDisplay(mood.getIntense(), "Starting Advertisement...");
+  Serial.println(mood.getIntense() + " Starting BLE Spam...");
+  Display::updateDisplay(mood.getIntense(), "Starting BLE Spam...");
   pAdvertising->start();
   delay(delaySeconds * 1000);
   pAdvertising->stop();
-  Display::updateDisplay(mood.getNeutral(), "Advertisement Stopped");
-  Serial.println(mood.getNeutral() + " Advertisement Stopped");
+  Display::updateDisplay(mood.getNeutral(), "BLE Spam Stopped");
+  Serial.println(mood.getNeutral() + " BLE Spam Stopped");
 }
 
 /**

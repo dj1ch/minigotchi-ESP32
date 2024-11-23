@@ -33,6 +33,9 @@
 #include <string>
 #include <vector>
 
+// quick and dirty way to save space if you're not using a display
+#define disp 0
+
 class Config {
 public:
   static bool deauth;

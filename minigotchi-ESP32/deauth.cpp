@@ -55,34 +55,10 @@ Mood &Deauth::mood = Mood::getInstance();
  *
  */
 
-uint8_t Deauth::deauthTemp[26] = {
-    /*  0 - 1  */ 0xC0,
-    0x00, // Type, subtype: c0 => deauth, a0 => disassociate
-    /*  2 - 3  */ 0x00,
-    0x00, // Duration (handled by the SDK)
-    /*  4 - 9  */ 0xFF,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF,
-    0xFF, // Reciever MAC (To)
-    /* 10 - 15 */ 0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC, // Source MAC (From)
-    /* 16 - 21 */ 0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC,
-    0xCC, // BSSID MAC (From)
-    /* 22 - 23 */ 0x00,
-    0x00, // Fragment & squence number
-    /* 24 - 25 */ 0x01,
-    0x00 // Reason code (1 = unspecified reason)
-};
+uint8_t Deauth::deauthTemp[26] = {0xC0, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF,
+                                  0xFF, 0xFF, 0xFF, 0xCC, 0xCC, 0xCC, 0xCC,
+                                  0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC,
+                                  0xCC, 0x00, 0x00, 0x01, 0x00};
 
 uint8_t Deauth::deauthFrame[26];
 uint8_t Deauth::disassociateFrame[26];
