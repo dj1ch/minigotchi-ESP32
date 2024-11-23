@@ -34,7 +34,7 @@
 #include <vector>
 
 // quick and dirty way to save space if you're not using a display
-#define disp 1
+#define disp 0
 
 class Config {
 public:
