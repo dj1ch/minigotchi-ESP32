@@ -225,7 +225,7 @@ C:\Users\USERNAME\AppData\Local\Arduino15\packages\esp32\tools\esp32-arduino-lib
 
 - After plugging in your Minigotchi, it should tell you that it's starting a Web Server. In order to use it, you have to:
 
-1. Connect to the access point `minigotchi` or `minigotchi 2` (sometimes `minigotchi 2` pops up)
+1. Connect to the access point `minigotchi` or `minigotchi 2` (sometimes `minigotchi 2` pops up). If prompted use the password `dj1ch-minigotchi`
 2. Go to the website http://192.168.4.1
 3. Add your whitelist in the first input box in a format like this. Click `Submit` after you're done
 
