@@ -38,29 +38,29 @@ class Mood;
 
 class Frame {
 public:
-  static uint8_t *pack();
-  static uint8_t *packModified();
-  static bool send();
-  static void advertise();
-  static const uint8_t header[];
-  static const uint8_t IDWhisperPayload;
-  static const uint8_t IDWhisperCompression;
-  static const uint8_t IDWhisperIdentity;
-  static const uint8_t IDWhisperSignature;
-  static const uint8_t IDWhisperStreamHeader;
-  static const uint8_t SignatureAddr[];
-  static const uint8_t BroadcastAddr[];
-  static const uint16_t wpaFlags;
+    static uint8_t *pack();
+    static uint8_t *packModified();
+    static bool send();
+    static void advertise();
+    static const uint8_t header[];
+    static const uint8_t IDWhisperPayload;
+    static const uint8_t IDWhisperCompression;
+    static const uint8_t IDWhisperIdentity;
+    static const uint8_t IDWhisperSignature;
+    static const uint8_t IDWhisperStreamHeader;
+    static const uint8_t SignatureAddr[];
+    static const uint8_t BroadcastAddr[];
+    static const uint16_t wpaFlags;
 
-  static const int pwngridHeaderLength;
-  static size_t essidLength;
-  static uint8_t headerLength;
+    static const int pwngridHeaderLength;
+    static size_t essidLength;
+    static uint8_t headerLength;
 
-  static size_t payloadSize;
-  static const size_t chunkSize;
+    static size_t payloadSize;
+    static const size_t chunkSize;
 
 private:
-  static Mood &mood;
+    static Mood &mood;
 };
 
 #endif // FRAME_H
