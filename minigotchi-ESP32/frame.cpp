@@ -153,7 +153,13 @@ uint8_t *Frame::pack() {
       }
       beaconFrame[frameByte++] = newPayloadLength;
     }
-    beaconFrame[frameByte++] = (uint8_t)jsonString[i];
+
+    uint8_t nextByte = (uint8_t)'?';
+    if (isAscii(jsonString[i])) {
+      nextByte = (uint8_t)jsonString[i];
+    }
+
+    beaconFrame[frameByte++] = nextByte;
   }
 
   /* developer note: we can print the beacon frame like so...
@@ -229,7 +235,12 @@ uint8_t *Frame::packModified() {
       }
       beaconFrame[frameByte++] = newPayloadLength;
     }
-    beaconFrame[frameByte++] = (uint8_t)jsonString[i];
+    uint8_t nextByte = (uint8_t)'?';
+    if (isAscii(jsonString[i])) {
+      nextByte = (uint8_t)jsonString[i];
+    }
+
+    beaconFrame[frameByte++] = nextByte;
   }
 
   return beaconFrame;
