@@ -265,8 +265,9 @@ bool Frame::send() {
     delete[] frame;
 
     frame = Frame::packModified();
-    frameSize = Frame::pwngridHeaderLength + Frame::essidLength +
-               Frame::headerLength; // frameSize changes because essidLength changes
+    frameSize =
+        Frame::pwngridHeaderLength + Frame::essidLength +
+        Frame::headerLength; // frameSize changes because essidLength changes
     err = esp_wifi_80211_tx(WIFI_IF_AP, frame, frameSize, false);
     if (err == ESP_OK) {
       delete[] frame;
