@@ -267,7 +267,6 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
 
           // clear json buffer
           jsonBuffer.clear();
-          pwnagotchiDetected = false; // reset
 
           delay(Config::shortDelay);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
