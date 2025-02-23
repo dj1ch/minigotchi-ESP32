@@ -102,17 +102,19 @@ void Pwnagotchi::detect() {
       Display::updateDisplay(mood.getSad(), "No Pwnagotchi found.");
       Serial.println(" ");
       Parasite::sendPwnagotchiStatus(NO_FRIEND_FOUND);
-    } else if (pwnagotchiDetected) {
-      Minigotchi::monStop();
-      Pwnagotchi::stopCallback();
     } else {
       Minigotchi::monStop();
       Pwnagotchi::stopCallback();
-      Serial.println(mood.getBroken() + " How did this happen?");
-      Display::updateDisplay(mood.getBroken(), "How did this happen?");
-      Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
+      if (pwnagotchiDetected) {
+        Serial.println(mood.getHappy() + " Pwnagotchi detected!");
+        Display::updateDisplay(mood.getHappy(), "Pwnagotchi detected!");
+        Parasite::sendPwnagotchiStatus(FRIEND_FOUND);
+      } else {
+        Serial.println(mood.getBroken() + " How did this happen?");
+        Display::updateDisplay(mood.getBroken(), "How did this happen?");
+        Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
+      }
     }
-  } else {
   }
 }
 
@@ -134,6 +136,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
   WifiMgmtHdr *frameControl = (WifiMgmtHdr *)snifferPacket->payload;
   wifi_pkt_rx_ctrl_t ctrl = (wifi_pkt_rx_ctrl_t)snifferPacket->rx_ctrl;
   int len = snifferPacket->rx_ctrl.sig_len;
+
+  // start off false
+  pwnagotchiDetected = false;
 
   if (type == WIFI_PKT_MGMT) {
     len -= 4;
@@ -259,6 +264,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Display::updateDisplay(mood.getHappy(),
                                    "Pwned Networks: " + (String)pwndTot);
           }
+
+          // clear json buffer
+          jsonBuffer.clear();
 
           delay(Config::shortDelay);
           Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());

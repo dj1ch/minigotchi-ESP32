@@ -39,6 +39,7 @@ class Mood;
 class Frame {
 public:
   static uint8_t *pack();
+  static uint8_t *packModified();
   static bool send();
   static void advertise();
   static const uint8_t header[];
