@@ -332,6 +332,14 @@ void Display::updateDisplay(String face, String text) {
         tft.println(text);
         Display::storedText = text;
       }
+    } else if (Config::screen == "M5ATOMS3" || Config::screen == "M5ATOMSR3") {
+      tft.fillScreen(TFT_BLACK); // Fill screen with black color
+      delay(100);
+      tft.setTextColor(TFT_WHITE); // Set text color to white
+      delay(100);
+      tft.setTextSize(4); // Set larger text size for face
+      delay(100);
+      tft.println(face);
     }
   }
 #endif

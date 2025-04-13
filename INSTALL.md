@@ -87,6 +87,8 @@ There are multiple different screen types available:
 
 - `M5CARDPUTER`
 
+- `M5ATOMS3`
+
 - `SSD1305`
 
 - `IDEASPARK_SSD1306`
