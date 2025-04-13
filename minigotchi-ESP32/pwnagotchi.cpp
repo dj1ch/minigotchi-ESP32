@@ -171,7 +171,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           if (isAscii(snifferPacket->payload[i])) {
             essid.concat((char)snifferPacket->payload[i]);
           } else {
-            essid.concat("?");
+            essid.concat("");
           }
         }
 
