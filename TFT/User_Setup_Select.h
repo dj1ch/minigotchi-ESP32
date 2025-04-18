@@ -41,7 +41,6 @@
 // #include <User_Setup_m5stickcp.h>                // (For M5Stick CPlus 1.1)
 // #include <User_Setup_m5stickcp2.h>               // (For M5Stick CPlus 2)
 // #include <User_Setup_m5cardputer.h>              // (For M5Cardputer)
-// #include <User_Setup_m5cardputer2.h>             // (For M5Cardputer 2)
 //----------------------------------------------------------------------------------------
 
 // #include <User_Setup_TTGO_NoTouch.h>             // (For TTGO T-Display)
