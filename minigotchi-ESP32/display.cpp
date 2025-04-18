@@ -165,6 +165,15 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2); // Set text size)
       delay(100);
+    } else if (Config::screen == "M5ATOMS3" ||
+               Config::screen == "M5ATOMSR3") {
+      M5.begin();
+      M5.Display.clear();
+      M5.Display.fillScreen(TFT_BLACK);
+      M5.Display.setTextColor(TFT_WHITE);
+      M5.Display.setTextSize(4);
+      M5.Display.setTextFont(1);
+      delay(100);
     }
   }
 #endif
@@ -333,13 +342,14 @@ void Display::updateDisplay(String face, String text) {
         Display::storedText = text;
       }
     } else if (Config::screen == "M5ATOMS3" || Config::screen == "M5ATOMSR3") {
-      tft.fillScreen(TFT_BLACK); // Fill screen with black color
-      delay(100);
-      tft.setTextColor(TFT_WHITE); // Set text color to white
-      delay(100);
-      tft.setTextSize(4); // Set larger text size for face
-      delay(100);
-      tft.println(face);
+      bool faceChanged = (face != Display::storedFace);
+
+      if (faceChanged) {
+        M5.Display.clear();
+        M5.Display.setCursor(4, (M5.Display.height() - 16) / 2);
+        M5.Display.println(face);
+        Display::storedFace = face;
+      }
     }
   }
 #endif
