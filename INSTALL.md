@@ -156,6 +156,7 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
   - `Adafruit SSD1305`
   - `u8g2`
   - `AsyncTCP`
+  - `M5Unified`
   - Remove/uninstall/modify your screen library depending on your display for `Config::screen` below, some of these dependencies may have already been installed previously.
   - Sometimes the repository owner of certain libraries may require you to install it a certain way, be sure to follow their guides if needed/included.
   - Keep in mind if `disp` is set to `0` in `config.h` then you won't need to install screen libraries at the cost of no screen being used
