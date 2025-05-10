@@ -165,8 +165,7 @@ void Display::startScreen() {
       delay(100);
       tft.setTextSize(2); // Set text size)
       delay(100);
-    } else if (Config::screen == "M5ATOMS3" ||
-               Config::screen == "M5ATOMSR3") {
+    } else if (Config::screen == "M5ATOMS3" || Config::screen == "M5ATOMSR3") {
       M5.begin();
       M5.Display.clear();
       M5.Display.fillScreen(TFT_BLACK);
