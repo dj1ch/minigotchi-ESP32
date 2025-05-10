@@ -170,8 +170,6 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         for (int i = 38; i < len; i++) {
           if (isAscii(snifferPacket->payload[i])) {
             essid.concat((char)snifferPacket->payload[i]);
-          } else {
-            essid.concat("?");
           }
         }
 

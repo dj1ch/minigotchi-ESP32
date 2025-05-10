@@ -38,7 +38,7 @@
 // #include <User_Setup_CYD_LVGL.h>                 // (For CYD with LVGL)
 //----------------------------------------------------------------------------------------
 
-// #include <User_Setup_m5stickcp.h>                 // (For M5Stick CPlus 1.1)
+// #include <User_Setup_m5stickcp.h>                // (For M5Stick CPlus 1.1)
 // #include <User_Setup_m5stickcp2.h>               // (For M5Stick CPlus 2)
 // #include <User_Setup_m5cardputer.h>              // (For M5Cardputer)
 //----------------------------------------------------------------------------------------
