@@ -31,6 +31,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1305.h>
 #include <Adafruit_SSD1306.h>
+#include <M5Unified.h>
 #include <SPI.h>
 #include <TFT_eSPI.h> // Defines the TFT_eSPI library for CYD
 #include <U8g2lib.h>
