@@ -33,8 +33,22 @@
 #include <string>
 #include <vector>
 
-// quick and dirty way to save space if you're not using a display
+// define if you have a display
 #define disp 0
+
+// define screen types
+#define SSD1306 0
+#define WEMOS_OLED_SHIELD 0
+#define CYD 0
+#define T_DISPLAY_S3 0
+#define M5STICKCP 0
+#define M5STICKCP2 1
+#define M5CARDPUTER 0
+#define M5ATOMS3 0
+#define M5ATOMSR3 0
+#define SSD1305 0
+#define IDEASPARK_SSD1306 0
+#define SH1106 0
 
 class Config {
 public:
