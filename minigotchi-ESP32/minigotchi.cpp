@@ -265,25 +265,6 @@ void Minigotchi::monStop() {
   WiFi.mode(WIFI_STA);
 }
 
-/** developer note:
- *
- * when the minigotchi isn't cycling, detecting a pwnagotchi, or deauthing,
- * it is advertising it's own presence, hence the reason there being a constant
- * Frame::stop(); and Frame::start(); in each function
- *
- * when it comes to any of these features, you can't just call something and
- * expect it to run normally ex: calling Deauth::deauth(); because you're gonna
- * get the error:
- *
- * (X-X) No access point selected. Use select() first.
- * ('-') Told you so!
- *
- * the card is still busy in monitor mode on a certain channel(advertising), and
- * the AP's we're looking for could be on other channels hence we need to call
- * Frame::stop(); to stop this then we can do what we want...
- *
- */
-
 /**
  * Channel cycling
  */
