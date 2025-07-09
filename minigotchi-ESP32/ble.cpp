@@ -52,7 +52,7 @@ int Ble::random(int min, int max) {
  *
  */
 int Ble::deviceType[]() { // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods
-                          // Max, 4 for...
+  // Max, 4 for...
   srand(esp_random());
   return Ble::random(1, 26);
 }
