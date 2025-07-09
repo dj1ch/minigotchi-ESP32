@@ -1,10 +1,11 @@
 # Install guide
 
-Here you can find out how to install Minigotchi on the ESP32. Installing on the Raspberry Pi Pico or any other board with this code is not possible as this code is meant for the ESP32-* boards.
+Here you can find out how to install Minigotchi on the ESP32. Installing on the Raspberry Pi Pico or any other board with this code is not possible as this code is meant for the ESP32-\* boards.
 
 **For building on an ESP8266, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866.**
 
 Please note that this guide requires that:
+
 - You know how to read
 - You can DIY a little
 - You can think for yourself
@@ -154,6 +155,7 @@ Here, we define whether or not we use a display (at least for the libraries). Th
 #define IDEASPARK_SSD1306 0
 #define SH1106 0
 ```
+
 This is an additional measure to save space and it allows the code to know which libraries you will use for your screen. For whichever screen type you used, set the variable which has the same name in question to `1`, turn the rest to `0` if not already `0`.
 
 - After you're done with that, save all your files and proceed to the next steps. Once you flash, you will not be able to change your settings unless you flash again. (The only exception of this is the whitelist)
@@ -201,7 +203,6 @@ Make sure you install the correct library, they aren't the same library and if y
 #### Pre-requisite for ESP32 boards <=2.0.10
 
 - Open the following with your text editor `C:\Users\<YOUR USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10\platform.txt` and add the following:
-
   1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
 
   2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
