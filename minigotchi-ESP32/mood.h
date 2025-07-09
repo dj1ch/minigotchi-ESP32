@@ -30,45 +30,45 @@
 
 class Mood {
 public:
-  static Mood &getInstance();
-  static void init(String happy, String sad, String broken, String intense,
-                   String looking1, String looking2, String neutral,
-                   String sleeping);
-  Mood(const Mood &) = delete;
-  Mood &operator=(const Mood &) = delete;
+    static Mood &getInstance();
+    static void init(String happy, String sad, String broken, String intense,
+                     String looking1, String looking2, String neutral,
+                     String sleeping);
+    Mood(const Mood &) = delete;
+    Mood &operator=(const Mood &) = delete;
 
-  String getFull(String face);
-  String getCurrentFace();
-  String getCurrentMood();
-  String getMood(String face);
-  String getFace(String mood);
-  bool checkMood(String previous, String current);
+    String getFull(String face);
+    String getCurrentFace();
+    String getCurrentMood();
+    String getMood(String face);
+    String getFace(String mood);
+    bool checkMood(String previous, String current);
 
-  String getHappy();
-  String getSad();
-  String getBroken();
-  String getIntense();
-  String getLooking1();
-  String getLooking2();
-  String getNeutral();
-  String getSleeping();
+    String getHappy();
+    String getSad();
+    String getBroken();
+    String getIntense();
+    String getLooking1();
+    String getLooking2();
+    String getNeutral();
+    String getSleeping();
 
 private:
-  Mood(String happy, String sad, String broken, String intense, String looking1,
-       String looking2, String neutral, String sleeping);
+    Mood(String happy, String sad, String broken, String intense, String looking1,
+         String looking2, String neutral, String sleeping);
 
-  static Mood *instance;
-  String happy;
-  String sad;
-  String broken;
-  String intense;
-  String looking1;
-  String looking2;
-  String neutral;
-  String sleeping;
+    static Mood *instance;
+    String happy;
+    String sad;
+    String broken;
+    String intense;
+    String looking1;
+    String looking2;
+    String neutral;
+    String sleeping;
 
-  String currentMood;
-  String currentFace;
+    String currentMood;
+    String currentFace;
 };
 
 #endif // MOOD_H
