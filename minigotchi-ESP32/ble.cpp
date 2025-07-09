@@ -35,11 +35,27 @@
 
 BLEAdvertising *Ble::pAdvertising;
 
-int Ble::random(int min, int max) { return min + rand() % (max - min + 1); }
+int Ble::random(int min, int max) {
+  return min + (esp_random() % (max - min + 1));
+}
 
 // User selectable variables
-int Ble::deviceType = Ble::random(
-    1, 26); // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods Max, 4 for...
+/** Developer note:
+ *
+ * This will randomize the device type,
+ * using this lambda function to return a random number
+ * on startup.
+ *
+ * However, during runtime, you can call
+ * Ble::deviceType() = Ble::random(1, 26);
+ * and that is perfectly fine.
+ *
+ */
+int Ble::deviceType[]() { // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods
+  // Max, 4 for...
+  srand(esp_random());
+  return Ble::random(1, 26);
+}
 int Ble::delaySeconds = 5; // delay in seconds
 int Ble::advType = 2;
 // 0 - ADV_TYPE_IND

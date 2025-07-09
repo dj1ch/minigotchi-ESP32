@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2024 dj1ch
+ * Copyright (C) 2025 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,9 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
+#include <cstdlib>
+#include <esp_random.h>
+#include <esp_system.h>
 
 // forward declaration of mood class
 class Mood;

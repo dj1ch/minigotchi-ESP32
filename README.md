@@ -76,7 +76,7 @@ See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communic
 
 - [esp-idf](https://github.com/espressif/esp-idf), the Espressif development framework for IOT devices like the ESP32
 
-- [arduino-ESP32](https://github.com/espressif/arduino-esp32), the core Arduino libraries for the.
+- [arduino-ESP32](https://github.com/espressif/arduino-esp32), the core Arduino libraries for the ESP32 compatibility in the Arduino IDE
 
 - I'd also like to thank [PiSugar](https://www.pisugar.com/) for the partnership with Pwnagotchi-Unofficial! Your batteries are amazing and have contributed heavily in the creation of this project.
 

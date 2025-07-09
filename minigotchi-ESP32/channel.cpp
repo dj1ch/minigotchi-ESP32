@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2024 dj1ch
+ * Copyright (C) 2025 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,9 +62,7 @@ void Channel::init(int initChannel) {
   delay(Config::shortDelay);
 
   // switch channel
-  Minigotchi::monStop();
   esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
-  Minigotchi::monStart();
 
   if (err == ESP_OK && initChannel == getChannel()) {
     Serial.print(mood.getNeutral() + " Successfully initialized on channel ");
@@ -111,16 +109,13 @@ void Channel::switchChannel(int newChannel) {
                          "Switching to channel " + (String)newChannel);
   delay(Config::shortDelay);
 
-  // monitor this one channel
-  Minigotchi::monStop();
+  // switch channel
   esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
-  Minigotchi::monStart();
 
   // check if the channel switch was successful
   if (err == ESP_OK) {
     checkChannel(newChannel);
   } else {
-
     Serial.println(mood.getBroken() + " Failed to switch channel.");
     Serial.println(" ");
     Display::updateDisplay(mood.getBroken(), "Failed to switch channel.");

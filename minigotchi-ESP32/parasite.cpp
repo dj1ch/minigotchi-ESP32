@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2024 dj1ch
+ * Copyright (C) 2025 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,19 @@
 
 #include "parasite.h"
 
+/** Developer note:
+ *
+ * Parasite mode is the mode in which the minigotchi hooks up
+ * to the pwnagotchi and sends information over a serial port
+ * for the pwnagotchi to read and display on screen, at the cost of
+ * requiring additional pwnagotchi plugin setup,
+ * a connection from the pwnagotchi to the minigotchi,
+ * and screen space.
+ *
+ */
+
+// although we could use a singleton of some sort to grab the channel, we check
+// against this variable later when reading the data.
 int Parasite::channel = 0;
 
 /**

@@ -1,8 +1,17 @@
 # Install guide
 
-Here you can find out how to install Minigotchi on the ESP32. Installing on the Pico is not possible as the code is meant for the ESP32.
+Here you can find out how to install Minigotchi on the ESP32. Installing on the Raspberry Pi Pico or any other board with this code is not possible as this code is meant for the ESP32-\* boards.
 
 **For building on an ESP8266, see [this](https://github.com/Pwnagotchi-Unofficial/minigotchi/blob/main/INSTALL.md). Don't use this repository for the ESP866.**
+
+Please note that this guide requires that:
+
+- You know how to read
+- You can DIY a little
+- You can think for yourself
+- A little bit of programming experience is nice, but not **REQUIRED**
+
+Getting this project getting set up manually is **NOT** for the faint of heart, although in the end it gives you a lot of control over your new Minigotchi.
 
 ## Building using Arduino IDE
 
@@ -97,7 +106,7 @@ There are multiple different screen types available:
 
 - `SH1106`
 
-Set `bool Config::display = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
+Set `bool Config::lay = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
 - There should also be a line that says:
 
@@ -121,14 +130,33 @@ Usually, this shouldn't be changed as these are the only channels we can access 
 
 - Additionally, you will need to change the file `config.h`
 
-- This line is also imporant, whether or not you use a screen.
+- This line is also important, whether or not you use a screen.
 
 ```cpp
-// quick and dirty way to save space if you're not using a display
+// quick and dirty way to save space if you're not using a lay
 #define disp 0
 ```
 
 Here, we define whether or not we use a display (at least for the libraries). The reason we need this is because it determines whether or not your screen libraries will be included in the final sketch. It saves a lot of space because libraries tend to take up most of the program memory. If you're not using a display, keep this setting at `0`. If you are, set it to `1`.
+
+- Scroll down in that file and find the following code:
+
+```cpp
+#define SSD1306 0
+#define WEMOS_OLED_SHIELD 0
+#define CYD 0
+#define T_DISPLAY_S3 0
+#define M5STICKCP 0
+#define M5STICKCP2 1
+#define M5CARDPUTER 0
+#define M5ATOMS3 0
+#define M5ATOMSR3 0
+#define SSD1305 0
+#define IDEASPARK_SSD1306 0
+#define SH1106 0
+```
+
+This is an additional measure to save space and it allows the code to know which libraries you will use for your screen. For whichever screen type you used, set the variable which has the same name in question to `1`, turn the rest to `0` if not already `0`.
 
 - After you're done with that, save all your files and proceed to the next steps. Once you flash, you will not be able to change your settings unless you flash again. (The only exception of this is the whitelist)
 
@@ -153,19 +181,14 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 - Install the following dependencies (with their dependencies as well) with the library manager.:
   - `ArduinoJson`
   - `Adafruit GFX`
-  - `Adafruit SSD1306`
-  - `TFT_eSPI`
-  - `Adafruit SSD1305`
-  - `u8g2`
   - `AsyncTCP`
-  - `M5Unified`
   - Remove/uninstall/modify your screen library depending on your display for `Config::screen` below, some of these dependencies may have already been installed previously.
   - Sometimes the repository owner of certain libraries may require you to install it a certain way, be sure to follow their guides if needed/included.
   - Keep in mind if `disp` is set to `0` in `config.h` then you won't need to install screen libraries at the cost of no screen being used
 
-| `SSD1306`                                                                  | `WEMOS_OLED_SHIELD`                                                        | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                                                                                                               | Any `M5`\* board                                 | `SSD1305`                  | `IDEASPARK_SSD1306`        | `SH1106`                   |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | -------------------------- | -------------------------- | -------------------------- |
-| `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed | Follow the [CYD documentation](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/SETUP.md), it uses a similar library much like the `T_DISPLAY_S3` | Follow the [T-Display-S3 documentation](https://github.com/Xinyuan-LilyGO/T-Display-S3/tree/main?tab=readme-ov-file#4%EF%B8%8F%E2%83%A3--arduino-ide-manual-installation), it uses a library similar to the `CYD`. If it's an off-brand/clone of some sort, install `TFT_eSPI` and follow this [guide](/TFT) | Install `TFT_eSPI` and follow this [guide](/TFT) | Install `Adafruit SSD1305` | Install the `u8g2` library | Install the `u8g2` library |
+| `SSD1306`                                                                          | `WEMOS_OLED_SHIELD`                                                                | `CYD`                                                                                                                                                                 | `T_DISPLAY_S3`                                                                                                                                                                                                                                                                                               | Any `M5`\* board except `M5ATOM`\*               | `SSD1305`                              | `IDEASPARK_SSD1306`        | `SH1106`                   | `M5ATOMS3` or `M5ATOMSR3`       |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ | -------------------------------------- | -------------------------- | -------------------------- | ------------------------------- |
+| Install `Adafruit SSD1306`, remove `Adafruit SSD1306 Wemos Mini OLED` if installed | Install `Adafruit SSD1306 Wemos Mini OLED`, remove `Adafruit SSD1306` if installed | Follow the [CYD documentation](https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/blob/main/SETUP.md), it uses a similar library much like the `T_DISPLAY_S3` | Follow the [T-Display-S3 documentation](https://github.com/Xinyuan-LilyGO/T-Display-S3/tree/main?tab=readme-ov-file#4%EF%B8%8F%E2%83%A3--arduino-ide-manual-installation), it uses a library similar to the `CYD`. If it's an off-brand/clone of some sort, install `TFT_eSPI` and follow this [guide](/TFT) | Install `TFT_eSPI` and follow this [guide](/TFT) | Install the `Adafruit SSD1305` library | Install the `u8g2` library | Install the `u8g2` library | Install the `M5Unified` library |
 
 Make sure you install the correct library, they aren't the same library and if you install the wrong one it will result in the compilation failing.
 
@@ -180,7 +203,6 @@ Make sure you install the correct library, they aren't the same library and if y
 #### Pre-requisite for ESP32 boards <=2.0.10
 
 - Open the following with your text editor `C:\Users\<YOUR USERNAME>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.10\platform.txt` and add the following:
-
   1. For `build.extra_flags.esp32`, `build.extra_flags.esp32s2`, `build.extra_flags.esp32s3`, `build.extra_flags.esp32c3`, add `-w` to their compile settings
 
   2. For `compiler.c.elf.libs.esp32`, `compiler.c.elf.libs.esp32s2`, `compiler.c.elf.libs.esp32s3`, `compiler.c.elf.libs.esp32c3`, add `-zmuldefs` to their compile settings
