@@ -36,20 +36,20 @@ class Mood;
 
 class Channel {
 public:
-  static void init(int initChannel);
-  static void cycle();
-  static void switchChannel(int newChannel);
-  static int getChannel();
-  static void checkChannel(int channel);
-  static bool isValidChannel(int channel);
-  static int channelList[13]; // 13 channels
+    static void init(int initChannel);
+    static void cycle();
+    static void switchChannel(int newChannel);
+    static int getChannel();
+    static void checkChannel(int channel);
+    static bool isValidChannel(int channel);
+    static int channelList[13]; // 13 channels
 
 private:
-  static Mood &mood;
-  static int randomIndex;
-  static int numChannels;
-  static int currentChannel;
-  static int newChannel;
+    static Mood &mood;
+    static int randomIndex;
+    static int numChannels;
+    static int currentChannel;
+    static int newChannel;
 };
 
 #endif // CHANNEL_H

@@ -44,55 +44,56 @@ int Channel::channelList[13] = {
     Config::channels[3], Config::channels[4],  Config::channels[5],
     Config::channels[6], Config::channels[7],  Config::channels[8],
     Config::channels[9], Config::channels[10], Config::channels[11],
-    Config::channels[12]};
+    Config::channels[12]
+};
 
 /**
  * Here, we choose the channel to initialize on
  * @param initChannel Channel to initialize on
  */
 void Channel::init(int initChannel) {
-  // start on user specified channel
-  delay(Config::shortDelay);
-  Serial.println(" ");
-  Serial.print(mood.getSleeping() + " Initializing on channel ");
-  Serial.println(initChannel);
-  Serial.println(" ");
-  Display::updateDisplay(mood.getSleeping(),
-                         "Initializing on channel " + (String)initChannel);
-  delay(Config::shortDelay);
+    // start on user specified channel
+    delay(Config::shortDelay);
+    Serial.println(" ");
+    Serial.print(mood.getSleeping() + " Initializing on channel ");
+    Serial.println(initChannel);
+    Serial.println(" ");
+    Display::updateDisplay(mood.getSleeping(),
+                           "Initializing on channel " + (String)initChannel);
+    delay(Config::shortDelay);
 
-  // switch channel
-  esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
+    // switch channel
+    esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
 
-  if (err == ESP_OK && initChannel == getChannel()) {
-    Serial.print(mood.getNeutral() + " Successfully initialized on channel ");
-    Serial.println(getChannel());
-    Display::updateDisplay(mood.getNeutral(),
-                           "Successfully initialized on channel " +
+    if (err == ESP_OK && initChannel == getChannel()) {
+        Serial.print(mood.getNeutral() + " Successfully initialized on channel ");
+        Serial.println(getChannel());
+        Display::updateDisplay(mood.getNeutral(),
+                               "Successfully initialized on channel " +
                                (String)getChannel());
-    delay(Config::shortDelay);
-  } else {
-    Serial.println(mood.getBroken() +
-                   " Channel initialization failed, try again?");
-    Display::updateDisplay(mood.getBroken(),
-                           "Channel initialization failed, try again?");
-    delay(Config::shortDelay);
-  }
+        delay(Config::shortDelay);
+    } else {
+        Serial.println(mood.getBroken() +
+                       " Channel initialization failed, try again?");
+        Display::updateDisplay(mood.getBroken(),
+                               "Channel initialization failed, try again?");
+        delay(Config::shortDelay);
+    }
 }
 
 /**
  * Cycle channels
  */
 void Channel::cycle() {
-  // get channels
-  int numChannels = sizeof(channelList) / sizeof(channelList[0]);
+    // get channels
+    int numChannels = sizeof(channelList) / sizeof(channelList[0]);
 
-  // select a random one
-  int randomIndex = random(numChannels);
-  int newChannel = channelList[randomIndex];
+    // select a random one
+    int randomIndex = random(numChannels);
+    int newChannel = channelList[randomIndex];
 
-  // switch here
-  switchChannel(newChannel);
+    // switch here
+    switchChannel(newChannel);
 }
 
 /**
@@ -100,28 +101,28 @@ void Channel::cycle() {
  * @param newChannel New channel to switch to
  */
 void Channel::switchChannel(int newChannel) {
-  // switch to channel
-  delay(Config::shortDelay);
-  Serial.print(mood.getSleeping() + " Switching to channel ");
-  Serial.println(newChannel);
-  Serial.println(" ");
-  Display::updateDisplay(mood.getSleeping(),
-                         "Switching to channel " + (String)newChannel);
-  delay(Config::shortDelay);
-
-  // switch channel
-  esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
-
-  // check if the channel switch was successful
-  if (err == ESP_OK) {
-    checkChannel(newChannel);
-  } else {
-    Serial.println(mood.getBroken() + " Failed to switch channel.");
-    Serial.println(" ");
-    Display::updateDisplay(mood.getBroken(), "Failed to switch channel.");
-    checkChannel(newChannel);
+    // switch to channel
     delay(Config::shortDelay);
-  }
+    Serial.print(mood.getSleeping() + " Switching to channel ");
+    Serial.println(newChannel);
+    Serial.println(" ");
+    Display::updateDisplay(mood.getSleeping(),
+                           "Switching to channel " + (String)newChannel);
+    delay(Config::shortDelay);
+
+    // switch channel
+    esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
+
+    // check if the channel switch was successful
+    if (err == ESP_OK) {
+        checkChannel(newChannel);
+    } else {
+        Serial.println(mood.getBroken() + " Failed to switch channel.");
+        Serial.println(" ");
+        Display::updateDisplay(mood.getBroken(), "Failed to switch channel.");
+        checkChannel(newChannel);
+        delay(Config::shortDelay);
+    }
 }
 
 /**
@@ -129,27 +130,27 @@ void Channel::switchChannel(int newChannel) {
  * @param channel Channel to compare with current channel
  */
 void Channel::checkChannel(int channel) {
-  int currentChannel = Channel::getChannel();
-  if (channel == currentChannel) {
-    Serial.print(mood.getNeutral() + " Currently on channel ");
-    Serial.println(currentChannel);
-    Display::updateDisplay(mood.getNeutral(),
-                           "Currently on channel " + (String)getChannel());
-    Serial.println(" ");
-    delay(Config::shortDelay);
-  } else {
-    Serial.print(mood.getBroken() + " Channel switch to channel ");
-    Serial.print(channel);
-    Serial.println(" has failed");
-    Serial.print(mood.getBroken() + " Currently on channel ");
-    Serial.print(currentChannel);
-    Serial.println(" instead");
-    Serial.println(" ");
-    Display::updateDisplay(mood.getBroken(), "Channel switch to " +
-                                                 (String)channel +
-                                                 " has failed");
-    delay(Config::shortDelay);
-  }
+    int currentChannel = Channel::getChannel();
+    if (channel == currentChannel) {
+        Serial.print(mood.getNeutral() + " Currently on channel ");
+        Serial.println(currentChannel);
+        Display::updateDisplay(mood.getNeutral(),
+                               "Currently on channel " + (String)getChannel());
+        Serial.println(" ");
+        delay(Config::shortDelay);
+    } else {
+        Serial.print(mood.getBroken() + " Channel switch to channel ");
+        Serial.print(channel);
+        Serial.println(" has failed");
+        Serial.print(mood.getBroken() + " Currently on channel ");
+        Serial.print(currentChannel);
+        Serial.println(" instead");
+        Serial.println(" ");
+        Display::updateDisplay(mood.getBroken(), "Channel switch to " +
+                               (String)channel +
+                               " has failed");
+        delay(Config::shortDelay);
+    }
 }
 
 /**
@@ -157,22 +158,22 @@ void Channel::checkChannel(int channel) {
  * @param channel Channel to check
  */
 bool Channel::isValidChannel(int channel) {
-  bool isValidChannel = false;
-  for (int i = 0; i < sizeof(channelList) / sizeof(channelList[0]); i++) {
-    if (channelList[i] == channel) {
-      isValidChannel = true;
-      break;
+    bool isValidChannel = false;
+    for (int i = 0; i < sizeof(channelList) / sizeof(channelList[0]); i++) {
+        if (channelList[i] == channel) {
+            isValidChannel = true;
+            break;
+        }
     }
-  }
-  return isValidChannel;
+    return isValidChannel;
 }
 
 /**
  * Returns current channel as an integer
  */
 int Channel::getChannel() {
-  uint8_t primary;
-  wifi_second_chan_t second;
-  esp_wifi_get_channel(&primary, &second);
-  return primary;
+    uint8_t primary;
+    wifi_second_chan_t second;
+    esp_wifi_get_channel(&primary, &second);
+    return primary;
 }

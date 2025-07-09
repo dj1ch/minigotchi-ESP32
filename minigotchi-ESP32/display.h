@@ -98,32 +98,32 @@
 
 class Display {
 public:
-  static void startScreen();
-  static void updateDisplay(String face);
-  static void updateDisplay(String face, String text);
-  static void printU8G2Data(int x, int y, const char *data);
-  static String storedFace;
-  static String previousFace;
-  static String storedText;
-  static String previousText;
-  ~Display();
+    static void startScreen();
+    static void updateDisplay(String face);
+    static void updateDisplay(String face, String text);
+    static void printU8G2Data(int x, int y, const char *data);
+    static String storedFace;
+    static String previousFace;
+    static String storedText;
+    static String previousText;
+    ~Display();
 
 private:
 #if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
-  static Adafruit_SSD1306 *ssd1306_adafruit_display;
+    static Adafruit_SSD1306 *ssd1306_adafruit_display;
 #endif
 #if SSD1305
-  static Adafruit_SSD1305 *ssd1305_adafruit_display;
+    static Adafruit_SSD1305 *ssd1305_adafruit_display;
 #endif
 #if IDEASPARK_SSD1306
-  static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
+    static U8G2_SSD1306_128X64_NONAME_F_SW_I2C *ssd1306_ideaspark_display;
 #endif
 #if SH1106
-  static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
+    static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
 #endif
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD || M5CARDPUTER
-  static TFT_eSPI *tft_display;
+    static TFT_eSPI *tft_display;
 #endif
 #endif
 };
