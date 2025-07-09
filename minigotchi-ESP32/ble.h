@@ -29,28 +29,28 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
-#include <esp_system.h>
-#include <esp_random.h>
 #include <cstdlib>
+#include <esp_random.h>
+#include <esp_system.h>
 
 // forward declaration of mood class
 class Mood;
 
 class Ble {
 public:
-    static void spam();
+  static void spam();
 
 private:
-    static int random(int min, int max);
-    static void init();
-    static void start();
-    static void stop();
+  static int random(int min, int max);
+  static void init();
+  static void start();
+  static void stop();
 
-    static Mood &mood;
-    static BLEAdvertising *pAdvertising;
-    static int deviceType;
-    static int delaySeconds;
-    static int advType;
+  static Mood &mood;
+  static BLEAdvertising *pAdvertising;
+  static int deviceType;
+  static int delaySeconds;
+  static int advType;
 };
 
 #endif // BLE_H

@@ -37,15 +37,15 @@ class Mood;
 // this is the actual class we use
 class WebUI {
 public:
-    WebUI();
-    ~WebUI();
-    static void setupServer();
-    static void updateWhitelist(String newWhitelist);
-    static const char html[] PROGMEM;
-    static bool running;
+  WebUI();
+  ~WebUI();
+  static void setupServer();
+  static void updateWhitelist(String newWhitelist);
+  static const char html[] PROGMEM;
+  static bool running;
 
 private:
-    static Mood &mood;
+  static Mood &mood;
 };
 
 #endif // WEBUI_H
