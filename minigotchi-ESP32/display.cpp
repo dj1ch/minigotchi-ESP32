@@ -25,10 +25,10 @@
 /**
  * With a tad bit of magic you can now select which drivers to use,
  * as well as save a crap ton of program space.
- * 
+ *
  * In other words, this makes it so that code is simply not used
  * if the user doesn't specify that code for it
- * 
+ *
  * Configurations are VERY CASE SENSITIVE because of this.
  */
 
@@ -111,8 +111,9 @@ Display::~Display() {
  */
 void Display::startScreen() {
 // holy preprocessors... thank god for inventing them.
-// remember... the only way to prevent AI from fucking up your code is by writing it yourself.
-// and for whoever is reading this, do NOT indent preprocessors it looks stupid.
+// remember... the only way to prevent AI from fucking up your code is by
+// writing it yourself. and for whoever is reading this, do NOT indent
+// preprocessors it looks stupid.
 #if disp
   if (Config::display) {
     if (Config::screen == "SSD1306") {
@@ -217,8 +218,7 @@ void Display::startScreen() {
 #endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||
-               Config::screen ==
-                   "M5CARDPUTER") {
+               Config::screen == "M5CARDPUTER") {
       // holy fuck that's ugly
 #if M5STICKCP || M5STICKCP2 || M5CARDPUTER
       tft.setRotation(1);
@@ -276,27 +276,26 @@ void Display::updateDisplay(String face) {
 void Display::updateDisplay(String face, String text) {
 #if disp
   if (Config::display) {
-    if (Config::screen == "SSD1306" ||
-         Config::screen == "WEMOS_OLED_SHIELD") {
+    if (Config::screen == "SSD1306" || Config::screen == "WEMOS_OLED_SHIELD") {
 #if SSD1306 || WEMOS_OLED_SHIELD
-          if (ssd1306_adafruit_display != nullptr) {
-            ssd1306_adafruit_display->setCursor(0, 0);
-            delay(5);
-            ssd1306_adafruit_display->setTextSize(2);
-            delay(5);
-            ssd1306_adafruit_display->clearDisplay();
-            delay(5);
-            ssd1306_adafruit_display->println(face);
-            delay(5);
-            ssd1306_adafruit_display->setCursor(0, 20);
-            delay(5);
-            ssd1306_adafruit_display->setTextSize(1);
-            delay(5);
-            ssd1306_adafruit_display->println(text);
-            delay(5);
-            ssd1306_adafruit_display->display();
-            delay(5);
-          }
+      if (ssd1306_adafruit_display != nullptr) {
+        ssd1306_adafruit_display->setCursor(0, 0);
+        delay(5);
+        ssd1306_adafruit_display->setTextSize(2);
+        delay(5);
+        ssd1306_adafruit_display->clearDisplay();
+        delay(5);
+        ssd1306_adafruit_display->println(face);
+        delay(5);
+        ssd1306_adafruit_display->setCursor(0, 20);
+        delay(5);
+        ssd1306_adafruit_display->setTextSize(1);
+        delay(5);
+        ssd1306_adafruit_display->println(text);
+        delay(5);
+        ssd1306_adafruit_display->display();
+        delay(5);
+      }
 #endif
     } else if (Config::screen == "SSD1305") {
 #if SSD1305
@@ -361,8 +360,7 @@ void Display::updateDisplay(String face, String text) {
 #endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||
-               Config::screen ==
-                   "M5CARDPUTER") {
+               Config::screen == "M5CARDPUTER") {
 #if M5STICKCP || M5STICKCP2 || M5CARDPUTER
       bool faceChanged = (face != Display::storedFace);
       bool textChanged = (text != Display::storedText);
@@ -401,22 +399,20 @@ void Display::updateDisplay(String face, String text) {
       if (tft_display != nullptr) {
         bool faceChanged = (face != Display::storedFace);
         bool textChanged = (text != Display::storedText);
-  
+
         if (faceChanged) {
           int faceHeight = (Config::screen == "CYD") ? 40 : 50;
-          tft.fillRect(0, 0, tft.width(), faceHeight,
-                       TFT_BLACK);
+          tft.fillRect(0, 0, tft.width(), faceHeight, TFT_BLACK);
           tft.setCursor(0, 5);
           tft.setTextSize((Config::screen == "CYD") ? 4 : 6);
           tft.setTextColor(TFT_VIOLET);
           tft.println(face);
           Display::storedFace = face;
         }
-  
+
         if (textChanged) {
           int textY = (Config::screen == "CYD") ? 40 : 50;
-          tft.fillRect(0, textY, tft.width(), tft.height() - textY,
-                       TFT_BLACK);
+          tft.fillRect(0, textY, tft.width(), tft.height() - textY, TFT_BLACK);
           tft.setCursor(0, textY);
           tft.setTextSize((Config::screen == "CYD") ? 1 : 2);
           tft.setTextColor(TFT_GREEN);

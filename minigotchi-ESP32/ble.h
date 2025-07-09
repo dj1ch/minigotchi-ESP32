@@ -29,9 +29,9 @@
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
-#include <esp_system.h>
-#include <esp_random.h>
 #include <cstdlib>
+#include <esp_random.h>
+#include <esp_system.h>
 
 // forward declaration of mood class
 class Mood;
