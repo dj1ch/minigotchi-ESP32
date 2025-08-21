@@ -31,10 +31,10 @@
  */
 
 // define if features will be used
-bool Config::deauth = true;
-bool Config::advertise = true;
+bool Config::deauth = false;
+bool Config::advertise = false;
 bool Config::scan = true;
-bool Config::spam = true;
+bool Config::spam = false;
 
 // define access point ssid and password
 const char *Config::ssid = "minigotchi";

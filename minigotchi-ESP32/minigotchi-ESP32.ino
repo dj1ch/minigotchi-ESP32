@@ -43,27 +43,24 @@ void setup() {
 void loop() {
     // current epoch
     minigotchi.epoch();
-    delay(config.shortDelay);
 
     // cycle channels at start of loop
     minigotchi.cycle();
-    delay(config.shortDelay);
 
     // the longer we are on this channel, the more likely we're gonna see a pwnagotchi on this channel
     // get local payload from local pwnagotchi, send raw frame if one is found
     minigotchi.detect();
-    display.displayCheck();
-    delay(config.shortDelay);
+    while (!Display::displayQueue.empty() || Display::showingMsg) {
+        display.displayCheck();
+        delay(10);
+    }
 
     // advertise our presence with the help of pwngrid compatible beacon frames (probably the most confusing part lmao)
     minigotchi.advertise();
-    delay(config.shortDelay);
 
     // deauth random access point
     minigotchi.deauth();
-    delay(config.shortDelay);
 
     // ble spam
     minigotchi.spam();
-    delay(config.shortDelay);
 }

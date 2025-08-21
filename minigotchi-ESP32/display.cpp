@@ -530,7 +530,7 @@ void Display::printU8G2Data(int x, int y, const char *data) {
 /**
  * Queues a display update message for memory safety
  */
-void Display::queueDisplayUpdate(const String& mood, const String& text) {
+void Display::queueDisplayUpdate(const String mood, const String text) {
   DisplayMessage msg;
   msg.mood = mood;
   msg.text = text;

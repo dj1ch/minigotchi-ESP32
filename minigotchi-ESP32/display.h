@@ -116,17 +116,18 @@ public:
   static String previousText;
   ~Display();
 
-  static void queueDisplayUpdate(const String& mood, const String& text);
+  static void queueDisplayUpdate(const String mood, const String text);
   static void displayCheck();
 
-private:
-#if disp
   static std::queue<DisplayMessage> displayQueue;
   static DisplayMessage currentMsg;
   static DisplayMessage displayMsgBuf;
   static bool showingMsg;
   static unsigned long lastUpdate;
   static unsigned long delayTime;
+
+private:
+#if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
 #endif
