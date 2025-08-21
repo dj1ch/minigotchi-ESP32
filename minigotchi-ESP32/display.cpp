@@ -534,6 +534,6 @@ void Display::displayCheck() {
   if (displayMsgBuf.pending) {
     updateDisplay(displayMsgBuf.mood, displayMsgBuf.text);
     displayMsgBuf.pending = false;
-    delay(Config::shortDelay);
+    delay(Config::shortDelay * 2); // yeah fuck that
   }
 }
