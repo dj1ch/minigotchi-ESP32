@@ -34,6 +34,8 @@
 
 #if disp
 
+DisplayMessage displayMsgBuf = {"", "", false};
+
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
 TFT_eSPI tft;
 #endif
