@@ -38,7 +38,7 @@ Mood &Minigotchi::mood = Mood::getInstance();
 WebUI *Minigotchi::web = nullptr;
 
 // current epoch val
-int Minigotchi::currentEpoch = 0;
+int Minigotchi::currentEpoch = 1;
 
 /**
  * WebUI task for freeRTOS
@@ -130,7 +130,7 @@ void Minigotchi::boot() {
   delay(Config::shortDelay);
   Serial.println(mood.getIntense() + " Starting now...");
   Serial.println(" ");
-  Display::updateDisplay(mood.getIntense(), "Starting  now");
+  Display::updateDisplay(mood.getIntense(), "Starting now");
   delay(Config::shortDelay);
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
