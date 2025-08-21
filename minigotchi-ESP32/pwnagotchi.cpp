@@ -96,6 +96,9 @@ void Pwnagotchi::detect() {
     // delay for scanning
     delay(Config::longDelay);
 
+    // display queued messages
+    Display::displayCheck();
+
     // check if the pwnagotchiCallback wasn't triggered during scanning
     if (!pwnagotchiDetected) {
       // only searches on your current channel and such afaik,
@@ -120,6 +123,9 @@ void Pwnagotchi::detect() {
       }
     }
   }
+
+  // another display check
+  Display::displayCheck();
 }
 
 /**
@@ -246,11 +252,11 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.print(mood.getHappy() + " Pwned Networks: ");
             Serial.println(pwndTot);
             Serial.print(" ");
-            Display::updateDisplay(mood.getHappy(),
-                                   deviceType + " name: " + (String)name);
+            Display::queueDisplayUpdate(mood.getHappy(),
+                                       deviceType + " name: " + (String)name);
             delay(Config::shortDelay);
-            Display::updateDisplay(mood.getHappy(),
-                                   "Pwned Networks: " + (String)pwndTot);
+            Display::queueDisplayUpdate(mood.getHappy(),
+                                       "Pwned Networks: " + (String)pwndTot);
             delay(100);
             // reset
             deviceType = "";
@@ -261,11 +267,11 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.print(mood.getHappy() + " Pwned Networks: ");
             Serial.println(pwndTot);
             Serial.print(" ");
-            Display::updateDisplay(mood.getHappy(),
-                                   "Pwnagotchi name: " + (String)name);
+            Display::queueDisplayUpdate(mood.getHappy(),
+                                       "Pwnagotchi name: " + (String)name);
             delay(Config::shortDelay);
-            Display::updateDisplay(mood.getHappy(),
-                                   "Pwned Networks: " + (String)pwndTot);
+            Display::queueDisplayUpdate(mood.getHappy(),
+                                       "Pwned Networks: " + (String)pwndTot);
             delay(100);
           }
 

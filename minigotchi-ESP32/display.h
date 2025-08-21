@@ -96,6 +96,14 @@
 #define T_DISPLAY_S3_WIDTH 320
 #define T_DISPLAY_S3_HEIGHT 170
 
+struct DisplayMessage {
+    String mood;
+    String text;
+    bool pending;
+};
+
+extern DisplayMessage displayMsgBuf;
+
 class Display {
 public:
   static void startScreen();
@@ -107,6 +115,9 @@ public:
   static String storedText;
   static String previousText;
   ~Display();
+
+  static void queueDisplayUpdate(const String& mood, const String& text);
+  static void displayCheck();
 
 private:
 #if disp

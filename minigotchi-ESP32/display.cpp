@@ -515,3 +515,23 @@ void Display::printU8G2Data(int x, int y, const char *data) {
   }
 #endif
 }
+
+/**
+ * Queues a display update message for memory safety
+ */
+void Display::queueDisplayUpdate(const String& mood, const String& text) {
+  displayMsgBuf.mood = mood;
+  displayMsgBuf.text = text;
+  displayMsgBuf.pending = true;
+}
+
+/**
+ * Checks for display updates in the queue
+ */
+void Display::displayCheck() {
+  if (displayMsgBuf.pending) {
+    updateDisplay(displayMsgBuf.mood, displayMsgBuf.text);
+    displayMsgBuf.pending = false;
+    delay(Config::shortDelay);
+  }
+}
