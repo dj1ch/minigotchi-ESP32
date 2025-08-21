@@ -71,8 +71,12 @@ std::string Pwnagotchi::extractMAC(const unsigned char *buff) {
 void Pwnagotchi::detect() {
   if (Config::scan) {
     // set mode and callback
+    Minigotchi::monStop();
     Minigotchi::monStart();
     esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
+
+    // reset so it only checks for ONE packet, not ALL
+    pwnagotchiDetected = false;
 
     // cool animation
     for (int i = 0; i < 5; ++i) {
@@ -137,9 +141,6 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
   wifi_pkt_rx_ctrl_t ctrl = (wifi_pkt_rx_ctrl_t)snifferPacket->rx_ctrl;
   int len = snifferPacket->rx_ctrl.sig_len;
 
-  // start off false
-  pwnagotchiDetected = false;
-
   if (type == WIFI_PKT_MGMT) {
     len -= 4;
     int fctl = ntohs(frameControl->fctl);
@@ -161,7 +162,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
         Serial.println(mood.getHappy() + " Pwnagotchi detected!");
         Serial.println(" ");
         Display::updateDisplay(mood.getHappy(), "Pwnagotchi detected!");
-        // delay(Config::shortDelay);
+        delay(100);
 
         // extract the ESSID from the beacon frame
         String essid = "";
@@ -201,11 +202,14 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Display::updateDisplay(mood.getBroken(),
                                  "Could not parse Pwnagotchi json: " +
                                      (String)error.c_str());
+          delay(100);
           Serial.println(" ");
         } else {
           Serial.println(mood.getHappy() + " Successfully parsed json!");
           Serial.println(" ");
           Display::updateDisplay(mood.getHappy(), "Successfully parsed json!");
+          delay(100);
+
           // find minigotchi/palnagotchi
           bool pal = jsonBuffer["pal"].as<bool>();
           bool minigotchi = jsonBuffer["minigotchi"].as<bool>();
@@ -247,6 +251,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             delay(Config::shortDelay);
             Display::updateDisplay(mood.getHappy(),
                                    "Pwned Networks: " + (String)pwndTot);
+            delay(100);
             // reset
             deviceType = "";
           } else {
@@ -261,6 +266,7 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             delay(Config::shortDelay);
             Display::updateDisplay(mood.getHappy(),
                                    "Pwned Networks: " + (String)pwndTot);
+            delay(100);
           }
 
           // clear json buffer
