@@ -20,11 +20,13 @@
  * minigotchi-ESP32.ino: everything implemented here
 */
 
+#include "display.h"
 #include "config.h"
 #include "minigotchi.h"
 
 Config config;
 Minigotchi minigotchi;
+Display display;
 
 void setup() {
     Serial.begin(config.baud);
@@ -50,6 +52,7 @@ void loop() {
     // the longer we are on this channel, the more likely we're gonna see a pwnagotchi on this channel
     // get local payload from local pwnagotchi, send raw frame if one is found
     minigotchi.detect();
+    display.displayCheck();
     delay(config.shortDelay);
 
     // advertise our presence with the help of pwngrid compatible beacon frames (probably the most confusing part lmao)
