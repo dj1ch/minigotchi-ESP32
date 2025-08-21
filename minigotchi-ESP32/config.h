@@ -34,7 +34,7 @@
 #include <vector>
 
 // define if you have a display
-#define disp 0
+#define disp 1
 
 // define screen types
 #define SSD1306 0

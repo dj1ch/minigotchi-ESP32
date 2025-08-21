@@ -49,8 +49,8 @@ int Config::longDelay = 5000;
 bool Config::parasite = false;
 
 // screen configuration
-bool Config::display = false;
-std::string Config::screen = "";
+bool Config::display = true;
+std::string Config::screen = "M5STICKCP2";
 
 // define baud rate
 int Config::baud = 115200;
