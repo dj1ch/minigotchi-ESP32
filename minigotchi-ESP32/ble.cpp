@@ -51,12 +51,9 @@ int Ble::random(int min, int max) {
  * and that is perfectly fine.
  *
  */
-int Ble::deviceType[]() { // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods
-  // Max, 4 for...
-  srand(esp_random());
-  return Ble::random(1, 26);
-}
-int Ble::delaySeconds = 5; // delay in seconds
+int Ble::deviceType = 1; // 1 for Airpods, 2 for Airpods Pro, 3 for Airpods
+
+int Ble::delaySeconds = 10; // delay in seconds
 int Ble::advType = 2;
 // 0 - ADV_TYPE_IND
 // 1 - ADV_TYPE_DIRECT_IND_HIGH (directed advertisement with high duty cycle)
@@ -180,6 +177,9 @@ uint8_t dataTVColorBalance[23] = {
  */
 void Ble::init() {
   BLEDevice::init("");
+
+  // random device
+  Ble::deviceType = Ble::random(1, 26);
 
   // Create the BLE Server
   BLEServer *pServer = BLEDevice::createServer();
