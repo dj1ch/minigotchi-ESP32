@@ -44,7 +44,8 @@ int Channel::channelList[13] = {
     Config::channels[3], Config::channels[4],  Config::channels[5],
     Config::channels[6], Config::channels[7],  Config::channels[8],
     Config::channels[9], Config::channels[10], Config::channels[11],
-    Config::channels[12]};
+    Config::channels[12]
+};
 
 /**
  * Here, we choose the channel to initialize on
@@ -62,6 +63,7 @@ void Channel::init(int initChannel) {
   delay(Config::shortDelay);
 
   // switch channel
+  Minigotchi::monStart();
   esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
 
   if (err == ESP_OK && initChannel == getChannel()) {
@@ -110,6 +112,7 @@ void Channel::switchChannel(int newChannel) {
   delay(Config::shortDelay);
 
   // switch channel
+  Minigotchi::monStart();
   esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
 
   // check if the channel switch was successful
