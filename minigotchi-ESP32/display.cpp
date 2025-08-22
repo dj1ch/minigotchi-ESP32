@@ -41,7 +41,7 @@ DisplayMessage Display::currentMsg = {"", "", false};
 
 bool Display::showingMsg = false;
 unsigned long Display::lastUpdate = 0;
-unsigned long Display::delayTime = 1000;
+unsigned long Display::delayTime = 500;
 
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
 TFT_eSPI tft;
@@ -525,8 +525,6 @@ void Display::printU8G2Data(int x, int y, const char *data) {
 #endif
 }
 
-#if disp
-
 /**
  * Queues a display update message for memory safety
  */
@@ -561,4 +559,10 @@ void Display::displayCheck() {
   }
 }
 
-#endif
+bool Display::isQueueEmpty() {
+  return displayQueue.empty();
+}
+
+bool Display::isShowingMsg() {
+  return showingMsg;
+}

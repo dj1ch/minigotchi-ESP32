@@ -78,17 +78,6 @@ void Pwnagotchi::detect() {
     // reset so it only checks for ONE packet, not ALL
     pwnagotchiDetected = false;
 
-    // cool animation
-    for (int i = 0; i < 5; ++i) {
-      Serial.println(mood.getLooking1() + " Scanning for Pwnagotchi.");
-      Display::queueDisplayUpdate(mood.getLooking1(), "Scanning for Pwnagotchi.");
-      Serial.println(mood.getLooking2() + " Scanning for Pwnagotchi..");
-      Display::queueDisplayUpdate(mood.getLooking2(), "Scanning for Pwnagotchi..");
-      Serial.println(mood.getLooking1() + " Scanning for Pwnagotchi...");
-      Display::queueDisplayUpdate(mood.getLooking1(), "Scanning for Pwnagotchi...");
-      Serial.println(" ");
-    }
-
     // delay for scanning
     delay(Config::longDelay);
 

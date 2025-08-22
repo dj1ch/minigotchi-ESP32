@@ -66,6 +66,7 @@ public:
   static int addEpoch();
   static void loadConfig();
   static void saveConfig();
+  static void displayCheck();
   static int currentEpoch;
 
 private:
