@@ -98,9 +98,9 @@
 #define T_DISPLAY_S3_HEIGHT 170
 
 struct DisplayMessage {
-    String mood;
-    String text;
-    bool pending;
+  String mood;
+  String text;
+  bool pending;
 };
 
 class Display {
@@ -120,6 +120,7 @@ public:
 
   static bool isQueueEmpty();
   static bool isShowingMsg();
+
 private:
   static std::queue<DisplayMessage> displayQueue;
   static DisplayMessage currentMsg;

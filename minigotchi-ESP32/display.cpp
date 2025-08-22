@@ -559,10 +559,6 @@ void Display::displayCheck() {
   }
 }
 
-bool Display::isQueueEmpty() {
-  return displayQueue.empty();
-}
+bool Display::isQueueEmpty() { return displayQueue.empty(); }
 
-bool Display::isShowingMsg() {
-  return showingMsg;
-}
+bool Display::isShowingMsg() { return showingMsg; }

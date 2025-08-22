@@ -180,13 +180,14 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
           Serial.print(mood.getBroken() + " ");
           Serial.println(error.c_str());
           Display::queueDisplayUpdate(mood.getBroken(),
-                                 "Could not parse Pwnagotchi json: " +
-                                     (String)error.c_str());
+                                      "Could not parse Pwnagotchi json: " +
+                                          (String)error.c_str());
           Serial.println(" ");
         } else {
           Serial.println(mood.getHappy() + " Successfully parsed json!");
           Serial.println(" ");
-          Display::queueDisplayUpdate(mood.getHappy(), "Successfully parsed json!");
+          Display::queueDisplayUpdate(mood.getHappy(),
+                                      "Successfully parsed json!");
 
           // find minigotchi/palnagotchi
           bool pal = jsonBuffer["pal"].as<bool>();
@@ -223,9 +224,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.println(pwndTot);
             Serial.print(" ");
             Display::queueDisplayUpdate(mood.getHappy(),
-                                       deviceType + " name: " + (String)name);
+                                        deviceType + " name: " + (String)name);
             Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwned Networks: " + (String)pwndTot);
+                                        "Pwned Networks: " + (String)pwndTot);
             // reset
             deviceType = "";
           } else {
@@ -236,9 +237,9 @@ void Pwnagotchi::pwnagotchiCallback(void *buf,
             Serial.println(pwndTot);
             Serial.print(" ");
             Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwnagotchi name: " + (String)name);
+                                        "Pwnagotchi name: " + (String)name);
             Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwned Networks: " + (String)pwndTot);
+                                        "Pwned Networks: " + (String)pwndTot);
           }
 
           // clear json buffer
