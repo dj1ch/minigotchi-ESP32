@@ -25,11 +25,10 @@
 
 #include "config.h"
 #include "mood.h"
+#include <queue>
 
 // words cannot describe how much space this has saved me
 #if disp
-
-#include <queue>
 
 #if SSD1306 || WEMOS_OLED_SHIELD || SSD1305
 #include <Adafruit_GFX.h>
@@ -122,14 +121,13 @@ public:
   static bool isQueueEmpty();
   static bool isShowingMsg();
 private:
-#if disp
-
   static std::queue<DisplayMessage> displayQueue;
   static DisplayMessage currentMsg;
   static DisplayMessage displayMsgBuf;
   static bool showingMsg;
   static unsigned long lastUpdate;
   static unsigned long delayTime;
+#if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
 #endif

@@ -32,8 +32,6 @@
  * Configurations are VERY CASE SENSITIVE because of this.
  */
 
-#if disp
-
 // RTOS related things
 std::queue<DisplayMessage> Display::displayQueue;
 DisplayMessage Display::displayMsgBuf = {"", "", false};
@@ -42,6 +40,8 @@ DisplayMessage Display::currentMsg = {"", "", false};
 bool Display::showingMsg = false;
 unsigned long Display::lastUpdate = 0;
 unsigned long Display::delayTime = 500;
+
+#if disp
 
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
 TFT_eSPI tft;
