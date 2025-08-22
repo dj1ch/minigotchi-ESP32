@@ -32,6 +32,15 @@
  * Configurations are VERY CASE SENSITIVE because of this.
  */
 
+// RTOS related things
+std::queue<DisplayMessage> Display::displayQueue;
+DisplayMessage Display::displayMsgBuf = {"", "", false};
+DisplayMessage Display::currentMsg = {"", "", false};
+
+bool Display::showingMsg = false;
+unsigned long Display::lastUpdate = 0;
+unsigned long Display::delayTime = 500;
+
 #if disp
 
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
@@ -515,3 +524,41 @@ void Display::printU8G2Data(int x, int y, const char *data) {
   }
 #endif
 }
+
+/**
+ * Queues a display update message for memory safety
+ */
+void Display::queueDisplayUpdate(const String mood, const String text) {
+  DisplayMessage msg;
+  msg.mood = mood;
+  msg.text = text;
+  msg.pending = true;
+
+  displayQueue.push(msg);
+}
+
+/**
+ * Checks for display updates in the queue
+ */
+void Display::displayCheck() {
+  if (!showingMsg && !displayQueue.empty()) {
+    currentMsg = displayQueue.front();
+    displayQueue.pop();
+    updateDisplay(currentMsg.mood, currentMsg.text);
+    currentMsg.pending = false;
+    showingMsg = true;
+
+    // stop triggering watchdog because it goes batshit crazy
+    lastUpdate = millis();
+  }
+
+  // non blocking way of keeping things up on screen during a callback
+  if (showingMsg && millis() - lastUpdate > delayTime) {
+    // keep it on screen
+    showingMsg = false;
+  }
+}
+
+bool Display::isQueueEmpty() { return displayQueue.empty(); }
+
+bool Display::isShowingMsg() { return showingMsg; }

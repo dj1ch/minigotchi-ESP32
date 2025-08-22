@@ -42,7 +42,7 @@
 #define CYD 0
 #define T_DISPLAY_S3 0
 #define M5STICKCP 0
-#define M5STICKCP2 1
+#define M5STICKCP2 0
 #define M5CARDPUTER 0
 #define M5ATOMS3 0
 #define M5ATOMSR3 0

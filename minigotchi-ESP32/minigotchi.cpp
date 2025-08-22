@@ -92,8 +92,11 @@ void Minigotchi::epoch() {
   Serial.print(mood.getNeutral() + " Current Epoch: ");
   Serial.println(Minigotchi::currentEpoch);
   Serial.println(" ");
-  Display::updateDisplay(mood.getNeutral(),
-                         "Current Epoch: " + Minigotchi::currentEpoch);
+
+  // save some memory
+  char buf[32];
+  sprintf(buf, "Current Epoch: %d", Minigotchi::currentEpoch);
+  Display::updateDisplay(mood.getNeutral(), buf);
 }
 
 /**
@@ -130,7 +133,7 @@ void Minigotchi::boot() {
   delay(Config::shortDelay);
   Serial.println(mood.getIntense() + " Starting now...");
   Serial.println(" ");
-  Display::updateDisplay(mood.getIntense(), "Starting  now");
+  Display::updateDisplay(mood.getIntense(), "Starting now");
   delay(Config::shortDelay);
   Serial.println("################################################");
   Serial.println("#                BOOTUP PROCESS                #");
@@ -266,11 +269,24 @@ void Minigotchi::monStop() {
 }
 
 /**
+ * Display check
+ */
+void Minigotchi::displayCheck() {
+  while (!Display::isQueueEmpty() || Display::isShowingMsg()) {
+    Display::displayCheck();
+    delay(10);
+  }
+}
+
+/**
  * Channel cycling
  */
 void Minigotchi::cycle() {
   Parasite::readData();
   Channel::cycle();
+
+  // update display so that it shows that it's scanning w/o queue
+  Display::updateDisplay(mood.getSleeping(), "Scanning for pwnagotchi...");
 }
 
 /**

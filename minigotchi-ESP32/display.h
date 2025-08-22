@@ -25,6 +25,7 @@
 
 #include "config.h"
 #include "mood.h"
+#include <queue>
 
 // words cannot describe how much space this has saved me
 #if disp
@@ -96,6 +97,12 @@
 #define T_DISPLAY_S3_WIDTH 320
 #define T_DISPLAY_S3_HEIGHT 170
 
+struct DisplayMessage {
+  String mood;
+  String text;
+  bool pending;
+};
+
 class Display {
 public:
   static void startScreen();
@@ -108,7 +115,19 @@ public:
   static String previousText;
   ~Display();
 
+  static void queueDisplayUpdate(const String mood, const String text);
+  static void displayCheck();
+
+  static bool isQueueEmpty();
+  static bool isShowingMsg();
+
 private:
+  static std::queue<DisplayMessage> displayQueue;
+  static DisplayMessage currentMsg;
+  static DisplayMessage displayMsgBuf;
+  static bool showingMsg;
+  static unsigned long lastUpdate;
+  static unsigned long delayTime;
 #if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
   static Adafruit_SSD1306 *ssd1306_adafruit_display;

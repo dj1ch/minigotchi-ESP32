@@ -62,6 +62,7 @@ void Channel::init(int initChannel) {
   delay(Config::shortDelay);
 
   // switch channel
+  Minigotchi::monStart();
   esp_err_t err = esp_wifi_set_channel(initChannel, WIFI_SECOND_CHAN_NONE);
 
   if (err == ESP_OK && initChannel == getChannel()) {
@@ -110,6 +111,7 @@ void Channel::switchChannel(int newChannel) {
   delay(Config::shortDelay);
 
   // switch channel
+  Minigotchi::monStart();
   esp_err_t err = esp_wifi_set_channel(newChannel, WIFI_SECOND_CHAN_NONE);
 
   // check if the channel switch was successful

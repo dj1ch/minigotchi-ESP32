@@ -33,7 +33,7 @@ Note that the _C++_ in Arduino is slightly modified from what I have heard. See 
 
 - Arduino IDE
 - A good understanding of coding/programming if you plan on contributing
-- Any ESP32\* based microcontroller
+- Any ESP32-S\* or ESP32\* based microcontroller (must have two cores)
 - A reliable and appropriate power source and supply for the hardware
 - Patience (a lot of it)
 - The ability to read
