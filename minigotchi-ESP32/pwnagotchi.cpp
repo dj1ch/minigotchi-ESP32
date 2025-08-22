@@ -50,9 +50,9 @@ Mood &Pwnagotchi::mood = Mood::getInstance();
  * @param offset Data offset
  */
 void Pwnagotchi::getMAC(char *addr, const unsigned char *buff, int offset) {
-  snprintf(addr, 18, "%02x:%02x:%02x:%02x:%02x:%02x", buff[offset],
-           buff[offset + 1], buff[offset + 2], buff[offset + 3],
-           buff[offset + 4], buff[offset + 5]);
+    snprintf(addr, 18, "%02x:%02x:%02x:%02x:%02x:%02x", buff[offset],
+             buff[offset + 1], buff[offset + 2], buff[offset + 3],
+             buff[offset + 4], buff[offset + 5]);
 }
 
 /**
@@ -60,57 +60,59 @@ void Pwnagotchi::getMAC(char *addr, const unsigned char *buff, int offset) {
  * @param buff Buffer to use
  */
 std::string Pwnagotchi::extractMAC(const unsigned char *buff) {
-  char addr[] = "00:00:00:00:00:00";
-  getMAC(addr, buff, 10);
-  return std::string(addr);
+    char addr[] = "00:00:00:00:00:00";
+    getMAC(addr, buff, 10);
+    return std::string(addr);
 }
 
 /**
  * Detect a Pwnagotchi
  */
 void Pwnagotchi::detect() {
-  if (Config::scan) {
-    // set mode and callback
-    Minigotchi::monStop();
-    Minigotchi::monStart();
-    esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
+    if (Config::scan) {
+        // set mode and callback
+        Minigotchi::monStop();
+        Minigotchi::monStart();
+        esp_wifi_set_promiscuous_rx_cb(pwnagotchiCallback);
 
-    // reset so it only checks for ONE packet, not ALL
-    pwnagotchiDetected = false;
+        // reset so it only checks for ONE packet, not ALL
+        pwnagotchiDetected = false;
 
-    // delay for scanning
-    delay(Config::longDelay);
+        // delay for scanning
+        delay(Config::longDelay);
 
-    // check if the pwnagotchiCallback wasn't triggered during scanning
-    if (!pwnagotchiDetected) {
-      // only searches on your current channel and such afaik,
-      // so this only applies for the current searching area
-      Minigotchi::monStop();
-      Pwnagotchi::stopCallback();
-      Serial.println(mood.getSad() + " No Pwnagotchi found");
-      Display::queueDisplayUpdate(mood.getSad(), "No Pwnagotchi found.");
-      Serial.println(" ");
-      Parasite::sendPwnagotchiStatus(NO_FRIEND_FOUND);
-    } else {
-      Minigotchi::monStop();
-      Pwnagotchi::stopCallback();
-      if (pwnagotchiDetected) {
-        Serial.println(mood.getHappy() + " Pwnagotchi detected!");
-        Display::queueDisplayUpdate(mood.getHappy(), "Pwnagotchi detected!");
-        Parasite::sendPwnagotchiStatus(FRIEND_FOUND);
-      } else {
-        Serial.println(mood.getBroken() + " How did this happen?");
-        Display::queueDisplayUpdate(mood.getBroken(), "How did this happen?");
-        Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
-      }
+        // check if the pwnagotchiCallback wasn't triggered during scanning
+        if (!pwnagotchiDetected) {
+            // only searches on your current channel and such afaik,
+            // so this only applies for the current searching area
+            Minigotchi::monStop();
+            Pwnagotchi::stopCallback();
+            Serial.println(mood.getSad() + " No Pwnagotchi found");
+            Display::queueDisplayUpdate(mood.getSad(), "No Pwnagotchi found.");
+            Serial.println(" ");
+            Parasite::sendPwnagotchiStatus(NO_FRIEND_FOUND);
+        } else {
+            Minigotchi::monStop();
+            Pwnagotchi::stopCallback();
+            if (pwnagotchiDetected) {
+                Serial.println(mood.getHappy() + " Pwnagotchi detected!");
+                Display::queueDisplayUpdate(mood.getHappy(), "Pwnagotchi detected!");
+                Parasite::sendPwnagotchiStatus(FRIEND_FOUND);
+            } else {
+                Serial.println(mood.getBroken() + " How did this happen?");
+                Display::queueDisplayUpdate(mood.getBroken(), "How did this happen?");
+                Parasite::sendPwnagotchiStatus(FRIEND_SCAN_ERROR);
+            }
+        }
     }
-  }
 }
 
 /**
  * Stops Pwnagotchi scan
  */
-void Pwnagotchi::stopCallback() { esp_wifi_set_promiscuous_rx_cb(nullptr); }
+void Pwnagotchi::stopCallback() {
+    esp_wifi_set_promiscuous_rx_cb(nullptr);
+}
 
 /**
  * Pwnagotchi Scanning callback
@@ -121,131 +123,131 @@ void Pwnagotchi::stopCallback() { esp_wifi_set_promiscuous_rx_cb(nullptr); }
  */
 void Pwnagotchi::pwnagotchiCallback(void *buf,
                                     wifi_promiscuous_pkt_type_t type) {
-  wifi_promiscuous_pkt_t *snifferPacket = (wifi_promiscuous_pkt_t *)buf;
-  WifiMgmtHdr *frameControl = (WifiMgmtHdr *)snifferPacket->payload;
-  wifi_pkt_rx_ctrl_t ctrl = (wifi_pkt_rx_ctrl_t)snifferPacket->rx_ctrl;
-  int len = snifferPacket->rx_ctrl.sig_len;
+    wifi_promiscuous_pkt_t *snifferPacket = (wifi_promiscuous_pkt_t *)buf;
+    WifiMgmtHdr *frameControl = (WifiMgmtHdr *)snifferPacket->payload;
+    wifi_pkt_rx_ctrl_t ctrl = (wifi_pkt_rx_ctrl_t)snifferPacket->rx_ctrl;
+    int len = snifferPacket->rx_ctrl.sig_len;
 
-  if (type == WIFI_PKT_MGMT) {
-    len -= 4;
-    int fctl = ntohs(frameControl->fctl);
-    const wifi_ieee80211_packet_t *ipkt =
-        (wifi_ieee80211_packet_t *)snifferPacket->payload;
-    const WifiMgmtHdr *hdr = &ipkt->hdr;
+    if (type == WIFI_PKT_MGMT) {
+        len -= 4;
+        int fctl = ntohs(frameControl->fctl);
+        const wifi_ieee80211_packet_t *ipkt =
+            (wifi_ieee80211_packet_t *)snifferPacket->payload;
+        const WifiMgmtHdr *hdr = &ipkt->hdr;
 
-    // check if it is a beacon frame
-    if (snifferPacket->payload[0] == 0x80) {
-      // extract mac
-      char addr[] = "00:00:00:00:00:00";
-      getMAC(addr, snifferPacket->payload, 10);
-      String src = addr;
-      // Serial.println("'" + src + "'");
+        // check if it is a beacon frame
+        if (snifferPacket->payload[0] == 0x80) {
+            // extract mac
+            char addr[] = "00:00:00:00:00:00";
+            getMAC(addr, snifferPacket->payload, 10);
+            String src = addr;
+            // Serial.println("'" + src + "'");
 
-      // check if the source MAC matches the target
-      if (src == "de:ad:be:ef:de:ad") {
-        pwnagotchiDetected = true;
-        Serial.println(mood.getHappy() + " Pwnagotchi detected!");
-        Serial.println(" ");
-        Display::queueDisplayUpdate(mood.getHappy(), "Pwnagotchi detected!");
+            // check if the source MAC matches the target
+            if (src == "de:ad:be:ef:de:ad") {
+                pwnagotchiDetected = true;
+                Serial.println(mood.getHappy() + " Pwnagotchi detected!");
+                Serial.println(" ");
+                Display::queueDisplayUpdate(mood.getHappy(), "Pwnagotchi detected!");
 
-        // extract the ESSID from the beacon frame
-        String essid = "";
+                // extract the ESSID from the beacon frame
+                String essid = "";
 
-        // "borrowed" from ESP32 Marauder
-        for (int i = 38; i < len; i++) {
-          if (isAscii(snifferPacket->payload[i])) {
-            essid.concat((char)snifferPacket->payload[i]);
-          }
-        }
+                // "borrowed" from ESP32 Marauder
+                for (int i = 38; i < len; i++) {
+                    if (isAscii(snifferPacket->payload[i])) {
+                        essid.concat((char)snifferPacket->payload[i]);
+                    }
+                }
 
-        // network related info
-        Serial.print(mood.getHappy() + " RSSI: ");
-        Serial.println(snifferPacket->rx_ctrl.rssi);
-        Serial.print(mood.getHappy() + " Channel: ");
-        Serial.println(snifferPacket->rx_ctrl.channel);
-        Serial.print(mood.getHappy() + " BSSID: ");
-        Serial.println(addr);
-        Serial.print(mood.getHappy() + " ESSID: ");
-        Serial.println(essid);
-        Serial.println(" ");
+                // network related info
+                Serial.print(mood.getHappy() + " RSSI: ");
+                Serial.println(snifferPacket->rx_ctrl.rssi);
+                Serial.print(mood.getHappy() + " Channel: ");
+                Serial.println(snifferPacket->rx_ctrl.channel);
+                Serial.print(mood.getHappy() + " BSSID: ");
+                Serial.println(addr);
+                Serial.print(mood.getHappy() + " ESSID: ");
+                Serial.println(essid);
+                Serial.println(" ");
 
-        // parse the ESSID as JSON
-        DynamicJsonDocument jsonBuffer(2048);
-        DeserializationError error = deserializeJson(jsonBuffer, essid);
+                // parse the ESSID as JSON
+                DynamicJsonDocument jsonBuffer(2048);
+                DeserializationError error = deserializeJson(jsonBuffer, essid);
 
-        // check if json parsing is successful
-        if (error) {
-          Serial.println(mood.getBroken() +
-                         " Could not parse Pwnagotchi json: ");
-          Serial.print(mood.getBroken() + " ");
-          Serial.println(error.c_str());
-          Display::queueDisplayUpdate(mood.getBroken(),
-                                 "Could not parse Pwnagotchi json: " +
-                                     (String)error.c_str());
-          Serial.println(" ");
-        } else {
-          Serial.println(mood.getHappy() + " Successfully parsed json!");
-          Serial.println(" ");
-          Display::queueDisplayUpdate(mood.getHappy(), "Successfully parsed json!");
+                // check if json parsing is successful
+                if (error) {
+                    Serial.println(mood.getBroken() +
+                                   " Could not parse Pwnagotchi json: ");
+                    Serial.print(mood.getBroken() + " ");
+                    Serial.println(error.c_str());
+                    Display::queueDisplayUpdate(mood.getBroken(),
+                                                "Could not parse Pwnagotchi json: " +
+                                                (String)error.c_str());
+                    Serial.println(" ");
+                } else {
+                    Serial.println(mood.getHappy() + " Successfully parsed json!");
+                    Serial.println(" ");
+                    Display::queueDisplayUpdate(mood.getHappy(), "Successfully parsed json!");
 
-          // find minigotchi/palnagotchi
-          bool pal = jsonBuffer["pal"].as<bool>();
-          bool minigotchi = jsonBuffer["minigotchi"].as<bool>();
+                    // find minigotchi/palnagotchi
+                    bool pal = jsonBuffer["pal"].as<bool>();
+                    bool minigotchi = jsonBuffer["minigotchi"].as<bool>();
 
-          // find out some stats
-          String name = jsonBuffer["name"].as<String>();
-          String pwndTot = jsonBuffer["pwnd_tot"].as<String>();
+                    // find out some stats
+                    String name = jsonBuffer["name"].as<String>();
+                    String pwndTot = jsonBuffer["pwnd_tot"].as<String>();
 
-          if (name == "null") {
-            name = "N/A";
-          }
+                    if (name == "null") {
+                        name = "N/A";
+                    }
 
-          if (pwndTot == "null") {
-            pwndTot = "N/A";
-          }
+                    if (pwndTot == "null") {
+                        pwndTot = "N/A";
+                    }
 
-          String deviceType = "";
+                    String deviceType = "";
 
-          // minigotchi or palnagotchi stuff
-          if (minigotchi || pal) {
-            if (minigotchi) {
-              deviceType = "Minigotchi";
+                    // minigotchi or palnagotchi stuff
+                    if (minigotchi || pal) {
+                        if (minigotchi) {
+                            deviceType = "Minigotchi";
+                        }
+
+                        if (pal) {
+                            deviceType = "Palnagotchi";
+                        }
+
+                        // show corresponding type
+                        Serial.print(mood.getHappy() + " " + deviceType + " name: ");
+                        Serial.println(name);
+                        Serial.print(mood.getHappy() + " Pwned Networks: ");
+                        Serial.println(pwndTot);
+                        Serial.print(" ");
+                        Display::queueDisplayUpdate(mood.getHappy(),
+                                                    deviceType + " name: " + (String)name);
+                        Display::queueDisplayUpdate(mood.getHappy(),
+                                                    "Pwned Networks: " + (String)pwndTot);
+                        // reset
+                        deviceType = "";
+                    } else {
+                        // this should be a pwnagotchi
+                        Serial.print(mood.getHappy() + " Pwnagotchi name: ");
+                        Serial.println(name);
+                        Serial.print(mood.getHappy() + " Pwned Networks: ");
+                        Serial.println(pwndTot);
+                        Serial.print(" ");
+                        Display::queueDisplayUpdate(mood.getHappy(),
+                                                    "Pwnagotchi name: " + (String)name);
+                        Display::queueDisplayUpdate(mood.getHappy(),
+                                                    "Pwned Networks: " + (String)pwndTot);
+                    }
+
+                    // clear json buffer
+                    jsonBuffer.clear();
+                    Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
+                }
             }
-
-            if (pal) {
-              deviceType = "Palnagotchi";
-            }
-
-            // show corresponding type
-            Serial.print(mood.getHappy() + " " + deviceType + " name: ");
-            Serial.println(name);
-            Serial.print(mood.getHappy() + " Pwned Networks: ");
-            Serial.println(pwndTot);
-            Serial.print(" ");
-            Display::queueDisplayUpdate(mood.getHappy(),
-                                       deviceType + " name: " + (String)name);
-            Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwned Networks: " + (String)pwndTot);
-            // reset
-            deviceType = "";
-          } else {
-            // this should be a pwnagotchi
-            Serial.print(mood.getHappy() + " Pwnagotchi name: ");
-            Serial.println(name);
-            Serial.print(mood.getHappy() + " Pwned Networks: ");
-            Serial.println(pwndTot);
-            Serial.print(" ");
-            Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwnagotchi name: " + (String)name);
-            Display::queueDisplayUpdate(mood.getHappy(),
-                                       "Pwned Networks: " + (String)pwndTot);
-          }
-
-          // clear json buffer
-          jsonBuffer.clear();
-          Parasite::sendPwnagotchiStatus(FRIEND_FOUND, name.c_str());
         }
-      }
     }
-  }
 }
