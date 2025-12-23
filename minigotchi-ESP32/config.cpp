@@ -109,7 +109,7 @@ wifi_country_t Config::ctryCfg = {.cc = "US", .schan = 1, .nchan = 13};
 bool Config::configured = false;
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.6.3-beta";
+std::string Config::version = "3.6.4-beta";
 
 /**
  * Loads configuration values from NVS

@@ -36,6 +36,9 @@
 // define if you have a display
 #define disp 0
 
+// define if you have a flipper zero dev board
+#define fz 0
+
 // define screen types
 #define SSD1306 0
 #define WEMOS_OLED_SHIELD 0

@@ -133,11 +133,18 @@ Usually, this shouldn't be changed as these are the only channels we can access 
 - This line is also important, whether or not you use a screen.
 
 ```cpp
-// quick and dirty way to save space if you're not using a lay
 #define disp 0
 ```
 
 Here, we define whether or not we use a display (at least for the libraries). The reason we need this is because it determines whether or not your screen libraries will be included in the final sketch. It saves a lot of space because libraries tend to take up most of the program memory. If you're not using a display, keep this setting at `0`. If you are, set it to `1`.
+
+- Additionally, if you are using a Flipper Zero Development Board, or any other board of similar chipset, you must pay attention to this following line
+
+```cpp
+#define fz 0
+```
+
+Setting it to `0` implies that any sort of Bluetooth functions, which most Flipper Development boards lack, will be enabled. However, if you set this option to `1`, it disables all of the Bluetooth functions and doesn't require you to download any of the libraries associated with it. Set this configuration value to this option if you are compiling this for a Flipper Zero Development Board or any other similar Espressif MCU that doesn't have Bluetooth. If you do not have a development board, keep it at `0`.  
 
 - Scroll down in that file and find the following code:
 
@@ -253,7 +260,7 @@ C:\Users\USERNAME\AppData\Local\Arduino15\packages\esp32\tools\esp32-arduino-lib
 - After plugging in your Minigotchi, it should tell you that it's starting a Web Server. In order to use it, you have to:
 
 1. Connect to the access point `minigotchi` or `minigotchi 2` (sometimes `minigotchi 2` pops up). If prompted use the password `dj1ch-minigotchi`
-2. Go to the website http://192.168.4.1
+2. Go to the website <http://192.168.4.1>
 3. Add your whitelist in the first input box in a format like this. Click `Submit` after you're done
 
 ```sh

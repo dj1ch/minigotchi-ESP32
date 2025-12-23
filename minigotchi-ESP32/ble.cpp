@@ -33,7 +33,9 @@
 
 #include "ble.h"
 
+#if !fz
 BLEAdvertising *Ble::pAdvertising;
+#endif
 
 int Ble::random(int min, int max) {
   return min + (esp_random() % (max - min + 1));
@@ -176,6 +178,7 @@ uint8_t dataTVColorBalance[23] = {
  * Initializes bluetooth and sets up payload
  */
 void Ble::init() {
+#if !fz
   BLEDevice::init("");
 
   // random device
@@ -298,12 +301,14 @@ void Ble::init() {
   // Set up the advertisement data
   oAdvertisementData.addData(std::string((char *)data, sizeof(dataAirpods)));
   pAdvertising->setAdvertisementData(oAdvertisementData);
+#endif
 }
 
 /**
  * Starts BLE
  */
 void Ble::start() {
+#if !fz
   Serial.println(mood.getIntense() + " Starting BLE Spam...");
   Display::updateDisplay(mood.getIntense(), "Starting BLE Spam...");
   pAdvertising->start();
@@ -311,21 +316,28 @@ void Ble::start() {
   pAdvertising->stop();
   Display::updateDisplay(mood.getNeutral(), "BLE Spam Stopped");
   Serial.println(mood.getNeutral() + " BLE Spam Stopped");
+#endif
 }
 
 /**
  * *Manually* stops BLE spam if it is already running
  */
-void Ble::stop() { pAdvertising->stop(); }
+void Ble::stop() { 
+#if !fz
+  pAdvertising->stop();
+#endif
+}
 
 /**
  * Self explanatory...
  */
 void Ble::spam() {
+#if !fz
   if (Config::spam) {
     Ble::init();
     Ble::start();
   } else {
     // do nothing
   }
+#endif
 }

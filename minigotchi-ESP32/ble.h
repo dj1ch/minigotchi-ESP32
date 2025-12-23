@@ -26,9 +26,13 @@
 #include "config.h"
 #include "mood.h"
 #include <Arduino.h>
+
+#if !fz
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
+#endif
+
 #include <cstdlib>
 #include <esp_random.h>
 #include <esp_system.h>
@@ -47,7 +51,11 @@ private:
   static void stop();
 
   static Mood &mood;
+
+  #if !fz
   static BLEAdvertising *pAdvertising;
+  #endif
+
   static int deviceType;
   static int delaySeconds;
   static int advType;
