@@ -20,7 +20,23 @@ jobs:
         uses: restyled-io/actions/run@v3
         with:
           fail-on-differences: true
-          PATH: .
+          paths: |
+            **/*.cpp
+            **/*.h
+            **/*.hpp
+            **/*.c
+            **/*.cc
+            **/*.hh
+            **/*.cxx
+            **/*.hxx
+            **/*.inl
+            **/*.json
+            **/*.yaml
+            **/*.yml
+            **/*.md
+            **/*.toml
+            **/*.cmake
+            **/CMakeLists.txt
 
       - if: |
           !cancelled() &&
