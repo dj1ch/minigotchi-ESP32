@@ -1,12 +1,12 @@
 # minigotchi-ESP32 - ミニゴッチ
 
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
-<img alt="GitHub license" src="https://img.shields.io/github/license/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
-<a href="https://github.com/Pwnagotchi-Unofficial/minigotchi-ESP32/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/Pwnagotchi-Unofficial/minigotchi-ESP32"></a>
-<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Pwnagotchi-Unofficial/minigotchi-ESP32"></img>
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/dj1ch/minigotchi-ESP32"></img>
+<img alt="GitHub license" src="https://img.shields.io/github/license/dj1ch/minigotchi-ESP32"></img>
+<a href="https://github.com/dj1ch/minigotchi-ESP32/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/dj1ch/minigotchi-ESP32"></a>
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/dj1ch/minigotchi-ESP32"></img>
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/dj1ch/minigotchi-ESP32"></img>
 
-## The [Minigotchi](https://github.com/Pwnagotchi-Unofficial/minigotchi) ported to the ESP32
+## The [Minigotchi](https://github.com/dj1ch/minigotchi) ported to the ESP32
 
 <img src="images/IMG_1213.jpeg"></img>
 
@@ -40,15 +40,15 @@ Note that the _C++_ in Arduino is slightly modified from what I have heard. See 
 
 ### How it operates/works
 
-See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/How-the-Minigotchi-works).
+See the [wiki](https://github.com/dj1ch/minigotchi/wiki/How-the-Minigotchi-works).
 
 ### Hardware
 
-See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Hardware).
+See the [wiki](https://github.com/dj1ch/minigotchi/wiki/Hardware).
 
 ### To do
 
-See this [project](https://github.com/orgs/Pwnagotchi-Unofficial/projects/4).
+See this [project](https://github.com/orgs/dj1ch/projects/4).
 
 ### Contributing
 
@@ -56,15 +56,15 @@ See the Contributing Guidelines [here](CONTRIBUTING.md).
 
 ### FAQ
 
-See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/FAQ).
+See the [wiki](https://github.com/dj1ch/minigotchi/wiki/FAQ).
 
 ### Communication
 
-See the [wiki](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communication#communication).
+See the [wiki](https://github.com/dj1ch/minigotchi/wiki/Communication#communication).
 
 ### Last but not least... Some thank you's
 
-**If you believe your project wasn't properly credited, please let me know ASAP! Here's how you can [communicate](https://github.com/Pwnagotchi-Unofficial/minigotchi/wiki/Communication#communication) with me.**
+**If you believe your project wasn't properly credited, please let me know ASAP! Here's how you can [communicate](https://github.com/dj1ch/minigotchi/wiki/Communication#communication) with me.**
 
 **Thanks to these projects for making this a little bit more possible for me, I have used libraries/code from these projects and implemented it here:**
 
