@@ -1,10 +1,10 @@
 # minigotchi-ESP32 - ミニゴッチ
 
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/dj1ch/minigotchi-ESP32"></img>
-<img alt="GitHub License" src="https://img.shields.io/github/license/dj1ch/minigotchi-ESP32">
+<img alt="GitHub License" src="https://img.shields.io/github/license/dj1ch/minigotchi-ESP32?label=license">
 <a href="https://github.com/dj1ch/minigotchi-ESP32/graphs/contributors"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/dj1ch/minigotchi-ESP32"></a>
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/dj1ch/minigotchi-ESP32"></img>
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/dj1ch/minigotchi-ESP32">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/dj1ch/minigotchi-ESP32?label=stars">
 
 ## The [Minigotchi](https://github.com/dj1ch/minigotchi) ported to the ESP32
 
