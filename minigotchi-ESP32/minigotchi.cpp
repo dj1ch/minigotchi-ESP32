@@ -64,9 +64,13 @@ void Minigotchi::WebUITask(void *pvParameters) {
  * Wait for WebUI to get input that the configuration is done
  */
 void Minigotchi::waitForInput() {
-  // on core one
+  // switch cores depending on scenarios
   if (!Config::configured) {
-    xTaskCreatePinnedToCore(WebUITask, "WebUI Task", 8192, NULL, 1, NULL, 1);
+    if (ESP.getChipCores() == 1) { // this is why espressif's libraries highk chill
+      xTaskCreate(WebUITask, "WebUI Task", 8192, NULL, 1, NULL); // no core pinned (RTOS unfortunately can't score 6 points lol)
+    } else {
+      xTaskCreatePinnedToCore(WebUITask, "WebUI Task", 8192, NULL, 1, NULL, 1); // core 0: wifi, core 1: webui + check? 
+    }
   }
 
   // wait until it's done
