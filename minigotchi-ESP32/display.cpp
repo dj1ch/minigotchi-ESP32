@@ -64,6 +64,10 @@ U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display =
 U8G2_SH1106_128X64_NONAME_F_SW_I2C *Display::sh1106_adafruit_display = nullptr;
 #endif
 
+#if ESP32_C3_OLED
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C *Display::ssd1306_esp32_c3_display = nullptr;
+#endif
+
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
 TFT_eSPI *Display::tft_display = nullptr;
 #endif
@@ -225,6 +229,16 @@ void Display::startScreen() {
         delay(100);
       }
 #endif
+    } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+      // handling is to be done similarly to the ideaspark ssd1306
+      ssd1306_esp32_c3_display = new U8G2_SSD1306_128X64_NONAME_F_HW_I2C(U8G2_R0, ESP32_C3_OLED_SCL, ESP32_C3_OLED_SDA, ESP32_C3_OLED_RESET);
+      delay(100);
+      ssd1306_esp32_c3_display->begin();
+      delay(100);
+      ssd1306_esp32_c3_display->clearBuffer();
+      delay(100);      
+#endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||
                Config::screen == "M5CARDPUTER") {
@@ -366,6 +380,26 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       sh1106_adafruit_display->sendBuffer();
       delay(5);
+#endif
+    } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+      if (ssd1306_esp32_c3_display != nullptr) {
+        ssd1306_esp32_c3_display->clearBuffer();
+        delay(5);
+        ssd1306_esp32_c3_display->setDrawColor(2);
+        delay(5);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_10x20_tr);
+        delay(5);
+        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET, face.c_str());
+        delay(5);
+        ssd1306_esp32_c3_display->setDrawColor(1);
+        delay(5);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
+        delay(5);
+        Display::printU8G2Data(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET + 15, text.c_str());
+        delay(5);
+        ssd1306_esp32_c3_display->sendBuffer();
+      }
 #endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||

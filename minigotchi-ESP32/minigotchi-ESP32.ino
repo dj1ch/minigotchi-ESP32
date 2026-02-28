@@ -23,6 +23,16 @@
 #include "config.h"
 #include "minigotchi.h"
 
+/** developer note:
+ * 
+ * This will lead people to the install guide.
+ * 
+ */
+
+#ifndef CONFIGURED
+#error "Please configure your Minigotchi! See the install guide for more details. Link: https://github.com/dj1ch/minigotchi-ESP32/blob/main/INSTALL.md"
+#endif
+
 Config config;
 Minigotchi minigotchi;
 
