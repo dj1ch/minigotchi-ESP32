@@ -388,15 +388,15 @@ void Display::updateDisplay(String face, String text) {
         delay(5);
         ssd1306_esp32_c3_display->setDrawColor(2);
         delay(5);
-        ssd1306_esp32_c3_display->setFont(u8g2_font_10x20_tr);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
         delay(5);
-        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET, face.c_str());
+        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_I2C_XOFFSET + 20, ESP32_C3_OLED_I2C_YOFFSET + 10, face.c_str());
         delay(5);
         ssd1306_esp32_c3_display->setDrawColor(1);
         delay(5);
-        ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_4x6_tr);
         delay(5);
-        Display::printU8G2Data(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET + 15, text.c_str());
+        Display::printU8G2Data(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET + 20, text.c_str());
         delay(5);
         ssd1306_esp32_c3_display->sendBuffer();
       }
@@ -561,29 +561,66 @@ void Display::printU8G2Data(int x, int y, const char *data) {
         ssd1306_esp32_c3_display);
 
     if (screen != nullptr) {
-      int numCharPerLine = screen->getWidth() / screen->getMaxCharWidth();
-      if (strlen(data) <= numCharPerLine &&
-          screen->getStrWidth(data) <=
-              screen->getWidth() - screen->getMaxCharWidth()) {
-        screen->drawStr(x, y, data);
-      } else {
-        int lineNum = 0;
-        char buf[numCharPerLine + 1];
-        memset(buf, 0, sizeof(buf));
-        for (int i = 0; i < strlen(data); ++i) {
-          if (data[i] != '\n') {
-            buf[strlen(buf)] = data[i];
-          }
-          if (data[i] == '\n' || strlen(buf) == numCharPerLine ||
-              i == strlen(data) - 1 ||
-              screen->getStrWidth(buf) >=
-                  screen->getWidth() - screen->getMaxCharWidth()) {
-            buf[strlen(buf)] = '\0';
+      // Use pixel-based wrapping instead of character-count heuristics.
+      // Compute available pixel width from the given x origin.
+      int availableWidth = screen->getWidth() - x;
+      int lineNum = 0;
+
+      // Build lines incrementally and emit when they exceed available width
+      // or when a newline is encountered. Try to break on spaces when possible.
+      String cur = "";
+      size_t len = strlen(data);
+      for (size_t i = 0; i <= len; ++i) {
+        char ch = data[i];
+
+        // handle explicit newline or end-of-string
+        if (ch == '\0' || ch == '\n') {
+          if (cur.length() > 0) {
             screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                            buf);
-            memset(buf, 0, sizeof(buf));
+                            cur.c_str());
+            cur = "";
+          }
+          if (ch == '\0') break;
+          continue;
+        }
+
+        // attempt to append char and measure
+        String trial = cur + ch;
+        if (screen->getStrWidth(trial.c_str()) <= availableWidth) {
+          cur = trial;
+          continue;
+        }
+
+        // would overflow: attempt word-wrap by finding last space in cur
+        int lastSpace = cur.lastIndexOf(' ');
+        if (lastSpace > 0) {
+          String out = cur.substring(0, lastSpace);
+          screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
+                          out.c_str());
+          // remainder becomes everything after the space plus current char
+          String remainder = cur.substring(lastSpace + 1) + ch;
+          cur = remainder;
+        } else {
+          // no space to break on; force break at current cur
+          if (cur.length() > 0) {
+            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
+                            cur.c_str());
+          }
+          // start new line with the overflowing character
+          cur = String(ch);
+          // if single character is already too wide, still print it to avoid loop
+          if (screen->getStrWidth(cur.c_str()) > availableWidth) {
+            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
+                            cur.c_str());
+            cur = "";
           }
         }
+      }
+
+      // leftover
+      if (cur.length() > 0) {
+        screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
+                        cur.c_str());
       }
     }
 #endif
