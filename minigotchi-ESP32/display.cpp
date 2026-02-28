@@ -30,6 +30,11 @@
  * if the user doesn't specify that code for it
  *
  * Configurations are VERY CASE SENSITIVE because of this.
+ * 
+ * Arguably one of the worst code of all time, but it's sorta the 
+ * only way that I can think of to make it "easy" to add new displays
+ * without needing to rewrite a ton of code. Genuinely a pain to compile
+ * because one LITTLE change makes everything recompile.
  */
 
 // RTOS related things
@@ -390,13 +395,17 @@ void Display::updateDisplay(String face, String text) {
         delay(5);
         ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
         delay(5);
-        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_I2C_XOFFSET + 20, ESP32_C3_OLED_I2C_YOFFSET + 10, face.c_str());
+        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_FACE_XOFFSET,
+                                          ESP32_C3_OLED_FACE_YOFFSET,
+                                          face.c_str());
         delay(5);
         ssd1306_esp32_c3_display->setDrawColor(1);
         delay(5);
         ssd1306_esp32_c3_display->setFont(u8g2_font_4x6_tr);
         delay(5);
-        Display::printU8G2Data(ESP32_C3_OLED_I2C_XOFFSET, ESP32_C3_OLED_I2C_YOFFSET + 20, text.c_str());
+        Display::printU8G2Data(ESP32_C3_OLED_TEXT_XOFFSET,
+                               ESP32_C3_OLED_TEXT_YOFFSET,
+                               text.c_str());
         delay(5);
         ssd1306_esp32_c3_display->sendBuffer();
       }
@@ -561,10 +570,12 @@ void Display::printU8G2Data(int x, int y, const char *data) {
         ssd1306_esp32_c3_display);
 
     if (screen != nullptr) {
-      // Use pixel-based wrapping instead of character-count heuristics.
-      // Compute available pixel width from the given x origin.
-      int availableWidth = screen->getWidth() - x;
+      // Use pixel-based wrapping with a small right margin.
+      int rightMargin = 2;
+      int availableWidth = screen->getWidth() - x - rightMargin;
       int lineNum = 0;
+      int lineHeight = screen->getMaxCharHeight();
+      int baseY = y + lineHeight; // drawStr expects baseline y
 
       // Build lines incrementally and emit when they exceed available width
       // or when a newline is encountered. Try to break on spaces when possible.
@@ -576,8 +587,11 @@ void Display::printU8G2Data(int x, int y, const char *data) {
         // handle explicit newline or end-of-string
         if (ch == '\0' || ch == '\n') {
           if (cur.length() > 0) {
-            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                            cur.c_str());
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
             cur = "";
           }
           if (ch == '\0') break;
@@ -593,25 +607,34 @@ void Display::printU8G2Data(int x, int y, const char *data) {
 
         // would overflow: attempt word-wrap by finding last space in cur
         int lastSpace = cur.lastIndexOf(' ');
-        if (lastSpace > 0) {
+        if (lastSpace >= 0) {
           String out = cur.substring(0, lastSpace);
-          screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                          out.c_str());
+          int drawY = baseY + (lineNum * lineHeight);
+          if (drawY <= screen->getHeight()) {
+            screen->drawStr(x, drawY, out.c_str());
+            lineNum++;
+          }
           // remainder becomes everything after the space plus current char
           String remainder = cur.substring(lastSpace + 1) + ch;
           cur = remainder;
         } else {
           // no space to break on; force break at current cur
           if (cur.length() > 0) {
-            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                            cur.c_str());
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
           }
           // start new line with the overflowing character
           cur = String(ch);
           // if single character is already too wide, still print it to avoid loop
           if (screen->getStrWidth(cur.c_str()) > availableWidth) {
-            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                            cur.c_str());
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
             cur = "";
           }
         }
@@ -619,8 +642,10 @@ void Display::printU8G2Data(int x, int y, const char *data) {
 
       // leftover
       if (cur.length() > 0) {
-        screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
-                        cur.c_str());
+        int drawY = baseY + (lineNum * lineHeight);
+        if (drawY <= screen->getHeight()) {
+          screen->drawStr(x, drawY, cur.c_str());
+        }
       }
     }
 #endif
