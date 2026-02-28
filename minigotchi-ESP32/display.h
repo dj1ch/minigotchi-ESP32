@@ -152,6 +152,7 @@ private:
   static bool showingMsg;
   static unsigned long lastUpdate;
   static unsigned long delayTime;
+  static String abbreviateText(const String &in);
 #if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
   static Adafruit_SSD1306 *ssd1306_adafruit_display;

@@ -276,6 +276,29 @@ void Display::startScreen() {
 #endif
 }
 
+/**
+ * Abbreviates text to save screen space
+ * @param in The input string to abbreviate
+ * @return The abbreviated string
+ */
+String Display::abbreviateText(const String &in) {
+  String s = in;
+  // general replacements
+  s.replace("Packets per second", "Speed");
+  s.replace("packets per second", "spd");
+  s.replace("pkt/s", "p/s");
+  s.replace("Scanning for APs", "Scan APs");
+  s.replace("Scanning  for APs", "Scan APs");
+  s.replace("Scanning", "Scan");
+  s.replace("advertisement", "adv");
+  s.replace("advertise", "adv");
+  s.replace("AP BSSID", "BSSID");
+  s.replace("Current Minigotchi Stats", "Stats");
+  // trim long words
+  if (s.length() > 40) s = s.substring(0, 40);
+  return s;
+}
+
 /** developer note:
  *
  * ssd1305 handling is a lot more different than ssd1306,
@@ -292,6 +315,8 @@ void Display::startScreen() {
  */
 void Display::updateDisplay(String face) {
 #if disp
+  // ensure face is also abbreviated
+  face = abbreviateText(face);
   Display::updateDisplay(face, "");
 #endif
 }
@@ -304,6 +329,9 @@ void Display::updateDisplay(String face) {
 void Display::updateDisplay(String face, String text) {
 #if disp
   if (Config::display) {
+    // abbreviate to save screen space
+    text = abbreviateText(text);
+    face = abbreviateText(face);
     if (Config::screen == "SSD1306" || Config::screen == "WEMOS_OLED_SHIELD") {
 #if SSD1306 || WEMOS_OLED_SHIELD
       if (ssd1306_adafruit_display != nullptr) {
@@ -395,8 +423,8 @@ void Display::updateDisplay(String face, String text) {
         delay(5);
         ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
         delay(5);
-        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_FACE_XOFFSET,
-                                          ESP32_C3_OLED_FACE_YOFFSET,
+        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_FACE_XOFFSET + 20,
+                                          ESP32_C3_OLED_FACE_YOFFSET + 20,
                                           face.c_str());
         delay(5);
         ssd1306_esp32_c3_display->setDrawColor(1);
@@ -404,7 +432,7 @@ void Display::updateDisplay(String face, String text) {
         ssd1306_esp32_c3_display->setFont(u8g2_font_4x6_tr);
         delay(5);
         Display::printU8G2Data(ESP32_C3_OLED_TEXT_XOFFSET,
-                               ESP32_C3_OLED_TEXT_YOFFSET,
+                               ESP32_C3_OLED_TEXT_YOFFSET + 10,
                                text.c_str());
         delay(5);
         ssd1306_esp32_c3_display->sendBuffer();
