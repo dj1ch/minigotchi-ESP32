@@ -106,6 +106,8 @@ There are multiple different screen types available:
 
 - `SH1106`
 
+- `ESP32_C3_OLED`
+
 Set `bool Config::lay = false;` to true, and `std::string Config::screen = "<YOUR_SCREEN_TYPE>";` to one of those screen types if your screen is supported.
 
 - There should also be a line that says:
@@ -130,6 +132,12 @@ Usually, this shouldn't be changed as these are the only channels we can access 
 
 - Additionally, you will need to change the file `config.h`
 
+- Before you do anything, set this value to `1`; this allows users to be guided to this guide. You'll need to enable this setting to ensure that compiling happens, otherwise it won't.
+
+```cpp
+#define CONFIGURED 0
+```
+
 - This line is also important, whether or not you use a screen.
 
 ```cpp
@@ -144,7 +152,7 @@ Here, we define whether or not we use a display (at least for the libraries). Th
 #define fz 0
 ```
 
-Setting it to `0` implies that any sort of Bluetooth functions, which most Flipper Development boards lack, will be enabled. However, if you set this option to `1`, it disables all of the Bluetooth functions and doesn't require you to download any of the libraries associated with it. Set this configuration value to this option if you are compiling this for a Flipper Zero Development Board or any other similar Espressif MCU that doesn't have Bluetooth. If you do not have a development board, keep it at `0`.  
+Setting it to `0` implies that any sort of Bluetooth functions, which most Flipper Development boards lack, will be enabled. However, if you set this option to `1`, it disables all of the Bluetooth functions and doesn't require you to download any of the libraries associated with it. Set this configuration value to this option if you are compiling this for a Flipper Zero Development Board or any other similar Espressif MCU that doesn't have Bluetooth. If you do not have a development board, keep it at `0`. However, you could disable the Bluetooth libraries (through this configuration), and whether or not you disable the BLE Spam feature, it will do nothing. You may set it to 1 if you'd like to reduce the amount of space the sketch uses; it can get heavy.
 
 - Scroll down in that file and find the following code:
 
@@ -161,6 +169,7 @@ Setting it to `0` implies that any sort of Bluetooth functions, which most Flipp
 #define SSD1305 0
 #define IDEASPARK_SSD1306 0
 #define SH1106 0
+#define ESP32_C3_OLED 0
 ```
 
 This is an additional measure to save space and it allows the code to know which libraries you will use for your screen. For whichever screen type you used, set the variable which has the same name in question to `1`, turn the rest to `0` if not already `0`.
