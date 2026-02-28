@@ -46,7 +46,7 @@
 #define disp 1
 
 // define if you have a flipper zero dev board
-#define fz 0
+#define fz 1
 
 // define screen types
 #define SSD1306 0

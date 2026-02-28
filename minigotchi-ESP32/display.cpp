@@ -232,7 +232,7 @@ void Display::startScreen() {
     } else if (Config::screen == "ESP32_C3_OLED") {
 #if ESP32_C3_OLED
       // handling is to be done similarly to the ideaspark ssd1306
-      ssd1306_esp32_c3_display = new U8G2_SSD1306_128X64_NONAME_F_HW_I2C(U8G2_R0, ESP32_C3_OLED_SCL, ESP32_C3_OLED_SDA, ESP32_C3_OLED_RESET);
+      ssd1306_esp32_c3_display = new U8G2_SSD1306_128X64_NONAME_F_HW_I2C(U8G2_R0, ESP32_C3_OLED_RESET, ESP32_C3_OLED_SCL, ESP32_C3_OLED_SDA);
       delay(100);
       ssd1306_esp32_c3_display->begin();
       delay(100);
@@ -551,6 +551,38 @@ void Display::printU8G2Data(int x, int y, const char *data) {
           screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
                           buf);
           memset(buf, 0, sizeof(buf));
+        }
+      }
+    }
+#endif
+  } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+    auto *screen = static_cast<U8G2_SSD1306_128X64_NONAME_F_HW_I2C *>(
+        ssd1306_esp32_c3_display);
+
+    if (screen != nullptr) {
+      int numCharPerLine = screen->getWidth() / screen->getMaxCharWidth();
+      if (strlen(data) <= numCharPerLine &&
+          screen->getStrWidth(data) <=
+              screen->getWidth() - screen->getMaxCharWidth()) {
+        screen->drawStr(x, y, data);
+      } else {
+        int lineNum = 0;
+        char buf[numCharPerLine + 1];
+        memset(buf, 0, sizeof(buf));
+        for (int i = 0; i < strlen(data); ++i) {
+          if (data[i] != '\n') {
+            buf[strlen(buf)] = data[i];
+          }
+          if (data[i] == '\n' || strlen(buf) == numCharPerLine ||
+              i == strlen(data) - 1 ||
+              screen->getStrWidth(buf) >=
+                  screen->getWidth() - screen->getMaxCharWidth()) {
+            buf[strlen(buf)] = '\0';
+            screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
+                            buf);
+            memset(buf, 0, sizeof(buf));
+          }
         }
       }
     }
