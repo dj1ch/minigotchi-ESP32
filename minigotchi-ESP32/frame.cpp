@@ -279,16 +279,16 @@ bool Frame::send() {
 }
 
 /**
- * Full usage of Pwnagotchi's advertisments on the Minigotchi.
+ * Full usage of Pwnagotchi's Advertisements on the Minigotchi.
  */
 void Frame::advertise() {
   int packets = 0;
   unsigned long startTime = millis();
 
   if (Config::advertise) {
-    Serial.println(mood.getIntense() + " Starting advertisment...");
+    Serial.println(mood.getIntense() + " Starting advertisement...");
     Serial.println(" ");
-    Display::updateDisplay(mood.getIntense(), "Starting advertisment...");
+    Display::updateDisplay(mood.getIntense(), "Starting advertisement...");
     Parasite::sendAdvertising();
     delay(Config::shortDelay);
     for (int i = 0; i < 150; ++i) {
@@ -311,16 +311,16 @@ void Frame::advertise() {
                   " (Channel: " + (String)Channel::getChannel() + ")");
         }
       } else {
-        Serial.println(mood.getBroken() + " Advertisment failed to send!");
+        Serial.println(mood.getBroken() + " Advertisement failed to send!");
         Display::updateDisplay(mood.getBroken(),
-                               "Advertisment failed to send!");
+                               "Advertisement failed to send!");
       }
     }
 
     Serial.println(" ");
-    Serial.println(mood.getHappy() + " Advertisment finished!");
+    Serial.println(mood.getHappy() + " Advertisement finished!");
     Serial.println(" ");
-    Display::updateDisplay(mood.getHappy(), "Advertisment finished!");
+    Display::updateDisplay(mood.getHappy(), "Advertisement finished!");
   } else {
     // do nothing but still idle
   }
