@@ -292,8 +292,21 @@ String Display::abbreviateText(const String &in) {
   s.replace("Scanning", "Scan");
   s.replace("advertisement", "adv");
   s.replace("advertise", "adv");
+  s.replace("Advertisement", "adv");
+  s.replace("Advertise", "adv");
   s.replace("AP BSSID", "BSSID");
   s.replace("Current Minigotchi Stats", "Stats");
+  s.replace("Channel", "Ch");
+  s.replace("channel", "ch");
+  s.replace("Initializing", "Init");
+  s.replace("Starting", "Start");
+  s.replace("Initialized", "Inited");
+  s.replace("AP SSID", "SSID");
+  s.replace("AP Encryption", "Encrypt");
+  s.replace("AP RSSI", "RSSI");
+  s.replace("AP Channel", "Ch");
+  s.replace("Pwnagotchi", "Pwn");
+  s.replace("pwnagotchi", "pwn");
   // trim long words
   if (s.length() > 40) s = s.substring(0, 40);
   return s;
@@ -598,8 +611,8 @@ void Display::printU8G2Data(int x, int y, const char *data) {
         ssd1306_esp32_c3_display);
 
     if (screen != nullptr) {
-      // Use pixel-based wrapping with a small right margin.
-      int rightMargin = 2;
+      // Use pixel-based wrapping with a larger right margin to prevent edge cutoff.
+      int rightMargin = 20;
       int availableWidth = screen->getWidth() - x - rightMargin;
       int lineNum = 0;
       int lineHeight = screen->getMaxCharHeight();
