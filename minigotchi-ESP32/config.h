@@ -34,19 +34,23 @@
 #include <vector>
 
 /** Developer note:
- * 
+ *
  * You'll fuck up your install if you don't do this; configuration is necessary.
  * Just to ensure that you're reading this, set the following to '1'
- * 
+ *
+ * FYI:
+ * 1 = true
+ * 0 = false
+ *
  */
 
-#define CONFIGURED 1
+#define CONFIGURED 0
 
 // define if you have a display
-#define disp 1
+#define disp 0
 
 // define if you have a flipper zero dev board
-#define fz 1
+#define fz 0
 
 // define screen types
 #define SSD1306 0
@@ -61,7 +65,7 @@
 #define SSD1305 0
 #define IDEASPARK_SSD1306 0
 #define SH1106 0
-#define ESP32_C3_OLED 1
+#define ESP32_C3_OLED 0
 
 class Config {
 public:
