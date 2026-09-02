@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2025 dj1ch
+ * Copyright (C) 2026 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,19 @@
 #include <string>
 #include <vector>
 
+/** Developer note:
+ *
+ * You'll fuck up your install if you don't do this; configuration is necessary.
+ * Just to ensure that you're reading this, set the following to '1'
+ *
+ * FYI:
+ * 1 = true
+ * 0 = false
+ *
+ */
+
+#define CONFIGURED 0
+
 // define if you have a display
 #define disp 0
 
@@ -52,6 +65,7 @@
 #define SSD1305 0
 #define IDEASPARK_SSD1306 0
 #define SH1106 0
+#define ESP32_C3_OLED 0
 
 class Config {
 public:

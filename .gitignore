@@ -1,5 +1,6 @@
 # general files and folders
 .vscode
+.venv
 
 # builds
 minigotchi-*/*.zip

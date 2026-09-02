@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2025 dj1ch
+ * Copyright (C) 2026 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ wifi_country_t Config::ctryCfg = {.cc = "US", .schan = 1, .nchan = 13};
 bool Config::configured = false;
 
 // define version(please do not change, this should not be changed)
-std::string Config::version = "3.6.4-beta";
+std::string Config::version = "3.7.4-beta";
 
 /**
  * Loads configuration values from NVS

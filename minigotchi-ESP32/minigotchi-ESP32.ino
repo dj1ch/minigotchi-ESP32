@@ -1,6 +1,6 @@
 /*
 * Minigotchi: An even smaller Pwnagotchi
-* Copyright (C) 2025 dj1ch
+* Copyright (C) 2026 dj1ch
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,16 @@
 
 #include "config.h"
 #include "minigotchi.h"
+
+/** developer note:
+ * 
+ * This will lead people to the install guide.
+ * 
+ */
+
+#ifndef CONFIGURED
+#error "Please configure your Minigotchi! See the install guide for more details. Link: https://github.com/dj1ch/minigotchi-ESP32/blob/main/INSTALL.md"
+#endif
 
 Config config;
 Minigotchi minigotchi;

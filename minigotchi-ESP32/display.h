@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2025 dj1ch
+ * Copyright (C) 2026 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@
 #include <TFT_eSPI.h>
 #endif
 
-#if IDEASPARK_SSD1306 || SH1106
+#if IDEASPARK_SSD1306 || SH1106 || ESP32_C3_OLED
 #include <U8g2lib.h>
 #endif
 
@@ -82,6 +82,30 @@
 
 #define SH1106_SCL 5
 #define SH1106_SDA 4
+
+/** developer note:
+ * 
+ * these are extremely easy to find and buy. very cute. you may need to test your resolution
+ * see: https://github.com/peff74/ESP32-C3_OLED/issues/1
+ * 
+ * by default, xoffset was 30, and yoffset was 12.
+ * you may change these below if you must.
+ * however, this cheap one off aliexpress had different offsets 
+ * required for the same result in the test program (see link above)
+ * 
+ */ 
+#define ESP32_C3_OLED_RESET U8X8_PIN_NONE
+#define ESP32_C3_OLED_SDA 5
+#define ESP32_C3_OLED_SCL 6
+#define ESP32_C3_OLED_SCREEN_WIDTH 72
+#define ESP32_C3_OLED_SCREEN_HEIGHT 64
+#define ESP32_C3_OLED_I2C_XOFFSET 30
+#define ESP32_C3_OLED_I2C_YOFFSET 12
+// helper offsets for face and text placement
+#define ESP32_C3_OLED_FACE_XOFFSET (ESP32_C3_OLED_I2C_XOFFSET + 0)
+#define ESP32_C3_OLED_FACE_YOFFSET (ESP32_C3_OLED_I2C_YOFFSET + 2)
+#define ESP32_C3_OLED_TEXT_XOFFSET ESP32_C3_OLED_I2C_XOFFSET
+#define ESP32_C3_OLED_TEXT_YOFFSET (ESP32_C3_OLED_I2C_YOFFSET + 14) // space for face
 
 /** developer note:
  *
@@ -128,6 +152,7 @@ private:
   static bool showingMsg;
   static unsigned long lastUpdate;
   static unsigned long delayTime;
+  static String abbreviateText(const String &in);
 #if disp
 #if SSD1306 || WEMOS_OLED_SHIELD
   static Adafruit_SSD1306 *ssd1306_adafruit_display;
@@ -140,6 +165,9 @@ private:
 #endif
 #if SH1106
   static U8G2_SH1106_128X64_NONAME_F_SW_I2C *sh1106_adafruit_display;
+#endif
+#if ESP32_C3_OLED
+  static U8G2_SSD1306_128X64_NONAME_F_HW_I2C *ssd1306_esp32_c3_display;
 #endif
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD || M5CARDPUTER
   static TFT_eSPI *tft_display;

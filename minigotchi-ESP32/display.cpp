@@ -1,6 +1,6 @@
 /*
  * Minigotchi: An even smaller Pwnagotchi
- * Copyright (C) 2025 dj1ch
+ * Copyright (C) 2026 dj1ch
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,11 @@
  * if the user doesn't specify that code for it
  *
  * Configurations are VERY CASE SENSITIVE because of this.
+ * 
+ * Arguably one of the worst code of all time, but it's sorta the 
+ * only way that I can think of to make it "easy" to add new displays
+ * without needing to rewrite a ton of code. Genuinely a pain to compile
+ * because one LITTLE change makes everything recompile.
  */
 
 // RTOS related things
@@ -62,6 +67,10 @@ U8G2_SSD1306_128X64_NONAME_F_SW_I2C *Display::ssd1306_ideaspark_display =
 
 #if SH1106
 U8G2_SH1106_128X64_NONAME_F_SW_I2C *Display::sh1106_adafruit_display = nullptr;
+#endif
+
+#if ESP32_C3_OLED
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C *Display::ssd1306_esp32_c3_display = nullptr;
 #endif
 
 #if M5STICKCP || M5STICKCP2 || T_DISPLAY_S3 || CYD
@@ -225,6 +234,16 @@ void Display::startScreen() {
         delay(100);
       }
 #endif
+    } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+      // handling is to be done similarly to the ideaspark ssd1306
+      ssd1306_esp32_c3_display = new U8G2_SSD1306_128X64_NONAME_F_HW_I2C(U8G2_R0, ESP32_C3_OLED_RESET, ESP32_C3_OLED_SCL, ESP32_C3_OLED_SDA);
+      delay(100);
+      ssd1306_esp32_c3_display->begin();
+      delay(100);
+      ssd1306_esp32_c3_display->clearBuffer();
+      delay(100);      
+#endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||
                Config::screen == "M5CARDPUTER") {
@@ -257,6 +276,42 @@ void Display::startScreen() {
 #endif
 }
 
+/**
+ * Abbreviates text to save screen space
+ * @param in The input string to abbreviate
+ * @return The abbreviated string
+ */
+String Display::abbreviateText(const String &in) {
+  String s = in;
+  // general replacements
+  s.replace("Packets per second", "Speed");
+  s.replace("packets per second", "spd");
+  s.replace("pkt/s", "p/s");
+  s.replace("Scanning for APs", "Scan APs");
+  s.replace("Scanning  for APs", "Scan APs");
+  s.replace("Scanning", "Scan");
+  s.replace("advertisement", "adv");
+  s.replace("advertise", "adv");
+  s.replace("Advertisement", "adv");
+  s.replace("Advertise", "adv");
+  s.replace("AP BSSID", "BSSID");
+  s.replace("Current Minigotchi Stats", "Stats");
+  s.replace("Channel", "Ch");
+  s.replace("channel", "ch");
+  s.replace("Initializing", "Init");
+  s.replace("Starting", "Start");
+  s.replace("Initialized", "Inited");
+  s.replace("AP SSID", "SSID");
+  s.replace("AP Encryption", "Encrypt");
+  s.replace("AP RSSI", "RSSI");
+  s.replace("AP Channel", "Ch");
+  s.replace("Pwnagotchi", "Pwn");
+  s.replace("pwnagotchi", "pwn");
+  // trim long words
+  if (s.length() > 40) s = s.substring(0, 40);
+  return s;
+}
+
 /** developer note:
  *
  * ssd1305 handling is a lot more different than ssd1306,
@@ -273,6 +328,8 @@ void Display::startScreen() {
  */
 void Display::updateDisplay(String face) {
 #if disp
+  // ensure face is also abbreviated
+  face = abbreviateText(face);
   Display::updateDisplay(face, "");
 #endif
 }
@@ -285,6 +342,9 @@ void Display::updateDisplay(String face) {
 void Display::updateDisplay(String face, String text) {
 #if disp
   if (Config::display) {
+    // abbreviate to save screen space
+    text = abbreviateText(text);
+    face = abbreviateText(face);
     if (Config::screen == "SSD1306" || Config::screen == "WEMOS_OLED_SHIELD") {
 #if SSD1306 || WEMOS_OLED_SHIELD
       if (ssd1306_adafruit_display != nullptr) {
@@ -366,6 +426,30 @@ void Display::updateDisplay(String face, String text) {
       delay(5);
       sh1106_adafruit_display->sendBuffer();
       delay(5);
+#endif
+    } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+      if (ssd1306_esp32_c3_display != nullptr) {
+        ssd1306_esp32_c3_display->clearBuffer();
+        delay(5);
+        ssd1306_esp32_c3_display->setDrawColor(2);
+        delay(5);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_6x10_tr);
+        delay(5);
+        ssd1306_esp32_c3_display->drawStr(ESP32_C3_OLED_FACE_XOFFSET + 20,
+                                          ESP32_C3_OLED_FACE_YOFFSET + 20,
+                                          face.c_str());
+        delay(5);
+        ssd1306_esp32_c3_display->setDrawColor(1);
+        delay(5);
+        ssd1306_esp32_c3_display->setFont(u8g2_font_4x6_tr);
+        delay(5);
+        Display::printU8G2Data(ESP32_C3_OLED_TEXT_XOFFSET,
+                               ESP32_C3_OLED_TEXT_YOFFSET + 10,
+                               text.c_str());
+        delay(5);
+        ssd1306_esp32_c3_display->sendBuffer();
+      }
 #endif
     } else if (Config::screen == "M5STICKCP" ||
                Config::screen == "M5STICKCP2" ||
@@ -517,6 +601,91 @@ void Display::printU8G2Data(int x, int y, const char *data) {
           screen->drawStr(x, y + (screen->getMaxCharHeight() * lineNum++) + 1,
                           buf);
           memset(buf, 0, sizeof(buf));
+        }
+      }
+    }
+#endif
+  } else if (Config::screen == "ESP32_C3_OLED") {
+#if ESP32_C3_OLED
+    auto *screen = static_cast<U8G2_SSD1306_128X64_NONAME_F_HW_I2C *>(
+        ssd1306_esp32_c3_display);
+
+    if (screen != nullptr) {
+      // Use pixel-based wrapping with a larger right margin to prevent edge cutoff.
+      int rightMargin = 20;
+      int availableWidth = screen->getWidth() - x - rightMargin;
+      int lineNum = 0;
+      int lineHeight = screen->getMaxCharHeight();
+      int baseY = y + lineHeight; // drawStr expects baseline y
+
+      // Build lines incrementally and emit when they exceed available width
+      // or when a newline is encountered. Try to break on spaces when possible.
+      String cur = "";
+      size_t len = strlen(data);
+      for (size_t i = 0; i <= len; ++i) {
+        char ch = data[i];
+
+        // handle explicit newline or end-of-string
+        if (ch == '\0' || ch == '\n') {
+          if (cur.length() > 0) {
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
+            cur = "";
+          }
+          if (ch == '\0') break;
+          continue;
+        }
+
+        // attempt to append char and measure
+        String trial = cur + ch;
+        if (screen->getStrWidth(trial.c_str()) <= availableWidth) {
+          cur = trial;
+          continue;
+        }
+
+        // would overflow: attempt word-wrap by finding last space in cur
+        int lastSpace = cur.lastIndexOf(' ');
+        if (lastSpace >= 0) {
+          String out = cur.substring(0, lastSpace);
+          int drawY = baseY + (lineNum * lineHeight);
+          if (drawY <= screen->getHeight()) {
+            screen->drawStr(x, drawY, out.c_str());
+            lineNum++;
+          }
+          // remainder becomes everything after the space plus current char
+          String remainder = cur.substring(lastSpace + 1) + ch;
+          cur = remainder;
+        } else {
+          // no space to break on; force break at current cur
+          if (cur.length() > 0) {
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
+          }
+          // start new line with the overflowing character
+          cur = String(ch);
+          // if single character is already too wide, still print it to avoid loop
+          if (screen->getStrWidth(cur.c_str()) > availableWidth) {
+            int drawY = baseY + (lineNum * lineHeight);
+            if (drawY <= screen->getHeight()) {
+              screen->drawStr(x, drawY, cur.c_str());
+              lineNum++;
+            }
+            cur = "";
+          }
+        }
+      }
+
+      // leftover
+      if (cur.length() > 0) {
+        int drawY = baseY + (lineNum * lineHeight);
+        if (drawY <= screen->getHeight()) {
+          screen->drawStr(x, drawY, cur.c_str());
         }
       }
     }
